@@ -1,5 +1,6 @@
 class PromptVersionsController < ApplicationController
   before_action :set_prompt_version, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /prompt_versions or /prompt_versions.json
   def index
@@ -58,13 +59,14 @@ class PromptVersionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_prompt_version
-      @prompt_version = PromptVersion.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def prompt_version_params
-      params.require(:prompt_version).permit(:prompt_id, :user_id, :text)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_prompt_version
+    @prompt_version = PromptVersion.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def prompt_version_params
+    params.require(:prompt_version).permit(:prompt_id, :user_id, :text)
+  end
 end

@@ -17,7 +17,9 @@
       <%= prompt_version_form.text_area :text, autofocus: true %>
     </div>
   <% end %>
-
+  <div class="field">
+    <%= form.hidden_field :status, value: "active" %>
+  </div>
   <div class="actions mt-8">
     <%= form.submit 'Create', class: 'bg-blue-500 rounded cursor-pointer px-4 py-3 text-xl text-white' %>
   </div>

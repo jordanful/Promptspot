@@ -11,12 +11,16 @@
   <%= hotwire_livereload_tags if Rails.env.development? %>
 </head>
 
-<body>
+<body class="bg-slate-50">
 <div class="container mx-auto">
   <nav class="mb-12 mt-4">
     <ul class="flex items-center justify-end">
       <li class="mr-4"><%= link_to "Home", root_path %></li>
-      <li><%= link_to "Account", edit_user_registration_path %></li>
+      <% if current_user %>
+        <li><%= link_to "Account", edit_user_registration_path %></li>
+      <% else %>
+        <li><%= link_to "Sign in", new_user_session_path %></li>
+      <% end %>
     </ul>
   </nav>
   <p class="notice"><%= notice %></p>
