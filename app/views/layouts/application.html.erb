@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>HotelbotRails</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>HotelbotRails</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  </head>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= hotwire_livereload_tags if Rails.env.development? %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<div class="container mx-auto">
+  <nav class="mb-12 mt-4">
+    <ul class="flex items-center justify-end">
+      <li class="mr-4"><%= link_to "Home", root_path %></li>
+      <li><%= link_to "Account", edit_user_registration_path %></li>
+    </ul>
+  </nav>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+
+  <%= yield %>
+</div>
+</body>
 </html>
