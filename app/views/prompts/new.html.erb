@@ -1,26 +1,7 @@
-<%= form_with(model: @prompt, local: true) do |form| %>
-  <% if @prompt.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">New prompt</h1>
 
-      <ul>
-        <% @prompt.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <%= form.fields_for :prompt_versions do |prompt_version_form| %>
-    <div class="field flex flex-col">
-      <%= prompt_version_form.label 'Prompt' %>
-      <%= prompt_version_form.text_area :text, autofocus: true %>
-    </div>
-  <% end %>
-  <div class="field">
-    <%= form.hidden_field :status, value: "active" %>
-  </div>
-  <div class="actions mt-8">
-    <%= form.submit 'Create', class: 'bg-blue-500 rounded cursor-pointer px-4 py-3 text-xl text-white' %>
-  </div>
-<% end %>
+  <turbo-frame id="new_prompt_form">
+    <%= render partial: 'form', locals: { prompt: @prompt } %>
+  </turbo-frame>
+</div>

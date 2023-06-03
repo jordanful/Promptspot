@@ -25,11 +25,21 @@ class PromptsController < ApplicationController
 
   def create
     @prompt = Prompt.new(prompt_params)
-
-    if @prompt.save
-      redirect_to @prompt, notice: 'Prompt was successfully created.'
-    else
-      render :new
+    @prompt.account_id = current_user.account.id
+    @prompt.prompt_versions.first.user_id = current_user.id
+    respond_to do |format|
+      if @prompt.save
+        format.html { redirect_to @prompt, notice: '👍 Created.' }
+        format.json { render :show, status: :created, location: @prompt }
+        format.turbo_stream
+      else
+        format.html {
+          flash.now[:error] = 'There was an issue creating the prompt. Our team has been alerted.'
+          render :new
+        }
+        format.json { render json: @prompt.errors, status: :unprocessable_entity }
+        format.turbo_stream { render :new, status: :unprocessable_entity }
+      end
     end
   end
 

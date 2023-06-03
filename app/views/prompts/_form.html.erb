@@ -1,32 +1,26 @@
-<%= form_with(model: prompt, class: "contents") do |form| %>
+<%= form_with(model: prompt, local: true) do |form| %>
   <% if prompt.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+    <div id="error_explanation">
       <h2><%= pluralize(prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>
 
       <ul>
-        <% prompt.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% prompt.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :status %>
-    <%= form.text_field :status, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  <%= form.fields_for :prompt_versions do |prompt_version_form| %>
+    <div class="field flex flex-col">
+      <%= prompt_version_form.label 'Prompt' %>
+      <%= prompt_version_form.text_area :text, autofocus: true, class: "rounded-md border-gray-300", rows: 20, placeholder: "Enter your prompt" %>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.hidden_field :status, value: "active" %>
   </div>
-
-  <div class="my-5">
-    <%= form.label :latest_prompt_text_id %>
-    <%= form.text_field :latest_prompt_text_id, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :account_id %>
-    <%= form.text_field :account_id, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <div class="actions mt-8">
+    <%= form.submit 'Create', class: 'bg-blue-600 rounded cursor-pointer px-4 py-3 text-lg text-white' %>
   </div>
 <% end %>
