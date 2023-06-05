@@ -12,7 +12,7 @@
     <% @prompts.each do |prompt| %>
       <%= link_to prompt, class: "prompt bg-white rounded-lg shadow-md p-6 cursor-pointer flex flex-col items-start mb-4" do %>
         <p class="text-xl mb-4"><%= prompt.title %></p>
-        <p class="text-gray-600 font-mono"><%= truncate(prompt.prompt_versions.last.text, length: 120, separator: ' ', omission: '...') %></p>
+        <p class="text-gray-600 font-mono"><%= truncate(prompt.prompt_versions.order(:version_number).last.text, length: 120, separator: ' ', omission: '...') %></p>
       <% end %>
     <% end %>
   </div>

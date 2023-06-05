@@ -14,6 +14,21 @@ class PromptVersionsController < ApplicationController
     end
   end
 
+  def preview
+    # prompt = params[:prompt] + params[:user_prompt]
+    pp params
+    client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
+    response = client.completions(
+      parameters: {
+        model: params[:model],
+        prompt: prompt,
+        max_tokens: 50
+      }
+    )
+    @result = response["choices"][0]["text"]
+    render partial: 'preview', locals: { result: @result }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

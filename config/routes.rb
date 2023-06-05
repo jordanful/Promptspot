@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :index]
 
   resources :prompts do
-    resources :prompt_versions, as: :versions, path: :version
+    resources :prompt_versions, as: :versions, path: :version do
+      collection do
+        post 'preview'
+      end
+    end
   end
   resources :accounts
   resources :organizations

@@ -13,13 +13,17 @@
 
   <%= form.fields_for :prompt_versions, prompt.prompt_versions.last do |prompt_version_form| %>
     <div class="field flex flex-col">
-      <%= prompt_version_form.text_area :text, autofocus: true, class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt" %>
+      <%= prompt_version_form.text_area :text, id: "system-prompt", class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt" %>
     </div>
   <% end %>
+
   <div class="field">
     <%= form.hidden_field :status, value: "active" %>
   </div>
-  <div class="actions mt-8">
-    <%= form.submit 'Save', class: 'bg-blue-600 rounded cursor-pointer px-4 py-3 text-lg text-white' %>
+  <div class="actions mt-8 flex flex-row">
+    <%= form.submit 'Publish', class: 'bg-blue-600 shadow-md rounded cursor-pointer px-4 py-3 text-lg text-white' %>
+    <div class='ml-4 flex items-center justify-center bg-white text-blue-500 shadow-md rounded cursor-pointer px-4 py-3 text-lg text-white'>Save
+      as draft
+    </div>
   </div>
 <% end %>

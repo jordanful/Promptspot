@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  model_provider_id: 
+  name: MyString
+  enabled: false
+
+two:
+  model_provider_id: 
+  name: MyString
+  enabled: false

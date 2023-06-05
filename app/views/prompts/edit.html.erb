@@ -1,5 +1,37 @@
 <h1 class="font-medium text-3xl mb-6">Edit prompt</h1>
+<div class="flex flex-row justify-between items-start">
+  <div class="w-2/3">
+    <%= render partial: 'form', locals: { prompt: @prompt } %>
+    <%= link_to 'Cancel', prompt_path(@prompt), class: 'text-blue-500 mt-4 flex' %>
+  </div>
+  <div class="w-1/3 ml-6">
+    <h2 class="text-xl font-medium mb-2">Preview</h2>
+    <turbo-frame id="preview_frame">
+      <div data-controller="preview" data-action="ajax:success->preview#displayResult">
+        <%= form_with url: preview_prompt_versions_url(@prompt), method: :post, local: true, html: { data: { target: "preview.output preview.form" } } do |form| %>
+          <fieldset>
+            <%= form.label :user_prompt, 'User prompt' %>
+            <%= form.text_area :user_prompt, rows: 10, placeholder: 'Enter user prompt', class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { 'preview-target': 'userPrompt' } %>
+          </fieldset>
 
-<%= render partial: 'form', locals: { prompt: @prompt } %>
+          <fieldset class="mt-4">
+            <%= form.label :model, 'Model' %>
+            <%= form.select :model, Model.where(enabled: true).pluck(:name), {}, { class: 'rounded-md border-gray-300 font-mono text-base w-full' } %>
+          </fieldset>
 
-<%= link_to 'Cancel', prompt_path(@prompt), class: 'text-blue-500 mt-4 flex' %>
+          <%= form.submit 'Preview', class: 'cursor-pointer rounded-md bg-white border text-lg font-medium py-2 shadow-sm border-gray-300 flex items-center justify-center w-full mt-4',
+                          data: {
+                            action: "ajax:beforeSend->preview#beforeSend ajax:complete->preview#complete",
+                            preview_target: "submitButton"
+                          }
+          %>
+
+          <div class="spinner hidden" data-preview-target="spinner"></div>
+
+        <% end %>
+        <div id="result" data-preview-target="output"></div>
+      </div>
+
+    </turbo-frame>
+  </div>
+</div>

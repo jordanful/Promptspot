@@ -13,7 +13,7 @@ class PromptsController < ApplicationController
 
   def edit
   end
-
+  
   def new
     @prompt = Prompt.new
     @prompt.prompt_versions.build
