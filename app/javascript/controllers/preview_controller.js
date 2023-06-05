@@ -1,30 +1,28 @@
 import {Controller} from "stimulus";
 
 export default class extends Controller {
-    static targets = ["output", "userPrompt", "spinner", "submitButton", "form"]
+    static targets = ["output", "userPrompt", "spinner", "submitButton", "form", "model"]
 
-    connect() {
-        this.formTarget.addEventListener('submit', event => this.submitForm(event));
-    }
 
     submitForm(event) {
         event.preventDefault();
-
         this.beforeSend()
-
-
+        let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+        let model = this.modelTarget.value;
         let userPrompt = this.userPromptTarget.value;
         let systemPromptElement = document.getElementById('system-prompt');
         let systemPrompt = systemPromptElement.value;
         let params = new URLSearchParams();
         params.append('system_prompt', systemPrompt);
         params.append('user_prompt', userPrompt);
+        params.append('model', model);
 
-        fetch(this.data.get('url'), {
+        fetch('/prompts/' + this.formTarget.dataset.previewPromptId + '/version/preview', {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-Token': csrfToken
             },
             body: params
         })
@@ -32,7 +30,8 @@ export default class extends Controller {
             .then(html => {
                 this.outputTarget.innerHTML = html;
                 this.complete()
-            });
+            })
+            .catch(error => console.log(error));
     }
 
     beforeSend() {

@@ -15,14 +15,13 @@ class PromptVersionsController < ApplicationController
   end
 
   def preview
-    # prompt = params[:prompt] + params[:user_prompt]
-    pp params
+    prompt = params[:system_prompt] + '/n/n' + params[:user_prompt]
     client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
     response = client.completions(
       parameters: {
         model: params[:model],
         prompt: prompt,
-        max_tokens: 50
+        max_tokens: Rails.application.config.max_tokens
       }
     )
     @result = response["choices"][0]["text"]
