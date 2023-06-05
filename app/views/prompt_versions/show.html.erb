@@ -17,9 +17,9 @@
   <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start ml-2 w-1/2">
     <h2 class="text-xl text-gray-600 font-medium mb-4">Latest version</h2>
     <div class="text-sm text-gray-400 mb-2">
-      <%= @prompt_version.created_at.strftime('%B %e, %l:%M %p') %>
+      <%= @prompt_version.prompt.prompt_versions.last.created_at.strftime('%B %e, %l:%M %p') %>
       <br/>
-      <%= @prompt_version.user.email %>
+      <%= @prompt_version.prompt.prompt_versions.last.user.email %>
     </div>
     <div class="font-mono text-gray-600 text-lg mb-4">
       <%= raw @diff_split.right %>

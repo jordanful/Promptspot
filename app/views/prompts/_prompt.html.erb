@@ -1,4 +1,4 @@
 <p class="text-xl mb-4"><%= prompt.title %></p>
-<%= link_to prompt, class: "prompt bg-white rounded-lg shadow-md p-6 cursor-pointer flex flex-col items-start mb-4" do %>
+<div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start mb-4">
   <p class="text-gray-600 text-lg font-mono"><%= prompt.prompt_versions.last.text %></p>
-<% end %>
+</div>
