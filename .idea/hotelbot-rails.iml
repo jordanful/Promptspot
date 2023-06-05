@@ -51,6 +51,7 @@
     <orderEntry type="library" scope="PROVIDED" name="date (v3.3.3, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug (v1.8.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="devise (v4.8.1, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diffy (v3.4.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.12.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday (v2.7.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday-multipart (v1.0.4, RVM: ruby-3.0.5) [gem]" level="application" />

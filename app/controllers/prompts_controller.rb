@@ -38,20 +38,28 @@ class PromptsController < ApplicationController
   end
 
   # PATCH/PUT /prompts/1 or /prompts/1.json
+  # PATCH/PUT /prompts/1 or /prompts/1.json
   def update
-    @prompt.assign_attributes(prompt_params)
+    new_version_text = prompt_params[:prompt_versions_attributes]['0'][:text]
+    last_version_text = @prompt.prompt_versions.last.text
 
-    @prompt.prompt_versions.each do |pv|
-      pv.user = current_user if pv.new_record?
-    end
+    if last_version_text == new_version_text
+      redirect_to prompt_url(@prompt), notice: "No changes were made."
+    else
+      @prompt.assign_attributes(prompt_params)
 
-    respond_to do |format|
-      if @prompt.save
-        format.html { redirect_to prompt_url(@prompt), notice: "Prompt was successfully updated." }
-        format.json { render :show, status: :ok, location: @prompt }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @prompt.errors, status: :unprocessable_entity }
+      @prompt.prompt_versions.each do |pv|
+        pv.user = current_user if pv.new_record?
+      end
+
+      respond_to do |format|
+        if @prompt.save
+          format.html { redirect_to prompt_url(@prompt), notice: "Prompt was successfully updated." }
+          format.json { render :show, status: :ok, location: @prompt }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @prompt.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

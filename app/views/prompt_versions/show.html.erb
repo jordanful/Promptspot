@@ -1,15 +1,28 @@
-<div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start mb-4 w-full md:w-2/3 ">
-  <div class="font-mono text-gray-600 text-lg mb-4">
+<h2 class="text-2xl font-medium mb-4"><%= @prompt_version.prompt.title %></h2>
+<!--<p class="font-mono text-gray-600 bg-gray-200 flex items-start justify-start rounded-sm px-2 py-1 "> <%#= @prompt_version.id %></p>-->
+<div class="flex items-row justify-start items-start">
 
-    <%= @prompt_version.text %>
+  <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start w-1/2 mr-2">
+    <h2 class="text-xl text-gray-600 font-medium mb-2">This version</h2>
+    <div class="text-sm text-gray-400 mb-2">
+      <%= @prompt_version.created_at.strftime('%B %e, %l:%M %p') %>
+      <br/>
+      <%= @prompt_version.user.email %>
+    </div>
+    <div class="font-mono text-gray-600 text-lg mb-4">
+      <%= raw @diff_split.left %>
+    </div>
   </div>
-  <div>
-    Created on
-    <%= @prompt_version.created_at %>
-    by
-    <%= @prompt_version.user.email %>
-  </div>
-  <div>
 
+  <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start ml-2 w-1/2">
+    <h2 class="text-xl text-gray-600 font-medium mb-4">Latest version</h2>
+    <div class="text-sm text-gray-400 mb-2">
+      <%= @prompt_version.created_at.strftime('%B %e, %l:%M %p') %>
+      <br/>
+      <%= @prompt_version.user.email %>
+    </div>
+    <div class="font-mono text-gray-600 text-lg mb-4">
+      <%= raw @diff_split.right %>
+    </div>
   </div>
 </div>

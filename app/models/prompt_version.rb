@@ -8,14 +8,16 @@ class PromptVersion < ApplicationRecord
 
   def generate_prompt_summary
     client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
-    response = client.edits(
+    response = client.completions(
       parameters: {
-        model: "text-davinci-edit-001",
-        input: text,
-        instruction: "Summarize the text in just a few words. The summary should be no more than 100 characters. It does not need to be a complete sentence. It will be used as a title for the prompt.",
+        model: Rails.configuration.title_system_prompt_model,
+        prompt: text + Rails.configuration.title_system_prompt,
+        max_tokens: 15
+
       }
     )
-    self.prompt.update(title: response.dig("choices", 0, "text"))
+    summary = response["choices"][0]["text"]
+    self.prompt.update(title: summary)
   rescue StandardError => e
     puts "Error: #{e}"
   end
