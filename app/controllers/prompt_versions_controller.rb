@@ -4,11 +4,14 @@ class PromptVersionsController < ApplicationController
   before_action :set_prompt_version, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
 
-  # GET /prompt_versions/1 or /prompt_versions/1.json
   def show
+    @previous_version = @prompt_version.prompt.prompt_versions.where("version_number < ?", @prompt_version.version_number)
+                                       .order(version_number: :desc)
+                                       .first
 
-    @diff_split = Diffy::SplitDiff.new(@prompt_version.text, @prompt_version.prompt.prompt_versions.last.text, format: :html, include_plus_and_minus_in_html: true)
-    @diff = Diffy::Diff.new(@prompt_version.text, @prompt_version.prompt.prompt_versions.last.text, include_plus_and_minus_in_html: true).to_s(:html)
+    if @previous_version
+      @diff_split = Diffy::SplitDiff.new(@previous_version.text, @prompt_version.text, format: :html, include_plus_and_minus_in_html: true)
+    end
   end
 
   private

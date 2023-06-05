@@ -1,7 +1,5 @@
 <h2 class="text-2xl font-medium mb-4"><%= @prompt_version.prompt.title %></h2>
-<!--<p class="font-mono text-gray-600 bg-gray-200 flex items-start justify-start rounded-sm px-2 py-1 "> <%#= @prompt_version.id %></p>-->
 <div class="flex items-row justify-start items-start">
-
   <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start w-1/2 mr-2">
     <h2 class="text-xl text-gray-600 font-medium mb-2">This version</h2>
     <div class="text-sm text-gray-400 mb-2">
@@ -10,19 +8,21 @@
       <%= @prompt_version.user.email %>
     </div>
     <div class="font-mono text-gray-600 text-lg mb-4">
-      <%= raw @diff_split.left %>
+      <%= raw @diff_split.right if @previous_version %>
     </div>
   </div>
 
-  <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start ml-2 w-1/2">
-    <h2 class="text-xl text-gray-600 font-medium mb-4">Latest version</h2>
-    <div class="text-sm text-gray-400 mb-2">
-      <%= @prompt_version.prompt.prompt_versions.last.created_at.strftime('%B %e, %l:%M %p') %>
-      <br/>
-      <%= @prompt_version.prompt.prompt_versions.last.user.email %>
+  <% if @previous_version %>
+    <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start ml-2 w-1/2">
+      <h2 class="text-xl text-gray-600 font-medium mb-4">Previous version</h2>
+      <div class="text-sm text-gray-400 mb-2">
+        <%= @previous_version.created_at.strftime('%B %e, %l:%M %p') %>
+        <br/>
+        <%= @previous_version.user.email %>
+      </div>
+      <div class="font-mono text-gray-600 text-lg mb-4">
+        <%= raw @diff_split.left if @previous_version %>
+      </div>
     </div>
-    <div class="font-mono text-gray-600 text-lg mb-4">
-      <%= raw @diff_split.right %>
-    </div>
-  </div>
+  <% end %>
 </div>
