@@ -1,22 +1,4 @@
-<div id="<%= dom_id prompt %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= prompt.status %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Latest prompt text:</strong>
-    <%= prompt.latest_prompt_text_id %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Account:</strong>
-    <%= prompt.account_id %>
-  </p>
-
-  <% if action_name != "show" %>
-    <%= link_to "Show this prompt", prompt, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this prompt', edit_prompt_path(prompt), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
-  <% end %>
-</div>
+<p class="text-xl mb-4"><%= prompt.title %></p>
+<%= link_to prompt, class: "prompt bg-white rounded-lg shadow-md p-6 cursor-pointer flex flex-col items-start mb-4" do %>
+  <p class="text-gray-600 text-lg font-mono"><%= prompt.prompt_versions.last.text %></p>
+<% end %>

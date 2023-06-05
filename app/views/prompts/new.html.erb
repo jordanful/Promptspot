@@ -1,7 +1,4 @@
 <div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New prompt</h1>
-
-  <turbo-frame id="new_prompt_form">
-    <%= render partial: 'form', locals: { prompt: @prompt } %>
-  </turbo-frame>
+  <h1 class="font-medium text-3xl mb-6">New prompt</h1>
+  <%= render partial: 'form', locals: { prompt: @prompt } %>
 </div>

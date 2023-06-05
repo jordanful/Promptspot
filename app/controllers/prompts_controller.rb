@@ -4,20 +4,16 @@ class PromptsController < ApplicationController
 
   # GET /prompts or /prompts.json
   def index
-    @prompts = Prompt.all
+    @prompts = Prompt.all.order(updated_at: :desc)
   end
 
   # GET /prompts/1 or /prompts/1.json
   def show
   end
 
-  # GET /prompts/new
-
-  # GET /prompts/1/edit
   def edit
   end
 
-  # POST /prompts or /prompts.json
   def new
     @prompt = Prompt.new
     @prompt.prompt_versions.build
@@ -31,22 +27,26 @@ class PromptsController < ApplicationController
       if @prompt.save
         format.html { redirect_to @prompt, notice: '👍 Created.' }
         format.json { render :show, status: :created, location: @prompt }
-        format.turbo_stream
       else
         format.html {
           flash.now[:error] = 'There was an issue creating the prompt. Our team has been alerted.'
           render :new
         }
         format.json { render json: @prompt.errors, status: :unprocessable_entity }
-        format.turbo_stream { render :new, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /prompts/1 or /prompts/1.json
   def update
+    @prompt.assign_attributes(prompt_params)
+
+    @prompt.prompt_versions.each do |pv|
+      pv.user = current_user if pv.new_record?
+    end
+
     respond_to do |format|
-      if @prompt.update(prompt_params)
+      if @prompt.save
         format.html { redirect_to prompt_url(@prompt), notice: "Prompt was successfully updated." }
         format.json { render :show, status: :ok, location: @prompt }
       else
@@ -76,6 +76,7 @@ class PromptsController < ApplicationController
   # Only allow a list of trusted parameters through.
 
   def prompt_params
-    params.require(:prompt).permit(:status, :account_id, prompt_versions_attributes: [:text, :user_id])
+    params.require(:prompt).permit(:status, :account_id, prompt_versions_attributes: [:text])
   end
+
 end
