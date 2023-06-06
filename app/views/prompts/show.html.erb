@@ -33,7 +33,7 @@
     </div>
     <% @prompt.prompt_versions.where.not(version_number: 1).order(version_number: :desc).each do |p| %>
       <%= link_to prompt_version_path(@prompt, p), class: "flex flex-col bg-gray-100 hover:bg-gray-200 rounded-lg p-3 mb-2" do %>
-        <p>Edited <%= time_ago_in_words(p.created_at) %> ago</p>
+        <p>Published <%= time_ago_in_words(p.created_at) %> ago</p>
         <p class="text-gray-400"><%= p.user.email %></p>
       <% end %>
     <% end %>
