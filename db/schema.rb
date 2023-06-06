@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_06_180329) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_06_201032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -64,7 +64,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_06_180329) do
 
   create_table "prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "status"
-    t.uuid "latest_prompt_text_id"
     t.uuid "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

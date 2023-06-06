@@ -1,13 +1,13 @@
-<div class="flex justify-between items-center mb-6">
-  <h1 class="font-medium text-4xl">Prompts</h1>
-  <%= link_to 'New prompt', new_prompt_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+<div class="flex justify-end items-center mb-6">
+
+  <%= link_to 'New prompt', new_prompt_path, class: "rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium" %>
 </div>
 <% if @prompts.length > 0 %>
   <div class="mb-6 flex items-center">
 
     <div class="flex items-center" data-controller="checkbox">
       <input type="checkbox" id="show-archived" data-checkbox-target="checkbox" class="rounded-sm border border-gray-300 mr-2"/>
-      <label for="show-archived">Show archived</label>
+      <label for="show-archived">Show archived prompts</label>
     </div>
   </div>
 <% end %>

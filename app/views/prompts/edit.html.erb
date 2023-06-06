@@ -1,4 +1,4 @@
-<h1 class="font-medium text-3xl mb-6">New draft</h1>
+<h1 class="text-2xl mb-6"><%= @prompt.title %></h1>
 <div class="flex flex-row justify-between items-start">
   <div class="w-2/3">
     <%= render partial: 'form', locals: { prompt: @prompt } %>

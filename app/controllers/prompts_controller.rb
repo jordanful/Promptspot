@@ -92,13 +92,13 @@ class PromptsController < ApplicationController
 
   def archive
     @prompt.archive!
-    flash[:notice] = "👍 Archived. #{view_context.button_to('Undo', unarchive_prompt_path(@prompt), method: :post, class: 'underline !ml-2 !text-black')}".html_safe
+    flash[:notice] = "👍 Archived #{view_context.button_to('Undo', unarchive_prompt_path(@prompt), method: :post, class: 'underline mx-3 inline-block')}".html_safe
     redirect_to prompts_url
   end
 
   def unarchive
     @prompt.unarchive!
-    redirect_to prompt_path(@prompt), notice: "👍 Unarchived."
+    redirect_to prompt_path(@prompt), notice: "✅ Unarchived"
   end
 
   # DELETE /prompts/1 or /prompts/1.json

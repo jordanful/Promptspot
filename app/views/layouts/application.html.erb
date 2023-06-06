@@ -28,11 +28,16 @@
   </nav>
   <% flash.each do |name, msg| %>
     <% if msg.is_a?(Array) %>
-      <%= content_tag :div, msg.join(', ').html_safe, class: "py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg flex inline-flex mx-auto items-center justify-center rounded-md shadow" %>
+      <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
+        <%= content_tag :div, msg.join(', ').html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+      <% end %>
     <% else %>
-      <%= content_tag :div, msg.html_safe, class: "py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg flex inline-flex mx-auto items-center justify-center rounded-md shadow" %>
+      <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
+        <%= content_tag :div, msg.html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+      <% end %>
     <% end %>
   <% end %>
+
 
 
   <%= yield %>
