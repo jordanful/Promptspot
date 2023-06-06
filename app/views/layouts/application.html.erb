@@ -15,7 +15,7 @@
 <div class="container mx-auto p-8">
   <nav class="mb-12 mt-4">
     <ul class="flex items-center justify-between">
-      <li class="mr-4"><%= link_to "Home", root_path %></li>
+      <li class="mr-4 font-bold text-2xl text-blue-600 tracking-tight"><%= link_to "PromptSpot", root_path %></li>
       <div class="flex flex-row items-center">
         <% if current_user %>
           <li class="mr-4"><%= link_to "Account", edit_user_registration_path %></li>
@@ -26,6 +26,14 @@
       </div>
     </ul>
   </nav>
+  <% flash.each do |name, msg| %>
+    <% if msg.is_a?(Array) %>
+      <%= content_tag :div, msg.join(', ').html_safe, class: "py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg flex inline-flex mx-auto items-center justify-center rounded-md shadow" %>
+    <% else %>
+      <%= content_tag :div, msg.html_safe, class: "py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg flex inline-flex mx-auto items-center justify-center rounded-md shadow" %>
+    <% end %>
+  <% end %>
+
 
   <%= yield %>
 </div>

@@ -1,28 +1,47 @@
 <div class="flex flex-row justify-between ">
   <div class="md:w-2/3 w-full">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
+
     <%= render @prompt %>
-
-    <%= link_to 'Edit', edit_prompt_path(@prompt), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 hover:bg-gray-200 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to 'Delete', prompt_path(@prompt), method: :delete, class: "bg-red-400 hover:bg-red-500 text-white mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+    <div class="flex items-center justify-between">
+      <h2 class="text-xl font-medium mb-2 mt-12">Drafts</h2>
     </div>
-    <div class="mt-12">
-      <h2 class="text-lg font-medium mb-2">Edit history</h2>
-      <% @prompt.prompt_versions.where.not(version_number: 1).order(version_number: :desc).each do |p| %>
-        <%= link_to prompt_version_path(@prompt, p), class: "flex flex-col bg-gray-100 rounded-lg p-3 mb-2" do %>
-          <p>Edited <%= time_ago_in_words(p.created_at) %> ago</p>
-          <p class="text-gray-400"><%= p.user.email %></p>
-        <% end %>
+    <% if @prompt.prompt_drafts.length > 0 %>
+      <% @prompt.prompt_drafts.order(created_at: :desc).each do |p| %>
+        <%= p.text %>
       <% end %>
-      <div class="flex flex-col bg-gray-100 rounded-lg p-3 mb-2">
-        <p>Created <%= time_ago_in_words(@prompt.prompt_versions.first.created_at) %>
-          ago</p>
-        <p class="text-gray-400"><%= @prompt.prompt_versions.first.user.email %></p>
-
+    <% else %>
+      <div class="w-full bg-slate-100 rounded-lg flex flex-col items-center justify-center p-12">
+        <p class="text-gray-400">No drafts yet</p>
+        <%= link_to 'New draft', edit_prompt_path(@prompt), class: 'hover:underline mt-2' %>
       </div>
+    <% end %>
+
+  </div>
+  <div class="mt-12 md:w-1/3 ml-6">
+    <div class="flex items-center justify-start mb-6 flex-wrap">
+      <% if @prompt.archived? %>
+        <%= button_to 'Unarchive', unarchive_prompt_path(@prompt), class: "mr-3 mb-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <% else %>
+        <%= link_to 'New draft', edit_prompt_path(@prompt), class: "mr-3 mb-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium" %>
+        <%= button_to 'Archive', archive_prompt_path(@prompt), data: { turbo: false }, class: "mr-3 mb-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <% end %>
+      <%= button_to 'Delete', prompt_path(@prompt),
+                    method: :delete,
+                    form: { data: { turbo_confirm: 'Are you sure?' } },
+                    class: "bg-blue-50 mr-3 mb-3 border border-blue-200 text-red-500 hover:bg-red-50 hover:border-red-500 rounded-lg py-3 px-5 bg-gray-100 font-medium"
+      %>
+    </div>
+    <% @prompt.prompt_versions.where.not(version_number: 1).order(version_number: :desc).each do |p| %>
+      <%= link_to prompt_version_path(@prompt, p), class: "flex flex-col bg-gray-100 hover:bg-gray-200 rounded-lg p-3 mb-2" do %>
+        <p>Edited <%= time_ago_in_words(p.created_at) %> ago</p>
+        <p class="text-gray-400"><%= p.user.email %></p>
+      <% end %>
+    <% end %>
+    <div class="flex flex-col bg-gray-100 rounded-lg p-3 mb-2">
+      <p>Created <%= time_ago_in_words(@prompt.prompt_versions.first.created_at) %>
+        ago</p>
+      <p class="text-gray-400"><%= @prompt.prompt_versions.first.user.email %></p>
+
     </div>
   </div>
 

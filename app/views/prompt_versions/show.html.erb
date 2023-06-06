@@ -1,6 +1,6 @@
 <h2 class="text-2xl font-medium mb-4"><%= @prompt_version.prompt.title %></h2>
-<div class="flex items-row justify-start items-start">
-  <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start w-1/2 mr-2">
+<div class="flex flex-col md:flex-row justify-start items-start">
+  <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start md:w-1/2 md:mr-2">
     <h2 class="text-xl text-gray-600 font-medium mb-2">This version</h2>
     <div class="text-sm text-gray-400 mb-2">
       <%= @prompt_version.created_at.strftime('%B %e, %l:%M %p') %>
@@ -13,7 +13,7 @@
   </div>
 
   <% if @previous_version %>
-    <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start ml-2 w-1/2">
+    <div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start md:ml-2 md:w-1/2 mt-6 md:mt-0">
       <h2 class="text-xl text-gray-600 font-medium mb-4">Previous version</h2>
       <div class="text-sm text-gray-400 mb-2">
         <%= @previous_version.created_at.strftime('%B %e, %l:%M %p') %>

@@ -37,6 +37,6 @@ class PromptVersionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def prompt_version_params
-    params.require(:prompt_version).permit(:prompt_id, :user_id, :text)
+    params.require(:prompt_version).permit(:prompt_id, :user_id, :text, :save_user_prompt, :user_prompt)
   end
 end

@@ -1,19 +1,24 @@
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <div class="flex justify-between items-center mb-12">
-    <h1 class="font-medium text-4xl">Prompts</h1>
-    <%= link_to 'New prompt', new_prompt_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-  </div>
-
-  <div id="prompts" class="min-w-full grid grid-cols-3 gap-6">
-    <% @prompts.each do |prompt| %>
-      <%= link_to prompt, class: "prompt bg-white rounded-lg shadow-md p-6 cursor-pointer flex flex-col items-start mb-4" do %>
-        <p class="text-xl mb-4"><%= prompt.title %></p>
-        <p class="text-gray-600 font-mono"><%= truncate(prompt.prompt_versions.order(:version_number).last.text, length: 120, separator: ' ', omission: '...') %></p>
-      <% end %>
-    <% end %>
-  </div>
+<div class="flex justify-between items-center mb-6">
+  <h1 class="font-medium text-4xl">Prompts</h1>
+  <%= link_to 'New prompt', new_prompt_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
 </div>
+<% if @prompts.length > 0 %>
+  <div class="mb-6 flex items-center">
+
+    <div class="flex items-center" data-controller="checkbox">
+      <input type="checkbox" id="show-archived" data-checkbox-target="checkbox" class="rounded-sm border border-gray-300 mr-2"/>
+      <label for="show-archived">Show archived</label>
+    </div>
+  </div>
+<% end %>
+
+<% if @prompts.length > 0 %>
+  <div class="grid grid-cols-1 sm:gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
+    <%= render 'prompts' %>
+  </div>
+<% else %>
+  <div class="text-center mt-24">
+    <p class="text-gray-500">No prompts
+      yet. <%= link_to 'Create a prompt', new_prompt_path, class: 'text-black hover:underline' %></p>
+  </div>
+<% end %>

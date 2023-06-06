@@ -31,6 +31,10 @@
     }
 }
 
+.inline-form-wrapper {
+    display: inline-block;
+}
+
 .hidden {
     display: none;
 }

@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "prompts_frame" do %>
+  <%= render partial: 'prompts', locals: { prompts: @prompts } %>
+<% end %>
