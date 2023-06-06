@@ -21,10 +21,7 @@
             </div>
             <%= form.text_area :user_prompt, rows: 10, placeholder: 'Enter user prompt', class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { 'tab-target': 'newPrompt', 'preview-target': 'userPrompt' } %>
             <%= form.select :user_prompt_id, options_from_collection_for_select(@user_prompts, :id, :content), {}, { class: 'rounded-md border-gray-300 font-mono text-base w-full', style: 'display:none', data: { 'tab-target': 'savedPrompts' } } %>
-            <label class="flex items-center">
-              <%= form.check_box :save_user_prompt, { class: 'mr-2 rounded-sm border-gray-300' }, "1", "0" %>
-              Save user prompt for future use
-            </label>
+         
           </fieldset>
 
           <fieldset class="mt-4">

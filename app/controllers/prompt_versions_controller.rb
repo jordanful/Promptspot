@@ -15,6 +15,9 @@ class PromptVersionsController < ApplicationController
   end
 
   def preview
+    user_prompt = UserPrompt.find_or_initialize_by(text: params[:user_prompt], account_id: current_user.account.id)
+    user_prompt.user_id = current_user.id
+    user_prompt.save
     prompt = params[:system_prompt] + '/n/n' + params[:user_prompt]
     client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
     response = client.completions(
@@ -26,6 +29,9 @@ class PromptVersionsController < ApplicationController
     )
     @result = response["choices"][0]["text"]
     render partial: 'preview', locals: { result: @result }
+  rescue
+    render partial: 'preview', locals: { result: 'Error' }
+    Rails.logger.error "Error: #{$!}"
   end
 
   private
