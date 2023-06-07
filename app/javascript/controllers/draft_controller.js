@@ -2,20 +2,17 @@ import {Controller} from "stimulus";
 
 export default class extends Controller {
     static targets = ["textarea"];
-    static values = {promptId: String}
+    static values = {promptId: String, draftId: String}
+
 
     saveDraft(event) {
         event.preventDefault();
 
         const draftText = this.textareaTarget.value;
 
-        // Create a new FormData object
         let formData = new FormData();
-
-        // Append only the data you need
         formData.append('text', draftText);
 
-        // Perform an AJAX request to save the draft
         fetch(`/prompts/${this.promptIdValue}/create_draft`, {
             method: 'POST',
             headers: {
@@ -23,17 +20,45 @@ export default class extends Controller {
             },
             body: formData
         })
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    // Handle error
+                    console.error('Failed to save the draft', data.error);
+                } else {
                     // Draft saved successfully
                     console.log('Draft saved!');
-                } else {
-                    // Handle error
-                    console.error('Failed to save the draft');
+                    window.location.href = data.location; // Redirect to the returned location
                 }
             })
             .catch(error => {
                 console.error('An error occurred while saving the draft', error);
             });
     }
+
+    deleteDraft(event) {
+        event.preventDefault();
+        confirm('Are you sure you want to delete this draft?')
+        fetch(`/prompts/${this.promptIdValue}/draft/${this.draftIdValue}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Failed to delete the draft', data.error);
+                } else {
+                    console.log('Draft deleted!');
+                    window.location.href = data.location;
+                }
+            })
+            .catch(error => {
+                    console.error('An error occurred while deleting the draft', error);
+                }
+            );
+
+    }
+
 }

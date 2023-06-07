@@ -13,11 +13,15 @@ class PromptsController < ApplicationController
 
   # GET /prompts/1 or /prompts/1.json
   def show
+
   end
 
   def edit
     @user_prompts = current_account.user_prompts.order(updated_at: :desc)
     @models = Model.where(enabled: true).order(Arel.sql("CASE WHEN name = 'text-davinci-003' THEN 0 WHEN name = 'gpt-3.5-turbo' THEN 1 ELSE 2 END, name"))
+    if params[:draft].present?
+      @prompt_draft = PromptDraft.find(params[:draft])
+    end
   end
 
   def new
@@ -70,16 +74,20 @@ class PromptsController < ApplicationController
   end
 
   def create_draft
-    prompt = Prompt.find(params[:id])
-    @prompt_draft = prompt.prompt_drafts.new(prompt_draft_params)
-    @prompt_draft.user_id = current_user.id
+    if params[:prompt_draft_id].present?
+      @prompt_draft = PromptDraft.find(params[:prompt_draft_id])
+      @prompt_draft.text = params[:text]
+    else
+      prompt = Prompt.find(params[:id])
+      @prompt_draft = prompt.prompt_drafts.new(prompt_draft_params)
+      @prompt_draft.user_id = current_user.id
+    end
 
     if @prompt_draft.save
-      redirect_to @prompt, notice: 'Draft was successfully saved.'
+      render json: { message: 'Draft was successfully saved.', location: prompt_path(prompt) }, status: :created
     else
       logger.warn "Failed to save draft: #{@prompt_draft.errors.full_messages.join(", ")}"
-      flash.now[:alert] = @prompt_draft.errors.full_messages
-      render :edit
+      render json: { error: @prompt_draft.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

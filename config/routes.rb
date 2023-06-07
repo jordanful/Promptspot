@@ -12,7 +12,7 @@ Rails.application.routes.draw do
         post 'preview'
       end
     end
-    resources :prompt_drafts, as: :drafts, path: :draft
+    resources :prompt_drafts, as: :draft, path: :draft
   end
   resources :accounts
   resources :organizations

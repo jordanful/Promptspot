@@ -1,4 +1,4 @@
-<%= form_with(model: prompt, local: true, data: { controller: "draft", "draft-prompt-id-value": @prompt.id }) do |form| %>
+<%= form_with(model: prompt, local: true, data: { controller: "draft", "draft-prompt-id-value": @prompt.id, "draft-draft-id-value": @prompt_draft ? @prompt_draft.id : nil }) do |form| %>
   <% if prompt.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>
@@ -11,9 +11,9 @@
     </div>
   <% end %>
 
-  <%= form.fields_for :prompt_versions, prompt.prompt_versions.last do |prompt_version_form| %>
+  <%= form.fields_for :prompt_versions, prompt.prompt_versions.order(:version_number).last do |prompt_version_form| %>
     <div class="field flex flex-col">
-      <%= prompt_version_form.text_area :text, id: "system-prompt", class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
+      <%= prompt_version_form.text_area :text, value: @prompt_draft ? @prompt_draft.text : prompt.prompt_versions.order(:version_number).last.text, id: "system-prompt", class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
     </div>
   <% end %>
 
@@ -21,19 +21,35 @@
     <%= form.hidden_field :status, value: "active" %>
   </div>
 
+  <% if @prompt_draft %>
+    <div class="field">
+      <%= form.hidden_field :prompt_draft_id, value: @prompt_draft.id %>
+    </div>
+  <% end %>
+
   <div class="actions mt-4 flex flex-row">
-    <% if @prompt.id %>
+    <% if @prompt_draft %>
+      <div>
+        <button type="button" class="rounded-lg mr-3 py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer" data-action="click->draft#saveDraft">
+          Save draft
+        </button>
+        <button type="button" class="bg-blue-50 mr-3 mb-3 border border-blue-200 text-red-500 hover:bg-red-50 hover:border-red-500 rounded-lg py-3 px-5 bg-gray-100 font-medium" data-action="click->draft#deleteDraft">
+          Delete draft
+        </button>
+      </div>
+    <% elsif @prompt.id %>
       <div>
         <button type="button" class="rounded-lg mr-3 py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer" data-action="click->draft#saveDraft">
           Save as draft
         </button>
       </div>
-      <div>
-        <%= form.submit 'Publish now', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
-      </div>
+
     <% else %>
       <%= form.submit 'Save', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     <% end %>
+    <div>
+      <%= form.submit 'Publish now', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+    </div>
     <%= link_to 'Discard changes', @prompt.id ? prompt_path(@prompt) : prompts_url, class: 'mr-3 rounded-lg py-3 px-5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:bg-white inline-block font-medium cursor-pointer' %>
   </div>
 <% end %>
