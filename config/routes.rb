@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :users, only: [:show, :index]
-
+  resources :test_suites
+  resources :test_runs, only: [:show]
   resources :prompts do
     post 'archive', on: :member
     post 'unarchive', on: :member
@@ -18,5 +19,5 @@ Rails.application.routes.draw do
   resources :organizations
 
   # Defines the root path route ("/")
-  root "prompts#index"
+  root "test_suites#index"
 end

@@ -1,0 +1,35 @@
+<%= form_with(model: test_suite, local: true, data: { controller: "test_suite", "test_suite-test_suite-id-value": @test_suite.id }) do |form| %>
+  <% if test_suite.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(test_suite.errors.count, "error") %> prohibited this test_suite from being saved:</h2>
+
+      <ul>
+        <% test_suite.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field flex flex-col my-4">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "rounded-md border-gray-300 text-lg", placeholder: "Name this test" %>
+  </div>
+
+  <div class="field flex flex-col my-4">
+    <%= form.label 'Select system prompts' %>
+    <%= form.collection_select :prompt_ids, @prompts, :id, :title, {}, { multiple: true, size: 10, class: "rounded-md border-gray-300 text-lg" } %>
+  </div>
+
+  <div class="field flex flex-col my-4">
+    <%= form.label 'Select user prompts' %>
+    <%= form.collection_select :user_prompt_ids, @user_prompts, :id, :title, {}, { multiple: true, size: 10, class: "rounded-md border-gray-300 text-lg" } %>
+  </div>
+
+  <div class="actions mt-4 flex flex-row my-4">
+    <div>
+      <%= form.submit @test_suite.id ? 'Update test' : 'Run test', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+    </div>
+
+  </div>
+<% end %>
