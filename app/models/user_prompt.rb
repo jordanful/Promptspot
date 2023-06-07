@@ -1,6 +1,8 @@
 class UserPrompt < ApplicationRecord
   belongs_to :user
   belongs_to :account
+  has_many :test_suite_user_prompts
+  has_many :test_suites, through: :test_suite_user_prompts
   validates :text, presence: true
   before_create :generate_prompt_summary
 

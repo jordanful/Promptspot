@@ -1,4 +1,4 @@
-<h2 class="text-xl font-medium mb-2">Preview</h2>
+<h2 class="text-xl font-medium mb-2">Quick look</h2>
 <turbo-frame id="preview_frame">
   <div data-controller="preview" data-preview-prompt-id="<%= prompt.id %>">
     <%= form_with url: preview_prompt_versions_path(prompt), method: :post, local: true,
@@ -67,18 +67,22 @@
         <%= form.select :model, Model.where(enabled: true).pluck(:name), {}, { class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { controller: 'model-select', 'preview-target': 'model', action: 'change->model-select#saveModel', 'model-select-target': 'modelSelect' } } %>
       </fieldset>
 
-      <%= form.submit 'Preview', class: 'cursor-pointer rounded-md bg-white border text-lg font-medium py-2 shadow-sm border-gray-300 flex items-center justify-center w-full mt-4',
-                      data: {
-                        action: "preview#submitForm",
-                        preview_target: "submitButton"
-                      }
-      %>
 
-      <div class="spinner hidden" data-preview-target="spinner"></div>
+      <%= button_tag(type: 'submit', class: 'cursor-pointer rounded-md bg-white border text-lg font-medium py-2 shadow-sm border-gray-300 flex items-center justify-center w-full mt-4',
+                     data: {
+                       action: "preview#submitForm",
+                       preview_target: "submitButton"
+                     }) do %>
+        Preview
+        <div class="spinner hidden ml-3" data-preview-target="spinner"></div>
+      <% end %>
+
       <div class="overlay hidden fixed inset-0 bg-black opacity-50" data-preview-target="overlay"></div>
       <div class="modal hidden fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white p-6 rounded-lg" data-preview-target="modal">
-        <button data-action="click->preview#closeModal">Close</button>
-        <div id="result" data-preview-target="output" class="font-mono text-lg"></div>
+        <div class="flex justify-end mb-3">
+          <button data-action="click->preview#closeModal"><%= feather_icon 'x' %></button>
+        </div>
+        <div id="result" data-preview-target="output" class="font-mono text-base"></div>
       </div>
 
     <% end %>

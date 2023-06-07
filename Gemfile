@@ -29,7 +29,7 @@ gem "tailwindcss-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
-
+gem "rails_feather"
 gem "devise"
 gem "diffy"
 # Use Redis adapter to run Action Cable in production

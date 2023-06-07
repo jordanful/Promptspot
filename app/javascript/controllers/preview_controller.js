@@ -31,17 +31,22 @@ export default class extends Controller {
                 this.openModal();
                 this.complete();
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                this.complete();
+            });
     }
 
     beforeSend() {
-        this.spinnerTarget.classList.remove('hidden');
         this.submitButtonTarget.disabled = true;
+        this.spinnerTarget.classList.remove('hidden');
+        this.submitButtonTarget.classList.add('opacity-50');  // Add the class
     }
 
     complete() {
-        this.spinnerTarget.classList.add('hidden');
         this.submitButtonTarget.disabled = false;
+        this.spinnerTarget.classList.add('hidden');
+        this.submitButtonTarget.classList.remove('opacity-50');  // Remove the class
     }
 
     openModal() {

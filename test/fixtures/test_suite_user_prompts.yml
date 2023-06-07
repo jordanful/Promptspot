@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  test_suite_id: 
+  user_prompt_id: 
+
+two:
+  test_suite_id: 
+  user_prompt_id: 

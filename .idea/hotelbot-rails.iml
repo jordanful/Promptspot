@@ -90,6 +90,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rails (v7.0.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.0.3, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.6.0, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails_feather (v0.1.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="railties (v7.0.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.6, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-fsevent (v0.11.2, RVM: ruby-3.0.5) [gem]" level="application" />

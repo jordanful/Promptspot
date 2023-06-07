@@ -3,7 +3,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   belongs_to :account
-
+  has_many :test_suites
   before_validation :create_organization_and_account, on: :create
 
   private
