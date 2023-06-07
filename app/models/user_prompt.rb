@@ -16,8 +16,7 @@ class UserPrompt < ApplicationRecord
         max_tokens: 15
       }
     )
-    summary = response["choices"][0]["text"]
-    self.update(title: summary)
+    self.title = response["choices"][0]["text"]
   rescue StandardError => e
     puts "Error: #{e}"
   end

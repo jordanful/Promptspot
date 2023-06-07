@@ -125,7 +125,7 @@ class PromptsController < ApplicationController
   end
 
   def prompt_draft_params
-    params.require(:prompt_draft).permit(:text)
+    params.permit(:text, :id)
   end
 
 end

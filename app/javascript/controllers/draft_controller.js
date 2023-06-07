@@ -1,35 +1,27 @@
-// app/javascript/controllers/draft_controller.js
-
 import {Controller} from "stimulus";
 
 export default class extends Controller {
-    static targets = ["textarea", "hidden"];
-
-    get textareaTarget() {
-        return this.targets.find(target => target.dataset.draftTarget === 'textarea');
-    }
-
-    get hiddenTarget() {
-        return this.targets.find(target => target.dataset.draftTarget === 'hidden');
-    }
-
-    connect() {
-        this.promptId = this.data.get("promptId");
-    }
+    static targets = ["textarea"];
+    static values = {promptId: String}
 
     saveDraft(event) {
         event.preventDefault();
 
         const draftText = this.textareaTarget.value;
 
+        // Create a new FormData object
+        let formData = new FormData();
+
+        // Append only the data you need
+        formData.append('text', draftText);
+
         // Perform an AJAX request to save the draft
-        fetch(`/prompts/${this.promptId}/create_draft`, {
+        fetch(`/prompts/${this.promptIdValue}/create_draft`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify({draft_text: draftText})
+            body: formData
         })
             .then(response => {
                 if (response.ok) {

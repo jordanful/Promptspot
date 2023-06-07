@@ -1,4 +1,4 @@
-<%= form_with(model: prompt, local: true, data: { controller: "draft", prompt_id: @prompt.id }) do |form| %>
+<%= form_with(model: prompt, local: true, data: { controller: "draft", "draft-prompt-id-value": @prompt.id }) do |form| %>
   <% if prompt.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>

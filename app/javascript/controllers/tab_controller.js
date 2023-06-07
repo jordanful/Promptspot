@@ -1,4 +1,3 @@
-// app/javascript/controllers/tab_controller.js
 import {Controller} from "stimulus"
 
 export default class extends Controller {
@@ -30,11 +29,11 @@ export default class extends Controller {
     setActiveTab(target) {
         this.tabTargets.forEach(t => {
             if (t == target) {
-                t.classList.remove('bg-slate-100', 'hover:bg-slate-50', 'opacity-60');
-                t.classList.add('bg-white');
+                t.classList.remove('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
+                t.classList.add('bg-white', 'text-black');
             } else {
-                t.classList.add('bg-slate-100', 'hover:bg-slate-50', 'opacity-60');
-                t.classList.remove('bg-white');
+                t.classList.add('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
+                t.classList.remove('bg-white', 'text-black');
             }
         });
     }

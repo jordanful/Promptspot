@@ -14,6 +14,15 @@
  *= require_self
  */
 
+.dropdown-button .arrow {
+    border: solid #777;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
 .spinner {
     display: inline-block;
     width: 20px;
