@@ -64,9 +64,11 @@
       <% end %>
       <%= button_to 'Delete', prompt_path(@prompt),
                     method: :delete,
-                    form: { data: { turbo_confirm: 'Are you sure?' } },
+                    data: { turbo: false },
                     class: "bg-blue-50 mr-3 mb-3 border border-blue-200 text-red-500 hover:bg-red-50 hover:border-red-500 rounded-lg py-3 px-5 bg-gray-100 font-medium"
       %>
+
+
     </div>
     <% @prompt.prompt_versions.where.not(version_number: 1).order(version_number: :desc).each do |p| %>
       <%= link_to prompt_version_path(@prompt, p), class: "flex flex-col bg-gray-100 hover:bg-gray-200 rounded-lg p-3 mb-2" do %>

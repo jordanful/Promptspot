@@ -1,8 +1,7 @@
 import {Controller} from "stimulus";
 
 export default class extends Controller {
-    static targets = ["output", "userPrompt", "spinner", "submitButton", "form", "model"]
-
+    static targets = ["output", "userPrompt", "spinner", "submitButton", "form", "model", "modal", "overlay", "preview"]
 
     submitForm(event) {
         event.preventDefault();
@@ -29,7 +28,8 @@ export default class extends Controller {
             .then(response => response.text())
             .then(html => {
                 this.outputTarget.innerHTML = html;
-                this.complete()
+                this.openModal();
+                this.complete();
             })
             .catch(error => console.log(error));
     }
@@ -44,5 +44,28 @@ export default class extends Controller {
         this.submitButtonTarget.disabled = false;
     }
 
+    openModal() {
+        this.modalTarget.classList.remove('hidden');
+        this.overlayTarget.classList.remove('hidden');
+    }
 
+    closeModal() {
+        this.modalTarget.classList.add('hidden');
+        this.overlayTarget.classList.add('hidden');
+        this.previewTarget.innerHTML = ''; // This will clear the preview panel
+    }
+
+    handleOutsideClick(event) {
+        if (event.target === this.overlayTarget) {
+            this.closeModal();
+        }
+    }
+
+    connect() {
+        this.overlayTarget.addEventListener('click', this.handleOutsideClick.bind(this));
+    }
+
+    disconnect() {
+        this.overlayTarget.removeEventListener('click', this.handleOutsideClick.bind(this));
+    }
 }

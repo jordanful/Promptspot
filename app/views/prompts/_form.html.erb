@@ -53,11 +53,9 @@
         </button>
       </div>
 
-    <% else %>
-      <%= form.submit 'Save', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     <% end %>
     <div>
-      <%= form.submit 'Publish now', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+      <%= form.submit @prompt.id ? 'Publish now' : 'Save', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     </div>
     <%= link_to 'Discard changes', @prompt.id ? prompt_path(@prompt) : prompts_url, class: 'mr-3 rounded-lg py-3 px-5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:bg-white inline-block font-medium cursor-pointer' %>
   </div>

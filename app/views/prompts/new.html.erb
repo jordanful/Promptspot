@@ -1,4 +1,6 @@
 <div class="md:w-2/3 w-full">
-  <h1 class="font-medium text-3xl mb-6">New prompt</h1>
-  <%= render partial: 'form', locals: { prompt: @prompt } %>
+  <h1 class="text-2xl mb-6">New prompt</h1>
+  <%= render partial: "form", locals: { prompt: @prompt } %>
+  <%#= render partial: "preview", locals: { prompt: @prompt, user_prompt: @user_prompt, user_prompts: @user_prompts, models: @models } %>
+
 </div>

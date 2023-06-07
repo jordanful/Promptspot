@@ -4,20 +4,30 @@ export default class extends Controller {
     static targets = ["tab", "newPrompt", "savedPrompts"]
 
     connect() {
+        const savedTab = localStorage.getItem('selectedTab') || 'new'
+
         if (this.savedPromptsTarget.children.length == 0) {
             this.tabTarget.style.display = 'none';
             this.savedPromptsTarget.style.display = 'none';
+            localStorage.setItem('selectedTab', 'new') // Set the tab to 'new' by default if there are no saved prompts
         } else {
-            this.newPromptTarget.style.display = 'block';
-            this.savedPromptsTarget.style.display = 'none';
-            this.setActiveTab(this.tabTargets.find(e => e.dataset.tab == 'new'));
+            if (savedTab === 'new') {
+                this.newPromptTarget.style.display = 'block';
+                this.savedPromptsTarget.style.display = 'none';
+            } else {
+                this.newPromptTarget.style.display = 'none';
+                this.savedPromptsTarget.style.display = 'block';
+            }
+            this.setActiveTab(this.tabTargets.find(e => e.dataset.tab === savedTab));
         }
     }
 
     toggle(event) {
         let target = event.currentTarget;
         this.setActiveTab(target);
-        if (target.dataset.tab == 'new') {
+        localStorage.setItem('selectedTab', target.dataset.tab) // Save the current tab to local storage
+
+        if (target.dataset.tab === 'new') {
             this.newPromptTarget.style.display = 'block';
             this.savedPromptsTarget.style.display = 'none';
         } else {
@@ -28,7 +38,7 @@ export default class extends Controller {
 
     setActiveTab(target) {
         this.tabTargets.forEach(t => {
-            if (t == target) {
+            if (t === target) {
                 t.classList.remove('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
                 t.classList.add('bg-white', 'text-black');
             } else {
