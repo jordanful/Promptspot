@@ -23,7 +23,7 @@
 
   <% if @prompt_draft %>
     <div class="field">
-      <%= form.hidden_field :prompt_draft_id, value: @prompt_draft.id %>
+      <%= hidden_field_tag :prompt_draft_id, @prompt_draft.id %>
     </div>
   <% end %>
 

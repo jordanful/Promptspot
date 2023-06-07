@@ -38,7 +38,6 @@ export default class extends Controller {
 
     deleteDraft(event) {
         event.preventDefault();
-        confirm('Are you sure you want to delete this draft?')
         fetch(`/prompts/${this.promptIdValue}/draft/${this.draftIdValue}`, {
             method: 'DELETE',
             headers: {

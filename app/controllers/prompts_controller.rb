@@ -33,8 +33,14 @@ class PromptsController < ApplicationController
     @prompt = Prompt.new(prompt_params)
     @prompt.account_id = current_user.account.id
     @prompt.prompt_versions.first.user_id = current_user.id
+
+    draft_id = params[:prompt_draft_id]
+
     respond_to do |format|
       if @prompt.save
+        if draft_id.present?
+          PromptDraft.find(draft_id).destroy
+        end
         format.html { redirect_to @prompt, notice: '👍 Created.' }
         format.json { render :show, status: :created, location: @prompt }
       else
@@ -51,6 +57,7 @@ class PromptsController < ApplicationController
   def update
     new_version_text = prompt_params[:prompt_versions_attributes]['0'][:text]
     last_version_text = @prompt.prompt_versions.last.text
+    draft_id = params[:prompt_draft_id]
 
     if last_version_text == new_version_text
       redirect_to prompt_url(@prompt), notice: "No changes were made."
@@ -63,6 +70,9 @@ class PromptsController < ApplicationController
 
       respond_to do |format|
         if @prompt.save
+          if draft_id.present?
+            PromptDraft.find(draft_id).destroy
+          end
           format.html { redirect_to prompt_url(@prompt), notice: "Prompt was successfully updated." }
           format.json { render :show, status: :ok, location: @prompt }
         else
@@ -128,7 +138,6 @@ class PromptsController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-
   def prompt_params
     params.require(:prompt).permit(:status, :account_id, prompt_versions_attributes: [:text])
   end
