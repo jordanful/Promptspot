@@ -70,7 +70,8 @@ class PromptsController < ApplicationController
   end
 
   def create_draft
-    @prompt_draft = @prompt.prompt_drafts.new(prompt_draft_params)
+    prompt = Prompt.find(params[:id])
+    @prompt_draft = prompt.prompt_drafts.new(prompt_draft_params)
     @prompt_draft.user_id = current_user.id
 
     if @prompt_draft.save
@@ -125,7 +126,7 @@ class PromptsController < ApplicationController
   end
 
   def prompt_draft_params
-    params.permit(:text, :id)
+    params.permit(:text)
   end
 
 end
