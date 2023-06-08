@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :users, only: [:show, :index]
-  resources :test_suites
+  resources :test_suites, path: :tests
   resources :test_runs, only: [:show]
   resources :prompts do
     post 'archive', on: :member

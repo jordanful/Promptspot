@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_07_201132) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_083001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -105,6 +105,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_07_201132) do
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "account_id"
+    t.boolean "archived", default: false
+    t.index ["account_id"], name: "index_test_suites_on_account_id"
   end
 
   create_table "user_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -131,4 +134,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_07_201132) do
 
   add_foreign_key "prompt_drafts", "prompts"
   add_foreign_key "prompt_drafts", "users"
+  add_foreign_key "test_suites", "accounts"
 end

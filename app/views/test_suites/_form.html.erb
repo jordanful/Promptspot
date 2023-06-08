@@ -1,4 +1,4 @@
-<%= form_with(model: test_suite, local: true, data: { controller: "test_suite", "test_suite-test_suite-id-value": @test_suite.id }) do |form| %>
+<%= form_with(model: test_suite, local: true, data: { controller: "test_suite", "test_suite-test_suite-id-value": @test_suite.id, turbo_frame: false }) do |form| %>
   <% if test_suite.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(test_suite.errors.count, "error") %> prohibited this test_suite from being saved:</h2>
@@ -28,7 +28,7 @@
 
   <div class="actions mt-4 flex flex-row my-4">
     <div>
-      <%= form.submit @test_suite.id ? 'Update test' : 'Run test', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+      <%= form.submit @test_suite.id ? 'Update test' : 'Create test', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     </div>
 
   </div>

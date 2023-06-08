@@ -16,12 +16,12 @@
   <nav class="mb-12 mt-4">
     <ul class="flex items-center justify-between">
       <li class="mr-4 font-bold text-2xl text-blue-600 tracking-tight"><%= link_to "PromptSpot", root_path %></li>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center text-blue-600 hover:text-blue-700">
         <% if current_user %>
-          <li class="mr-4"><%= link_to "Tests", test_suites_path %></li>
-          <li class="mr-4"><%= link_to "Prompts", prompts_url %></li>
-          <li class="mr-4"><%= link_to "Account", edit_user_registration_path %></li>
-          <li><%= link_to "Sign out", destroy_user_session_path, data: { "turbo-method": :delete } %></li>
+          <li class="mr-6"><%= link_to "Tests", test_suites_path %></li>
+          <li class="mr-6"><%= link_to "Prompts", prompts_url %></li>
+          <li class="mr-6"><%= link_to "Account", edit_user_registration_path %></li>
+          <li><%= link_to "Sign out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "text-blue-500" %></li>
         <% else %>
           <li><%= link_to "Sign in", new_user_session_path %></li>
         <% end %>

@@ -1,29 +1,21 @@
-<h1>Test Suites</h1>
+<div class="flex justify-end mb-12">
+  <%= link_to 'New test', new_test_suite_path, class: "rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer" %>
+</div>
+<% if @test_suites.length > 0 %>
 
-<table>
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Created At</th>
-    <th>Updated At</th>
-    <th colspan="3"></th>
-  </tr>
-  </thead>
 
-  <tbody>
-  <% @test_suites.each do |test_suite| %>
-    <tr>
-      <td><%= test_suite.name %></td>
-      <td><%= test_suite.created_at %></td>
-      <td><%= test_suite.updated_at %></td>
-      <td><%= link_to 'Show', test_suite %></td>
-      <td><%= link_to 'Edit', edit_test_suite_path(test_suite) %></td>
-      <td><%= link_to 'Delete', test_suite, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+  <div class="flex flex-col">
+    <% @test_suites.each do |test_suite| %>
+      <%= render 'test_suite', test_suite: test_suite %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="flex w-full justify-center items-center">
+    <p class="text-gray-400 text-2xl">🙂No tests yet.</p>
 
-<br>
+    <%= link_to 'Create a test', new_test_suite_path,
+                class: "text-blue-500 text-2xl hover:underline ml-3" %>
+  </div>
+<% end %>
 
-<%= link_to 'New Test Suite', new_test_suite_path %>
+</div>
