@@ -1,4 +1,4 @@
-<%= form_with(model: test_suite, local: true, data: { controller: "test_suite", "test_suite-test_suite-id-value": @test_suite.id, turbo_frame: false }) do |form| %>
+<%= form_with(model: test_suite, local: true, data: { controller: "prompt-panel", "prompt-panel-test-suite-id-value": @test_suite.id, turbo_frame: false }, class: 'w-full md:w-1/2') do |form| %>
   <% if test_suite.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(test_suite.errors.count, "error") %> prohibited this test_suite from being saved:</h2>
@@ -16,20 +16,78 @@
     <%= form.text_field :name, class: "rounded-md border-gray-300 text-lg", placeholder: "Name this test" %>
   </div>
 
-  <div class="field flex flex-col my-4">
-    <%= form.label 'Select system prompts' %>
-    <%= form.collection_select :prompt_ids, @prompts, :id, :title, {}, { multiple: true, size: 10, class: "rounded-md border-gray-300 text-lg" } %>
+  <div class="field flex flex-col inline-flex my-4">
+    <%= form.hidden_field :prompt_ids, multiple: true, data: { "prompt-panel-target": 'promptIds' } %>
+    <div class="flex flex-row items-center">
+      <button type="button" data-action="click->prompt-panel#openPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium">
+        Select prompt(s)
+      </button>
+      <div data-action="click->prompt-panel#openNewPrompt" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
+        or create a new one
+      </div>
+    </div>
+    <div data-prompt-panel-target="selectedPrompts">
+      <!-- Selected prompts will be listed here -->
+    </div>
+  </div>
+  <br/>
+
+  <div class="field flex flex-col my-4 inline-flex">
+    <%= form.hidden_field :user_prompt_ids, multiple: true, data: { target: 'prompt-panel.userPromptIds' } %>
+    <div class="flex flex-row items-center">
+
+      <button type="button" data-action="click->prompt-panel#openUserPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium">
+        Select user prompts
+      </button>
+      <div data-action="click->prompt-panel#openNewUserPrompt" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
+        or create a new user prompt
+      </div>
+    </div>
+    <div data-prompt-panel-target="selectedUserPrompts">
+      <!-- Selected user prompts will be listed here -->
+    </div>
   </div>
 
-  <div class="field flex flex-col my-4">
-    <%= form.label 'Select user prompts' %>
-    <%= form.collection_select :user_prompt_ids, @user_prompts, :id, :title, {}, { multiple: true, size: 10, class: "rounded-md border-gray-300 text-lg" } %>
-  </div>
+  <hr/>
 
   <div class="actions mt-4 flex flex-row my-4">
     <div>
       <%= form.submit @test_suite.id ? 'Update test' : 'Create test', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     </div>
-
   </div>
+
+  <div class="fixed inset-0 bg-black opacity-0" style=" pointer-events: none;" data-prompt-panel-target="overlay" data-action="click->prompt-panel#close"></div>
+
+  <!-- Panel -->
+  <div class="p-6 fixed right-0 top-0 h-screen md:w-1/3 sm:w-1/2 w-2/3 overflow-y-auto bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none opacity-0 shadow-lg" data-prompt-panel-target="panel">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl" data-prompt-panel-target="headline">
+      </h2>
+      <button type="button" data-action="click->prompt-panel#close" class="rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium">
+        Done
+      </button>
+    </div>
+    <div data-prompt-panel-target="list">
+      <div id="prompts" style="display:none;">
+        <% @prompts.each do |prompt| %>
+          <%= render partial: 'prompts/prompt', locals: { prompt: prompt } %>
+        <% end %>
+      </div>
+      <div id="user_prompts" style="display:none;">
+        <% @user_prompts.each do |user_prompt| %>
+          <%#= render partial: 'user_prompts/prompt', locals: { user_prompt: user_prompt } %>
+        <% end %>
+      </div>
+      <div id="new_prompt" style="display:none;">
+        <%= render partial: 'prompts/mini-form', locals: { prompt: Prompt.new } %>
+      </div>
+      <div id="new_user_prompt" style="display:none;">
+        <%#= render partial: 'user_prompts/form' %>
+      </div>
+    </div>
+  </div>
+
+
+
+
 <% end %>

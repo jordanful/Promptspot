@@ -1,10 +1,10 @@
 class TestSuitesController < ApplicationController
-  before_action :set_test_suite, only: [:show, :edit, :update, :destroy]
+  before_action :set_test_suite, only: [:show, :edit, :update, :destroy, :archive, :unarchive]
   before_action :authenticate_user!
-  before_action :authorize_user!, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:show, :edit, :update, :destroy, :archive, :unarchive]
 
   def index
-    @test_suites = current_account.test_suites
+    @test_suites = current_account.test_suites.where(archived: false)
   end
 
   def new
@@ -24,6 +24,18 @@ class TestSuitesController < ApplicationController
       flash.now[:alert] = @test_suite.errors.full_messages.join(', ')
       render :new
     end
+  end
+
+  def archive
+    @test_suite.archived = true
+    @test_suite.save
+    redirect_to test_suites_path, notice: 'Test archived'
+  end
+
+  def unarchive
+    @test_suite.archived = false
+    @test_suite.save
+    redirect_to test_suites_path, notice: 'Test unarchived'
   end
 
   def show

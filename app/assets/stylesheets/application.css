@@ -14,6 +14,20 @@
  *= require_self
  */
 
+/* CSS */
+
+.panel-open {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.overlay-open {
+    opacity: 0.2 !important;
+    pointer-events: auto !important;
+}
+
+
 .dropdown-button .arrow {
     border: solid #777;
     border-width: 0 2px 2px 0;
