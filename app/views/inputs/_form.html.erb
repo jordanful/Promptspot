@@ -1,11 +1,11 @@
-<%= form_with(model: @input, local: true, class: 'flex-grow') do |form| %>
+<%= form_with(model: input, local: true, class: 'flex-grow') do |form| %>
 
-  <% if @input.errors.any? %>
+  <% if input.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@input.errors.count, "error") %> prohibited this input from being saved:</h2>
+      <h2><%= pluralize(input.errors.count, "error") %> prohibited this input from being saved:</h2>
 
       <ul>
-        <% @input.errors.full_messages.each do |message| %>
+        <% input.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -19,10 +19,10 @@
 
   <div class="actions mt-4 flex flex-row">
     <div>
-      <%= form.submit @input.id ? 'Update now' : 'Save', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+      <%= form.submit input.id ? 'Update now' : 'Save', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     </div>
     <div>
-      <%= link_to 'Discard changes', @input.id ? input_path(@input) : inputs_url, class: 'mr-3 rounded-lg py-3 px-5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 inline-block font-medium cursor-pointer' %>
+      <%= link_to 'Discard changes', input.id ? input_path(input) : inputs_url, class: 'mr-3 rounded-lg py-3 px-5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 inline-block font-medium cursor-pointer' %>
     </div>
   </div>
 

@@ -17,42 +17,58 @@
   </div>
   <hr/>
   <div class="flex flex-row items-start justify-between my-4 py-8">
-    <div class="field flex flex-col inline-flex">
+    <div class="field flex flex-col inline-flex grow">
       <%= form.hidden_field :prompt_ids, multiple: true, data: { "prompt-panel-target": 'promptIds' } %>
       <div class="flex flex-row items-center">
-        <button type="button" data-action="click->prompt-panel#openPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium">
-          Select Prompt(s)
-        </button>
-        <div data-action="click->prompt-panel#openNewPrompt" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
-          or create a new one
-        </div>
+        <% if @prompts.length == 0 %>
+          <button type="button" data-action="click->prompt-panel#openNewPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
+            Create a prompt
+          </button>
+        <% else %>
+          <button type="button" data-action="click->prompt-panel#openPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
+            Select Prompt(s)
+          </button>
+          <div data-action="click->prompt-panel#openNewPrompt" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
+            or create a new one
+          </div>
+        <% end %>
       </div>
-      <div data-prompt-panel-target="selectedPrompts">
+      <div data-prompt-panel-target="selectedPrompts" class="mt-6 flex flex-wrap">
         <!-- Selected prompts will be listed here -->
       </div>
     </div>
-    <p class="ml-12 text-gray-400 text-sm text-right w-72">
-      Select your "base" prompt or prompts. We'll independently test your inputs against these.
+    <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
+      <% if @prompts.length == 0 %>
+        Create your first prompt. We'll test your input(s) against this and deliver the results to you.
+      <% else %>
+        Select your "base" prompt(s). We'll independently test your inputs against these.
+      <% end %>
     </p>
     <hr/>
   </div>
   <hr/>
   <div class="flex flex-row items-start justify-between my-4 py-8">
-    <div class="field flex flex-col inline-flex">
+    <div class="field flex flex-col inline-flex grow">
       <%= form.hidden_field :input_ids, multiple: true, data: { "prompt-panel-target": 'inputIds' } %>
       <div class="flex flex-row items-center">
-        <button type="button" data-action="click->prompt-panel#openInput" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium">
-          Select Input(s)
-        </button>
-        <div data-action="click->prompt-panel#openNewInput" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
-          or create Input
-        </div>
+        <% if @inputs.length == 0 %>
+          <button type="button" data-action="click->prompt-panel#openNewInput" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
+            Create an input
+          </button>
+        <% else %>
+          <button type="button" data-action="click->prompt-panel#openInput" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
+            Select Input(s)
+          </button>
+          <div data-action="click->prompt-panel#openNewInput" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
+            or create an input
+          </div>
+        <% end %>
       </div>
-      <div data-prompt-panel-target="selectedInputs">
+      <div data-prompt-panel-target="selectedInputs" class="mt-6 flex flex-wrap">
         <!-- Selected inputs will be listed here -->
       </div>
     </div>
-    <p class="ml-12 text-gray-400 text-sm text-right w-72">
+    <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
       Inputs are the values you want to test against your prompts. They can be anything from a single word to a full
       paragraph. Often times this includes dynamic values, such as user profile data.
     </p>
@@ -61,9 +77,9 @@
 
   <div class="actions my-8 flex flex-row">
 
-    <%= button_tag 'Save and run later', type: "submit", data: { action: "save_for_later" }, class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+    <%= button_tag 'Save and run later', type: "submit", data: { action: "save_for_later" }, class: 'cursor-pointer shadow-md mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
 
-    <%= button_tag 'Run now', type: "submit", data: { action: "run_now" }, class: 'flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer' %>
+    <%= button_tag 'Run now', type: "submit", data: { action: "run_now" }, class: 'shadow-md flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer' %>
   </div>
 
 
@@ -79,33 +95,33 @@
       </button>
     </div>
     <div data-prompt-panel-target="list">
-      <div id="prompts" style="display:none;">
+      <div id="prompts" class="hidden">
         <% @prompts.each do |prompt| %>
           <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50"
                data-action="click->prompt-panel#selectPrompt"
                data-prompt-panel-target="prompt"
                data-prompt-id="<%= prompt.id %>">
-            <p class="text-lg mb-2"><%= prompt.title %></p>
-            <p class="text-gray-600 text-base font-mono"><%= prompt.prompt_versions.order(:version_number).last.text %></p>
+            <p class="text-base mb-2 title"><%= prompt.title %></p>
+            <p class="text-gray-600 text-sm font-mono"><%= prompt.prompt_versions.order(:version_number).last.text %></p>
           </div>
         <% end %>
       </div>
-      <div id="inputs" style="display:none;">
+      <div id="inputs" class="hidden">
         <% @inputs.each do |input| %>
           <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50"
                data-action="click->prompt-panel#selectInput"
                data-prompt-panel-target="input"
                data-input-id="<%= input.id %>">
-            <p class="text-lg mb-2"><%= input.title %></p>
-            <p class="text-gray-600 text-base font-mono"><%= input.text %></p>
+            <p class="text-base mb-2 title"><%= input.title %></p>
+            <p class="text-gray-600 text-sm font-mono"><%= input.text %></p>
           </div>
         <% end %>
       </div>
-      <div id="new_prompt" style="display:none;">
+      <div id="new_prompt" class="hidden">
         <%= render partial: 'prompts/mini-form', locals: { prompt: Prompt.new } %>
       </div>
-      <div id="new_input" style="display:none;">
-        <%#= render partial: 'inputs/form' %>
+      <div id="new_input" class="hidden">
+        <%= render partial: 'inputs/form', locals: { input: Input.new } %>
       </div>
     </div>
   </div>

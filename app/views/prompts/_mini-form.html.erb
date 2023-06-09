@@ -1,28 +1,21 @@
-<%= form_with(model: prompt, local: true) do |form| %>
+<% if prompt.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>
 
-  <% if prompt.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>
-
-      <ul>
-        <% prompt.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <%= form.fields_for :prompt_versions, prompt.prompt_versions.build do |prompt_version_form| %>
-    <div class="field flex flex-col">
-      <%= prompt_version_form.text_area :text, value: "", class: "rounded-md border-gray-300 font-mono text-lg", rows: 12, placeholder: "Enter your prompt", 'data-prompt-panel-target': 'newPromptTextArea' %>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.hidden_field :status, value: "active" %>
-  </div>
-
-  <div>
-    <%= form.submit 'Save', class: 'cursor-pointer mt-4 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+    <ul>
+      <% prompt.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
+
+<div class="field flex flex-col">
+  <textarea id="newPromptText" class="rounded-md border-gray-300 font-mono text-lg" rows="12" placeholder="Type or paste your prompt" data-prompt-panel-target='newPromptTextArea'></textarea>
+</div>
+
+<div>
+  <button id="new_prompt_form" class='cursor-pointer mt-4 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' data-action="click->prompt-panel#createPrompt" data-prompt-panel-target='form'>Save</button>
+  <div class="spinner ml-4 hidden" data-prompt-panel-target='spinner'/>
+</div>
+

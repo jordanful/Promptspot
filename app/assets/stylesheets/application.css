@@ -14,8 +14,9 @@
  *= require_self
  */
 
-.selected {
+.selected, .selected:hover {
     background-color: #cce4f6;
+    border: 1px solid transparent;
 }
 
 .panel-open {

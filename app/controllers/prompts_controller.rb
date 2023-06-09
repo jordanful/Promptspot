@@ -1,7 +1,7 @@
 class PromptsController < ApplicationController
   before_action :set_prompt, only: %i[ show edit update destroy archive unarchive create_draft ]
   before_action :authenticate_user!
-  before_action :authorize_user!, except: %i[ index create_draft create destroy ]
+  before_action :authorize_user!, except: %i[ new index create_draft create destroy ]
 
   # GET /prompts or /prompts.json
   def index
@@ -44,6 +44,7 @@ class PromptsController < ApplicationController
         end
         format.html { redirect_to @prompt, notice: '👍 Created.' }
         format.json { render :show, status: :created, location: @prompt }
+
       else
         format.html {
           flash.now[:error] = 'There was an issue creating the prompt. Our team has been alerted.'
