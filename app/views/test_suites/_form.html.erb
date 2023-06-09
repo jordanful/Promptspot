@@ -20,7 +20,7 @@
     <%= form.hidden_field :prompt_ids, multiple: true, data: { "prompt-panel-target": 'promptIds' } %>
     <div class="flex flex-row items-center">
       <button type="button" data-action="click->prompt-panel#openPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium">
-        Select prompt(s)
+        Select Prompt(s)
       </button>
       <div data-action="click->prompt-panel#openNewPrompt" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
         or create a new one
@@ -37,10 +37,10 @@
     <div class="flex flex-row items-center">
 
       <button type="button" data-action="click->prompt-panel#openUserPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium">
-        Select user prompts
+        Select Input(s)
       </button>
       <div data-action="click->prompt-panel#openNewUserPrompt" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
-        or create a new user prompt
+        or create Input
       </div>
     </div>
     <div data-prompt-panel-target="selectedUserPrompts">
@@ -63,7 +63,7 @@
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-2xl" data-prompt-panel-target="headline">
       </h2>
-      <button type="button" data-action="click->prompt-panel#close" class="rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium">
+      <button type="button" data-prompt-panel-target="doneButton" data-action="click->prompt-panel#close" class="rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium">
         Done
       </button>
     </div>

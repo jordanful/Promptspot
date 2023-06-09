@@ -1,7 +1,7 @@
 import {Controller} from "stimulus"
 
 export default class extends Controller {
-    static targets = ["panel", "list", "promptIds", "userPromptIds", "selectedPrompts", "selectedUserPrompts", "headline", "search", "overlay"]
+    static targets = ["panel", "doneButton", "list", "promptIds", "userPromptIds", "selectedPrompts", "selectedUserPrompts", "headline", "search", "overlay"]
 
     connect() {
         this.handleClick = this.handleClick.bind(this)
@@ -25,6 +25,7 @@ export default class extends Controller {
         this.headlineTarget.innerText = 'Select one or more prompts'
         this.activeTarget = this.promptIdsTarget
         this.activeListTarget = this.selectedPromptsTarget
+        this.showDoneButton()
     }
 
     openNewPrompt(event) {
@@ -32,6 +33,7 @@ export default class extends Controller {
         event.stopPropagation()
         this.showSection('new_prompt')
         this.headlineTarget.innerText = 'New prompt'
+        this.hideDoneButton()
     }
 
     openUserPrompt(event) {
@@ -41,6 +43,7 @@ export default class extends Controller {
         this.headlineTarget.innerText = 'Select one or more prompts'
         this.activeTarget = this.userPromptIdsTarget
         this.activeListTarget = this.selectedUserPromptsTarget
+        this.showDoneButton()
     }
 
     openNewUserPrompt(event) {
@@ -48,6 +51,7 @@ export default class extends Controller {
         event.stopPropagation()
         this.showSection('new_user_prompt')
         this.headlineTarget.innerText = 'New user prompt'
+        this.hideDoneButton()
     }
 
     showSection(id) {
@@ -59,6 +63,14 @@ export default class extends Controller {
         // Show the specific section
         document.getElementById(id).style.display = 'block'
         this.openPanel()
+    }
+
+    showDoneButton() {
+        this.doneButtonTarget.style.display = 'block'
+    }
+
+    hideDoneButton() {
+        this.doneButtonTarget.style.display = 'none'
     }
 
     openPanel() {
