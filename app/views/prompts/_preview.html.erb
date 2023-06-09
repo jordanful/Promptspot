@@ -5,7 +5,7 @@
                   html: { data: { controller: "preview", url: preview_prompt_versions_path(prompt),
                                   target: "preview.output preview.form", "preview-prompt-id": prompt.id } } do |form| %>
       <fieldset data-controller="tab">
-        <% if user_prompts.length > 0 %>
+        <% if inputs.length > 0 %>
           <div data-tab-target="tab" class="w-full flex justify-between items-center rounded-md border text-base shadow-sm font-medium border-gray-300 mb-4">
             <div class="w-1/2 flex justify-center items-center bg-white text-black w-full h-full rounded-l-md p-3 cursor-pointer" data-tab="new" data-action="click->tab#toggle">
               New user prompt
@@ -15,12 +15,12 @@
             </div>
           </div>
         <% end %>
-        <%= form.text_area :user_prompt, rows: 10, placeholder: 'Enter user prompt', class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { 'tab-target': 'newPrompt', 'preview-target': 'userPrompt' } %>
+        <%= form.text_area :inputs, rows: 10, placeholder: 'Enter user prompt', class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { 'tab-target': 'newPrompt', 'preview-target': 'userPrompt' } %>
         <div data-controller="dropdown" data-tab-target="savedPrompts">
           <button class="dropdown-button w-full bg-white border-gray-300 border text-base rounded-md flex justify-between items-center px-3 py-2 font-medium" data-action="click->dropdown#toggle" data-dropdown-target="button">
-            <% if user_prompt %>
+            <% if input %>
               <div class="dropdown-text">
-                <strong><%= user_prompt.title %></strong>
+                <strong><%= input.title %></strong>
               </div>
             <% else %>
               <span class="dropdown-text text-gray-600">Select a prompt</span>
@@ -29,14 +29,14 @@
           </button>
 
           <div class="dropdown-menu w-full bg-white shadow border-gray-300 border rounded-md flex flex-col mt-1 overflow-y-auto max-h-56" style="display:none" data-dropdown-target="menu">
-            <% user_prompts.each do |prompt| %>
+            <% input.each do |prompt| %>
               <div class="dropdown-item flex flex-col cursor-pointer hover:bg-blue-50 p-3" data-id="<%= prompt.id %>" data-action="click->dropdown#select">
                 <div class="dropdown-item-title mb-1 font-medium"><%= prompt.title %></div>
                 <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= prompt.text %></div>
               </div>
             <% end %>
           </div>
-          <input type="hidden" name="user_prompt_id" id="user_prompt_id" value="<%= user_prompt&.id %>" data-dropdown-target="value">
+          <input type="hidden" name="input_id" id="input_id" value="<%= input&.id %>" data-dropdown-target="value">
         </div>
       </fieldset>
 

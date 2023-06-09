@@ -17,7 +17,7 @@ class PromptsController < ApplicationController
   end
 
   def edit
-    @user_prompts = current_account.user_prompts.order(updated_at: :desc)
+    @inputs = current_account.inputs.order(updated_at: :desc)
     @models = Model.where(enabled: true).order(Arel.sql("CASE WHEN name = 'text-davinci-003' THEN 0 WHEN name = 'gpt-3.5-turbo' THEN 1 ELSE 2 END, name"))
     if params[:draft].present?
       @prompt_draft = PromptDraft.find(params[:draft])

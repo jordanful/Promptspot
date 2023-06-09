@@ -15,10 +15,10 @@ class PromptVersionsController < ApplicationController
   end
 
   def preview
-    user_prompt = UserPrompt.find_or_initialize_by(text: params[:user_prompt], account_id: current_user.account.id)
-    user_prompt.user_id = current_user.id
-    user_prompt.save
-    prompt = params[:system_prompt] + '/n/n' + params[:user_prompt]
+    input = UserPrompt.find_or_initialize_by(text: params[:input], account_id: current_user.account.id)
+    input.user_id = current_user.id
+    input.save
+    prompt = params[:system_prompt] + '/n/n' + params[:input]
     client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
     response = client.completions(
       parameters: {
@@ -43,6 +43,6 @@ class PromptVersionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def prompt_version_params
-    params.require(:prompt_version).permit(:prompt_id, :user_id, :text, :save_user_prompt, :user_prompt)
+    params.require(:prompt_version).permit(:prompt_id, :user_id, :text, :save_input, :input)
   end
 end

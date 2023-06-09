@@ -39,7 +39,7 @@ export default class extends Controller {
     openUserPrompt(event) {
         event.preventDefault()
         event.stopPropagation()
-        this.showSection('user_prompts')
+        this.showSection('inputs')
         this.headlineTarget.innerText = 'Select one or more prompts'
         this.activeTarget = this.userPromptIdsTarget
         this.activeListTarget = this.selectedUserPromptsTarget
@@ -49,14 +49,14 @@ export default class extends Controller {
     openNewUserPrompt(event) {
         event.preventDefault()
         event.stopPropagation()
-        this.showSection('new_user_prompt')
+        this.showSection('new_input')
         this.headlineTarget.innerText = 'New user prompt'
         this.hideDoneButton()
     }
 
     showSection(id) {
         // Hide all sections first
-        ['prompts', 'new_prompt', 'user_prompts', 'new_user_prompt'].forEach((sectionId) => {
+        ['prompts', 'new_prompt', 'inputs', 'new_input'].forEach((sectionId) => {
             document.getElementById(sectionId).style.display = 'none'
         })
 

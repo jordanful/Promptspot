@@ -8,10 +8,10 @@
           <%= test_suite.prompts.length == 1 ? "1 prompt" : "#{test_suite.prompts.length} prompts" %>
         </span>
       <% end %>
-      <% if test_suite.user_prompts.any? %>
+      <% if test_suite.inputs.any? %>
         against
         <span class="text-gray-900">
-          <%= test_suite.user_prompts.length == 1 ? "1 user prompt" : "#{test_suite.user_prompts.length} user prompts" %>
+          <%= test_suite.inputs.length == 1 ? "1 user prompt" : "#{test_suite.user_prompts.length} user prompts" %>
         </span>
       <% end %>
     </div>

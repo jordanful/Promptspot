@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_083001) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_09_093423) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,6 +19,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_083001) do
     t.string "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "inputs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "text"
+    t.uuid "account_id"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
   end
 
   create_table "model_providers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -73,7 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_083001) do
   create_table "test_run_details", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "test_run_id"
     t.uuid "prompt_id"
-    t.uuid "user_prompt_id"
+    t.uuid "input_id"
     t.string "output"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -86,16 +95,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_083001) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "test_suite_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "test_suite_inputs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "test_suite_id"
-    t.uuid "prompt_id"
+    t.uuid "input_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "test_suite_user_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "test_suite_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "test_suite_id"
-    t.uuid "user_prompt_id"
+    t.uuid "prompt_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -108,15 +117,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_083001) do
     t.uuid "account_id"
     t.boolean "archived", default: false
     t.index ["account_id"], name: "index_test_suites_on_account_id"
-  end
-
-  create_table "user_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "text"
-    t.uuid "account_id"
-    t.uuid "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "title"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

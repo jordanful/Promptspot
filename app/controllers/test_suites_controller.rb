@@ -9,7 +9,7 @@ class TestSuitesController < ApplicationController
 
   def new
     @test_suite = current_account.test_suites.new
-    load_prompts_and_user_prompts
+    load_prompts_and_inputs
   end
 
   def create
@@ -19,7 +19,7 @@ class TestSuitesController < ApplicationController
     if @test_suite.save
       redirect_to @test_suite, notice: 'Test created.'
     else
-      load_prompts_and_user_prompts
+      load_prompts_and_inputs
       Rails.logger.info @test_suite.errors.inspect
       flash.now[:alert] = @test_suite.errors.full_messages.join(', ')
       render :new
@@ -42,7 +42,7 @@ class TestSuitesController < ApplicationController
   end
 
   def edit
-    load_prompts_and_user_prompts
+    load_prompts_and_inputs
   end
 
   def update
@@ -66,9 +66,9 @@ class TestSuitesController < ApplicationController
     end
   end
 
-  def load_prompts_and_user_prompts
+  def load_prompts_and_inputs
     @prompts = current_account.prompts
-    @user_prompts = current_account.user_prompts
+    @inputs = current_account.inputs
   end
 
   def set_test_suite
@@ -76,6 +76,6 @@ class TestSuitesController < ApplicationController
   end
 
   def test_suite_params
-    params.require(:test_suite).permit(:name, prompt_ids: [], user_prompt_ids: [])
+    params.require(:test_suite).permit(:name, prompt_ids: [], input_ids: [])
   end
 end

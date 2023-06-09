@@ -33,7 +33,7 @@
   <br/>
 
   <div class="field flex flex-col my-4 inline-flex">
-    <%= form.hidden_field :user_prompt_ids, multiple: true, data: { target: 'prompt-panel.userPromptIds' } %>
+    <%= form.hidden_field :input_ids, multiple: true, data: { target: 'prompt-panel.inputIds' } %>
     <div class="flex flex-row items-center">
 
       <button type="button" data-action="click->prompt-panel#openUserPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium">
@@ -73,16 +73,16 @@
           <%= render partial: 'prompts/prompt', locals: { prompt: prompt } %>
         <% end %>
       </div>
-      <div id="user_prompts" style="display:none;">
-        <% @user_prompts.each do |user_prompt| %>
-          <%#= render partial: 'user_prompts/prompt', locals: { user_prompt: user_prompt } %>
+      <div id="inputs" style="display:none;">
+        <% @inputs.each do |input| %>
+          <%#= render partial: 'inputs/input', locals: { user_prompt: user_prompt } %>
         <% end %>
       </div>
       <div id="new_prompt" style="display:none;">
         <%= render partial: 'prompts/mini-form', locals: { prompt: Prompt.new } %>
       </div>
-      <div id="new_user_prompt" style="display:none;">
-        <%#= render partial: 'user_prompts/form' %>
+      <div id="new_input" style="display:none;">
+        <%#= render partial: 'inputs/form' %>
       </div>
     </div>
   </div>

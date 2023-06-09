@@ -1,19 +1,19 @@
 import {Controller} from "stimulus";
 
 export default class extends Controller {
-    static targets = ["output", "userPrompt", "spinner", "submitButton", "form", "model", "modal", "overlay", "preview"]
+    static targets = ["output", "input", "spinner", "submitButton", "form", "model", "modal", "overlay", "preview"]
 
     submitForm(event) {
         event.preventDefault();
         this.beforeSend()
         let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
         let model = this.modelTarget.value;
-        let userPrompt = this.userPromptTarget.value;
+        let userPrompt = this.inputTarget.value;
         let systemPromptElement = document.getElementById('system-prompt');
         let systemPrompt = systemPromptElement.value;
         let params = new URLSearchParams();
         params.append('system_prompt', systemPrompt);
-        params.append('user_prompt', userPrompt);
+        params.append('input', input);
         params.append('model', model);
 
         fetch('/prompts/' + this.formTarget.dataset.previewPromptId + '/version/preview', {

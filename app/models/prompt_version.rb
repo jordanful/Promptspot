@@ -5,7 +5,7 @@ class PromptVersion < ApplicationRecord
   validates :version_number, presence: true
   before_create :generate_prompt_summary
   before_create :set_version_number
-  attr_accessor :save_user_prompt
+  attr_accessor :save_input
 
   private
 
