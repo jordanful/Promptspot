@@ -13,11 +13,16 @@ class TestSuitesController < ApplicationController
   end
 
   def create
-    @test_suite = current_account.test_suites.new(test_suite_params)
+    @test_suite = TestSuite.new(test_suite_params)
     @test_suite.user_id = current_user.id
     @test_suite.account_id = current_account.id
     if @test_suite.save
-      redirect_to @test_suite, notice: 'Test created.'
+      if params[:data_action] == 'run_now'
+        @test_suite.run
+        redirect_to test_suite_test_run_path(@test_suite.test_runs.last), notice: 'Test created and queued.'
+      else
+        redirect_to test_suites_path, notice: 'Test created.'
+      end
     else
       load_prompts_and_inputs
       Rails.logger.info @test_suite.errors.inspect

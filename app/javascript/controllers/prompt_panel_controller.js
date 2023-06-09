@@ -1,7 +1,7 @@
 import {Controller} from "stimulus"
 
 export default class extends Controller {
-    static targets = ["panel", "doneButton", "list", "promptIds", "userPromptIds", "selectedPrompts", "selectedUserPrompts", "headline", "search", "overlay"]
+    static targets = ["panel", "doneButton", "list", "prompt", "input", "promptIds", "inputIds", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea"]
 
     connect() {
         this.handleClick = this.handleClick.bind(this)
@@ -33,24 +33,25 @@ export default class extends Controller {
         event.stopPropagation()
         this.showSection('new_prompt')
         this.headlineTarget.innerText = 'New prompt'
+        this.newPromptTextAreaTarget.focus()
         this.hideDoneButton()
     }
 
-    openUserPrompt(event) {
+    openInput(event) {
         event.preventDefault()
         event.stopPropagation()
         this.showSection('inputs')
-        this.headlineTarget.innerText = 'Select one or more prompts'
-        this.activeTarget = this.userPromptIdsTarget
-        this.activeListTarget = this.selectedUserPromptsTarget
+        this.headlineTarget.innerText = 'Select one or more inputs'
+        this.activeTarget = this.inputIdsTarget
+        this.activeListTarget = this.selectedInputsTarget
         this.showDoneButton()
     }
 
-    openNewUserPrompt(event) {
+    openNewInput(event) {
         event.preventDefault()
         event.stopPropagation()
         this.showSection('new_input')
-        this.headlineTarget.innerText = 'New user prompt'
+        this.headlineTarget.innerText = 'New input'
         this.hideDoneButton()
     }
 
@@ -95,14 +96,31 @@ export default class extends Controller {
         const promptId = event.currentTarget.dataset.promptId
         if (!this.activeTarget.value.split(',').includes(promptId)) {
             this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${promptId}` : promptId
-            // Update the this.activeListTarget with the selected prompt
+            // Add 'selected' class to highlight this prompt
+            event.currentTarget.classList.add('selected')
+        } else {
+            this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== promptId).join(',')
+            // Remove 'selected' class since this prompt is deselected
+            event.currentTarget.classList.remove('selected')
         }
+        // Update the this.activeListTarget with the selected or deselected prompt
     }
 
-    deselectPrompt(event) {
+
+    selectInput(event) {
         event.preventDefault()
-        const promptId = event.currentTarget.dataset.promptId
-        this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== promptId).join(',')
-        // Update the this.activeListTarget by removing the deselected prompt
+        const inputId = event.currentTarget.dataset.inputId
+        if (!this.activeTarget.value.split(',').includes(inputId)) {
+            this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${inputId}` : inputId
+            // Add 'selected' class to highlight this input
+            event.currentTarget.classList.add('selected')
+        } else {
+            this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== inputId).join(',')
+            // Remove 'selected' class since this input is deselected
+            event.currentTarget.classList.remove('selected')
+        }
+        // Update the this.activeListTarget with the selected or deselected input
     }
+
+
 }

@@ -14,7 +14,7 @@
 
   <%= form.fields_for :prompt_versions, prompt.prompt_versions.build do |prompt_version_form| %>
     <div class="field flex flex-col">
-      <%= prompt_version_form.text_area :text, value: "", class: "rounded-md border-gray-300 font-mono text-lg", rows: 12, placeholder: "Enter your prompt" %>
+      <%= prompt_version_form.text_area :text, value: "", class: "rounded-md border-gray-300 font-mono text-lg", rows: 12, placeholder: "Enter your prompt", 'data-prompt-panel-target': 'newPromptTextArea' %>
     </div>
   <% end %>
 

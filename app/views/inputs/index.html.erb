@@ -1,0 +1,24 @@
+<div class="flex justify-end items-center mb-6">
+
+  <%= link_to 'New input', new_input_path, class: "rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium" %>
+</div>
+<% if @inputs.length > 0 %>
+  <div class="mb-6 flex items-center">
+
+    <div class="flex items-center" data-controller="checkbox">
+      <input type="checkbox" id="show-archived" data-checkbox-target="checkbox" class="rounded-sm border border-gray-300 mr-2"/>
+      <label for="show-archived">Show archived inputs</label>
+    </div>
+  </div>
+<% end %>
+
+<% if @inputs.length > 0 %>
+  <div class="grid grid-cols-1 sm:gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
+    <%= render 'inputs' %>
+  </div>
+<% else %>
+  <div class="text-center mt-24">
+    <p class="text-gray-500">No inputs
+      yet. <%= link_to 'Create an input', new_input_path, class: 'text-black hover:underline' %></p>
+  </div>
+<% end %>

@@ -15,7 +15,7 @@ class PromptVersionsController < ApplicationController
   end
 
   def preview
-    input = UserPrompt.find_or_initialize_by(text: params[:input], account_id: current_user.account.id)
+    input = Input.find_or_initialize_by(text: params[:input], account_id: current_user.account.id)
     input.user_id = current_user.id
     input.save
     prompt = params[:system_prompt] + '/n/n' + params[:input]

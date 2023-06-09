@@ -8,6 +8,10 @@ class Prompt < ApplicationRecord
 
   validates :status, presence: true, inclusion: { in: %w(active archived) }
 
+  def current
+    prompt_versions.order(version_number: :desc).first
+  end
+
   def archive!
     update!(status: 'archived')
   end

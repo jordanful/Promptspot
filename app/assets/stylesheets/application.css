@@ -14,7 +14,9 @@
  *= require_self
  */
 
-/* CSS */
+.selected {
+    background-color: #cce4f6;
+}
 
 .panel-open {
     transform: translateX(0) !important;
