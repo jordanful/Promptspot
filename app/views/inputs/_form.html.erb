@@ -1,4 +1,4 @@
-<%= form_with(model: @input, local: true) do |form| %>
+<%= form_with(model: @input, local: true, class: 'flex-grow') do |form| %>
 
   <% if @input.errors.any? %>
     <div id="error_explanation">
@@ -12,9 +12,9 @@
     </div>
   <% end %>
 
-  <div class="field flex flex-col mt-4">
+  <div class="field flex flex-col">
     <%= form.label :text, class: "font-medium mb-1" %>
-    <%= form.text_area :text, id: :input_text, class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your text" %>
+    <%= form.text_area :text, id: :input_text, autofocus: true, class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter or paste your input text" %>
   </div>
 
   <div class="actions mt-4 flex flex-row">

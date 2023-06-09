@@ -1,4 +1,37 @@
-<div class="md:w-2/3 w-full">
+<div class="w-full">
   <h1 class="text-2xl mb-6">New input</h1>
-  <%= render partial: "form", locals: { input: @input } %>
+  <div class="justify-between flex items-start">
+    <div class="w-2/3">
+
+      <%= render partial: "form", locals: { input: @input } %>
+    </div>
+    <div class="ml-10 mt-8 w-1/3">
+
+      <p class="text-gray-400 text-base">
+        Inputs are the values you want to test against your prompts. They can be anything from a single word to a full
+        paragraph. Often times this includes dynamic and structured values, such as user profiles or relevant data.
+      </p>
+      <div class="bg-gray-100 p-3 text-gray-700 rounded-md mt-4 font-mono text-sm">
+        User profile:
+        <br/>
+        Name: Alice Lee
+        <br/>
+        Age: 29
+        <br/>
+        Favorite hotels: 1) Ace Hotel in New Orleans, 2) Hotel San Fernando in Mexico City, 3) Blackberry Farms in TN
+        <br/>
+        Hobbies and interests: fitness, art museums, music festivals
+        <br/>
+        ...
+      </div>
+      <div class="bg-gray-100 p-3 text-gray-700 rounded-md mt-4 font-mono text-sm">
+
+        | Hotel Name | Check-in | Amount | Status |
+        |--- | --- | --- | --- I
+        | Ace Hotel | Jan 6th, 2023 | $371.87 | Complete |
+        | Hotel San Fernando | Dec 6th, 2023 | $170.53 | Needs memo | | Target | March 5th, 2023 | $84.91 | Confirmed |
+        | Gleneagles | Jun 17, 2023 | $490.90 | Cancelled |
+      </div>
+    </div>
+  </div>
 </div>

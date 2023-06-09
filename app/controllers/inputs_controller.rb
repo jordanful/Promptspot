@@ -1,7 +1,7 @@
 class InputsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_user!, only: %i[ show edit update destroy archive unarchive ]
   before_action :set_input, only: %i[ show edit update destroy archive unarchive authorize_user!  ]
+  before_action :authorize_user!, only: %i[ show edit update destroy archive unarchive ]
 
   def index
     @inputs = current_account.inputs
@@ -20,6 +20,17 @@ class InputsController < ApplicationController
 
   def create
     @input = Input.new(input_params)
+    @input.account_id = current_account.id
+    @input.user_id = current_user.id
+    respond_to do |format|
+      if @input.save
+        format.html { redirect_to inputs_url, notice: "👍 All set." }
+        format.json { render :show, status: :created, location: @input }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @input.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

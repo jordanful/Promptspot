@@ -1,6 +1,7 @@
 class PromptsController < ApplicationController
   before_action :set_prompt, only: %i[ show edit update destroy archive unarchive create_draft ]
   before_action :authenticate_user!
+  before_action :authorize_user!, except: %i[ index create_draft create destroy ]
 
   # GET /prompts or /prompts.json
   def index
@@ -144,6 +145,12 @@ class PromptsController < ApplicationController
 
   def prompt_draft_params
     params.permit(:text)
+  end
+
+  def authorize_user!
+    unless current_user.account.id == @prompt.account_id
+      redirect_to prompts_path, notice: "You do not have access to that prompt."
+    end
   end
 
 end
