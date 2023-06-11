@@ -1,6 +1,6 @@
-# Hotelbot Rails
+# PromptSpot
 
-This is a Rails 7 application that manages prompts for the HotelBot prototype.
+This is a Rails 7 application that manages and tests prompts and inputs.
 
 ## Getting Started
 

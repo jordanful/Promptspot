@@ -51,7 +51,12 @@ export default class extends Controller {
         this.headlineTarget.innerText = 'New prompt'
         this.newPromptTextAreaTarget.focus()
         this.hideDoneButton()
+        this.activeType = 'prompt'
+        this.activeSection = document.getElementById('prompts')
+        this.activeTarget = this.promptIdsTarget
+        this.activeListTarget = this.selectedPromptsTarget
     }
+
 
     openNewInput(event) {
         event.preventDefault()
@@ -92,13 +97,6 @@ export default class extends Controller {
         }
         this.overlayTarget.classList.remove('overlay-open')
         this.panelTarget.classList.remove('panel-open')
-    }
-
-
-    search(event) {
-        // Handle search logic here
-        // Probably make a server request to filter the prompts
-        // And update the this.listTarget
     }
 
     selectPrompt(event) {
@@ -146,6 +144,7 @@ export default class extends Controller {
         this.activeListTarget.innerHTML = ''
         const ids = this.activeTarget.value.split(',')
         ids.forEach((id) => {
+            console.log(`id: ${id}`)
             const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${id}"]`)
             if (selectedElement) {
                 const title = selectedElement.querySelector('.title').innerText
@@ -160,6 +159,7 @@ export default class extends Controller {
             }
         })
         this.setupRemoveButtons()
+
     }
 
 
@@ -180,6 +180,10 @@ export default class extends Controller {
                 pill.remove()
             })
         })
+    }
+
+    reset() {
+        this.newPromptTextAreaTarget.value = ''; // clear the textarea
     }
 
     async createPrompt(event) {
@@ -222,61 +226,7 @@ export default class extends Controller {
             // The prompt has been created successfully
             // Now add it to the list of prompts and select it
             this.activeTarget.value = responseData.id;
-            this.activeSectionTarget.insertAdjacentHTML('beforeend', `
-            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 selected"
-                data-action="click->prompt-panel#selectPrompt"
-                data-prompt-panel-target="prompt"
-                data-prompt-id="${responseData.id}">
-            <p class="text-base mb-2 title">${responseData.title}</p>
-            <p class="text-gray-600 text-sm font-mono">${responseData.text}</p>
-            </div>
-        `);
-            this.showSection('prompts');
-            this.updateSelectedPromptsOrInputsView();
-            this.close(event)
-        } else {
-            // An error occurred, show the error messages
-            this.activeSectionTarget.insertAdjacentHTML('beforeend', `
-            <div class="alert alert-danger">
-            <p>${responseData.error}</p>
-            </div>
-        `);
-
-        }
-
-
-    }
-
-    async createPrompt(event) {
-        const newPromptText = this.newPromptTextAreaTarget.value;
-
-        // Get CSRF token
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        const response = await fetch('/prompts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-Token': csrfToken,
-            },
-            body: JSON.stringify({
-                prompt: {
-                    status: 'active',
-                    prompt_versions_attributes: [
-                        {text: newPromptText}
-                    ]
-                }
-            }),
-        });
-
-        const responseData = await response.json();
-
-        if (response.ok) {
-            // The prompt has been created successfully
-            // Now add it to the list of prompts and select it
-            this.promptIdsTarget.value = responseData.id;
-            this.listTarget.insertAdjacentHTML('beforeend', `
+            this.activeSection.insertAdjacentHTML('beforeend', `
             <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 selected"
                 data-action="click->prompt-panel#selectPrompt"
                 data-prompt-panel-target="prompt"
@@ -288,14 +238,14 @@ export default class extends Controller {
             this.showSection('prompts');
             this.updateSelectedPromptsOrInputsView();
             this.close(event);
+            this.reset();
         } else {
             // An error occurred, show the error messages
-            this.listTarget.insertAdjacentHTML('beforeend', `
+            this.activeSection.insertAdjacentHTML('beforeend', `
             <div class="alert alert-danger">
             <p>${responseData.error}</p>
             </div>
         `);
         }
     }
-
 }

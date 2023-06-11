@@ -32,6 +32,7 @@ gem "jbuilder"
 gem "rails_feather"
 gem "devise"
 gem "diffy"
+gem "good_job"
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
 

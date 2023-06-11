@@ -11,13 +11,24 @@
       <% if test_suite.inputs.any? %>
         against
         <span class="text-gray-900">
-          <%= test_suite.inputs.length == 1 ? "1 user prompt" : "#{test_suite.user_prompts.length} user prompts" %>
+          <%= test_suite.inputs.length == 1 ? "1 input" : "#{test_suite.user_prompts.length} inputs" %>
         </span>
       <% end %>
     </div>
+    <% if test_suite.models.length > 0 %>
+      <p>
+        <span class="font-mono text-sm rounded-full bg-gray-200 px-2 py-1 flex items-center justify-center"><%= test_suite.models.first.name %></span>
+        <% if test_suite.models.length > 1 %>
+          and <%= test_suite.models.length - 1 %> other model<%= test_suite.models.length > 2 ? "s" : "" %>
+        <% end %>
+      </p>
+    <% end %>
   </div>
   <% if test_suite.test_runs.length > 0 %>
-    <p>Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %> ago</p>
+    <% if test_suite.test_runs.last.run_time %>
+      <p>Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %> ago</p>
+    <% end %>
+    <p class="ml-2">Status: <%= test_suite.test_runs.last.status.titleize %></p>
   <% end %>
 
   <div class="flex items-center">
@@ -30,12 +41,11 @@
       <p>Archive</p>
     <% end %>
     <% if test_suite.configured? %>
-      <div class="flex items-center flex-col">
-        <div class="flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer ">
-          <%= feather_icon "play", class: "w-4 mr-2" %>
-          <p>Run</p>
-        </div>
+      <%= button_to test_suite_test_runs_path(test_suite), class: "flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer" do %>
+        <%= feather_icon "play", class: "w-4 mr-2" %>
+        <p>Run</p>
+      <% end %>
       </div>
     <% end %>
-  </div>
+    </div>
 </div>

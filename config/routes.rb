@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     end
   end
   resources :test_runs, only: [:show]
-  
+
   resources :inputs do
     post 'archive', on: :member
     post 'unarchive', on: :member
@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :accounts
   resources :organizations
 
+  mount GoodJob::Engine => 'jobs'
   # Defines the root path route ("/")
   root "test_suites#index"
 end

@@ -44,7 +44,6 @@ class PromptsController < ApplicationController
         end
         format.html { redirect_to @prompt, notice: '👍 Created.' }
         format.json { render :show, status: :created, location: @prompt }
-
       else
         format.html {
           flash.now[:error] = 'There was an issue creating the prompt. Our team has been alerted.'

@@ -8,10 +8,10 @@
         <% if inputs.length > 0 %>
           <div data-tab-target="tab" class="w-full flex justify-between items-center rounded-md border text-base shadow-sm font-medium border-gray-300 mb-4">
             <div class="w-1/2 flex justify-center items-center bg-white text-black w-full h-full rounded-l-md p-3 cursor-pointer" data-tab="new" data-action="click->tab#toggle">
-              New user prompt
+              New input
             </div>
             <div class="w-1/2 flex justify-center items-center bg-slate-100 text-gray-600 hover:bg-slate-50 rounded-r-md p-3 cursor-pointer" data-tab="saved" data-action="click->tab#toggle">
-              Saved user prompts
+              Saved inputs
             </div>
           </div>
         <% end %>
@@ -23,13 +23,13 @@
                 <strong><%= input.title %></strong>
               </div>
             <% else %>
-              <span class="dropdown-text text-gray-600">Select a prompt</span>
+              <span class="dropdown-text text-gray-600">Select an input</span>
             <% end %>
             <div class="arrow mr-1"></div>
           </button>
 
           <div class="dropdown-menu w-full bg-white shadow border-gray-300 border rounded-md flex flex-col mt-1 overflow-y-auto max-h-56" style="display:none" data-dropdown-target="menu">
-            <% input.each do |prompt| %>
+            <% inputs.each do |prompt| %>
               <div class="dropdown-item flex flex-col cursor-pointer hover:bg-blue-50 p-3" data-id="<%= prompt.id %>" data-action="click->dropdown#select">
                 <div class="dropdown-item-title mb-1 font-medium"><%= prompt.title %></div>
                 <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= prompt.text %></div>

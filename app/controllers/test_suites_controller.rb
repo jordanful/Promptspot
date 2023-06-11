@@ -9,10 +9,14 @@ class TestSuitesController < ApplicationController
 
   def new
     @test_suite = current_account.test_suites.new
-    load_prompts_and_inputs
+    load_prompts_and_inputs_and_models
   end
 
   def create
+    test_suite_params = test_suite_params()
+    test_suite_params[:input_ids] = test_suite_params[:input_ids].first.split(',')
+    test_suite_params[:prompt_ids] = test_suite_params[:prompt_ids].first.split(',')
+    test_suite_params[:model_ids] = test_suite_params[:model_ids].first.split(',')
     @test_suite = TestSuite.new(test_suite_params)
     @test_suite.user_id = current_user.id
     @test_suite.account_id = current_account.id
@@ -24,7 +28,7 @@ class TestSuitesController < ApplicationController
         redirect_to test_suites_path, notice: 'Test created.'
       end
     else
-      load_prompts_and_inputs
+      load_prompts_and_inputs_and_models
       Rails.logger.info @test_suite.errors.inspect
       flash.now[:alert] = @test_suite.errors.full_messages.join(', ')
       render :new
@@ -47,10 +51,13 @@ class TestSuitesController < ApplicationController
   end
 
   def edit
-    load_prompts_and_inputs
+    load_prompts_and_inputs_and_models
   end
 
   def update
+    test_suite_params[:input_ids] = test_suite_params[:input_ids].first.split(',')
+    test_suite_params[:prompt_ids] = test_suite_params[:prompt_ids].first.split(',')
+    test_suite_params[:model_ids] = test_suite_params[:model_ids].first.split(',')
     if @test_suite.update(test_suite_params)
       redirect_to @test_suite, notice: 'Test suite was successfully updated.'
     else
@@ -71,9 +78,10 @@ class TestSuitesController < ApplicationController
     end
   end
 
-  def load_prompts_and_inputs
-    @prompts = current_account.prompts
+  def load_prompts_and_inputs_and_models
+    @prompts = current_account.prompts.active.order_by_recently_updated
     @inputs = current_account.inputs
+    @models = Model.all.where(enabled: true)
   end
 
   def set_test_suite
@@ -81,6 +89,6 @@ class TestSuitesController < ApplicationController
   end
 
   def test_suite_params
-    params.require(:test_suite).permit(:name, prompt_ids: [], input_ids: [])
+    params.require(:test_suite).permit(:name, prompt_ids: [], input_ids: [], model_ids: [])
   end
 end
