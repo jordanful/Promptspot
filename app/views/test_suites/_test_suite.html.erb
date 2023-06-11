@@ -15,22 +15,19 @@
         </span>
       <% end %>
     </div>
-    <% if test_suite.models.length > 0 %>
-      <p>
-        <span class="font-mono text-sm rounded-full bg-gray-200 px-2 py-1 flex items-center justify-center"><%= test_suite.models.first.name %></span>
-        <% if test_suite.models.length > 1 %>
-          and <%= test_suite.models.length - 1 %> other model<%= test_suite.models.length > 2 ? "s" : "" %>
-        <% end %>
-      </p>
+    <div class="flex flex-wrap items-center mt-2">
+      <% test_suite.models.each do |m| %>
+        <p class="font-mono font-medium text-gray-600 text-xs rounded-full bg-gray-200 px-2 py-1 mr-2 flex items-center justify-center"><%= m.name %>
+        </p>
+      <% end %>
+    </div>
+    <% if test_suite.test_runs.length > 0 %>
+      <% if test_suite.test_runs.last.run_time %>
+        <p>Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %> ago</p>
+      <% end %>
+      <p class="ml-2">Status: <%= test_suite.test_runs.last.status.titleize %></p>
     <% end %>
   </div>
-  <% if test_suite.test_runs.length > 0 %>
-    <% if test_suite.test_runs.last.run_time %>
-      <p>Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %> ago</p>
-    <% end %>
-    <p class="ml-2">Status: <%= test_suite.test_runs.last.status.titleize %></p>
-  <% end %>
-
   <div class="flex items-center">
     <%= link_to edit_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer ' do %>
       <%= feather_icon "settings", class: "w-4 mr-2" %>
