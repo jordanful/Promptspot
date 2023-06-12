@@ -3,7 +3,7 @@ class RunTestJob < ApplicationJob
 
   def perform(test_run_detail)
     test_run_detail.update!(status: 'running')
-    output = test_run_detail.prompt.prompt_versions.order(version_number: :desc).first.generate(test_run_detail.input, test_run_detail.model)
+    output = test_run_detail.prompt_version.generate(test_run_detail.input, test_run_detail.model)
     test_run_detail.update!(output: output, status: 'complete')
     test_run_detail.test_run.check_and_update_status
   rescue StandardError => e

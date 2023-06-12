@@ -13,7 +13,7 @@ class TestRun < ApplicationRecord
   private
 
   def run
-    self.update!(status: 'running', run_time: run_time)
+    self.update!(status: 'running', run_time: Time.now)
     test_suite.prompts.each do |prompt|
       test_suite.inputs.each do |input|
         test_suite.models.each do |model|
@@ -21,6 +21,7 @@ class TestRun < ApplicationRecord
             test_run_id: id,
             status: 'queued',
             prompt: prompt,
+            prompt_version: prompt.current,
             input: input,
             model: model
           )

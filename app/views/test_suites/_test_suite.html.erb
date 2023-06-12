@@ -1,4 +1,4 @@
-<div class="flex flex-row justify-between items-center bg-white p-6 rounded-lg shadow-md">
+<div class="flex flex-row justify-between items-center bg-white p-6 rounded-lg shadow-md mb-6">
   <div class="flex items-start flex-col justify-start">
     <p class="text-2xl"><%= test_suite.name.titleize %></p>
     <div class="text-gray-400 mt-3">
@@ -11,7 +11,7 @@
       <% if test_suite.inputs.any? %>
         against
         <span class="text-gray-900">
-          <%= test_suite.inputs.length == 1 ? "1 input" : "#{test_suite.user_prompts.length} inputs" %>
+          <%= test_suite.inputs.length == 1 ? "1 input" : "#{test_suite.inputs.length} inputs" %>
         </span>
       <% end %>
     </div>
@@ -21,14 +21,15 @@
         </p>
       <% end %>
     </div>
-    <% if test_suite.test_runs.length > 0 %>
-      <% if test_suite.test_runs.last.run_time %>
-        <p>Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %> ago</p>
-      <% end %>
-      <p class="ml-2">Status: <%= test_suite.test_runs.last.status.titleize %></p>
-    <% end %>
   </div>
   <div class="flex items-center">
+    <% if test_suite.test_runs.length > 0 %>
+      <% if test_suite.test_runs.last.run_time %>
+        <p class="text-small text-gray-400 mr-6">Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %>
+          ago</p>
+      <% end %>
+      <!--      <p class="ml-2">Status: <%#= test_suite.test_runs.last.status.titleize %></p>-->
+    <% end %>
     <%= link_to edit_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer ' do %>
       <%= feather_icon "settings", class: "w-4 mr-2" %>
       <p>Configure</p>

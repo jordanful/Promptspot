@@ -2,8 +2,6 @@
   <%= link_to 'New test', new_test_suite_path, class: "rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer" %>
 </div>
 <% if @test_suites.length > 0 %>
-
-
   <div class="flex flex-col">
     <% @test_suites.each do |test_suite| %>
       <%= render 'test_suite', test_suite: test_suite %>

@@ -1,0 +1,31 @@
+<div class="flex items-center justify-between">
+  <h1 class="text-2xl"><%= @test_run.test_suite.name.titleize %></h1>
+  <p class="text-lg text-gray-600"><%= @test_run.run_time.strftime('%B %e, %l:%M %p') %></p>
+</div>
+<ul class="text-gray-400">
+  <li>Archive</li>
+  <li>Share</li>
+  <li>Run again</li>
+</ul>
+
+<table class="table mt-12 bg-white w-full rounded-lg">
+  <thead>
+  <tr>
+    <th class="text-left p-4">Model</th>
+    <th class="text-left p-4">Prompt</th>
+    <th class="text-left p-4">Input</th>
+    <th class="text-left p-4">Output</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @test_run.test_run_details.each do |details| %>
+    <tr>
+      <td class="font-mono text-left p-4"><%= details.model.name %></td>
+      <td class="font-mono text-left p-4"><%= details.prompt_version.text %></td>
+      <td class="font-mono text-left p-4"><%= details.input.text %></td>
+      <td class="font-mono text-left p-4"><%= details.output %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
