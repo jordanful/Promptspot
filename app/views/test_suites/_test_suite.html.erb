@@ -1,49 +1,72 @@
-<div class="flex flex-row justify-between items-center bg-white p-6 rounded-lg shadow-md mb-6">
-  <div class="flex items-start flex-col justify-start">
-    <p class="text-2xl"><%= test_suite.name.titleize %></p>
-    <div class="text-gray-400 mt-3">
-      Testing
-      <% if test_suite.prompts.any? %>
+<div class="flex flex-col bg-white p-6 rounded-lg shadow-md mb-6">
+  <div class="flex flex-row justify-between items-center">
+    <div class="flex items-start flex-col justify-start">
+      <p class="text-2xl"><%= test_suite.name.titleize %></p>
+      <div class="text-gray-400 mt-3">
+        Testing
+        <% if test_suite.prompts.any? %>
         <span class="text-gray-900">
           <%= test_suite.prompts.length == 1 ? "1 prompt" : "#{test_suite.prompts.length} prompts" %>
         </span>
-      <% end %>
-      <% if test_suite.inputs.any? %>
-        against
-        <span class="text-gray-900">
+        <% end %>
+        <% if test_suite.inputs.any? %>
+          against
+          <span class="text-gray-900">
           <%= test_suite.inputs.length == 1 ? "1 input" : "#{test_suite.inputs.length} inputs" %>
         </span>
-      <% end %>
+        <% end %>
+      </div>
+      <div class="flex flex-wrap items-center mt-2">
+        <% test_suite.models.each do |m| %>
+          <p class="font-mono font-medium text-gray-600 text-xs rounded-full bg-gray-200 px-2 py-1 mr-2 flex items-center justify-center"><%= m.name %>
+          </p>
+        <% end %>
+      </div>
     </div>
-    <div class="flex flex-wrap items-center mt-2">
-      <% test_suite.models.each do |m| %>
-        <p class="font-mono font-medium text-gray-600 text-xs rounded-full bg-gray-200 px-2 py-1 mr-2 flex items-center justify-center"><%= m.name %>
-        </p>
+    <div class="flex items-center">
+      <% if test_suite.test_runs.length > 0 %>
+        <% if test_suite.test_runs.last.run_time %>
+          <p class="text-small text-gray-400 mr-6">Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %>
+            ago</p>
+        <% end %>
+        <!--      <p class="ml-2">Status: <%#= test_suite.test_runs.last.status.titleize %></p>-->
       <% end %>
-    </div>
-  </div>
-  <div class="flex items-center">
-    <% if test_suite.test_runs.length > 0 %>
-      <% if test_suite.test_runs.last.run_time %>
-        <p class="text-small text-gray-400 mr-6">Last ran <%= time_ago_in_words(test_suite.test_runs.last.run_time) %>
-          ago</p>
+      <%= link_to edit_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer ' do %>
+        <%= feather_icon "settings", class: "w-4 mr-2" %>
+        <p>Configure</p>
       <% end %>
-      <!--      <p class="ml-2">Status: <%#= test_suite.test_runs.last.status.titleize %></p>-->
-    <% end %>
-    <%= link_to edit_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer ' do %>
-      <%= feather_icon "settings", class: "w-4 mr-2" %>
-      <p>Configure</p>
-    <% end %>
-    <%= button_to archive_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer ' do %>
-      <%= feather_icon "archive", class: "w-4 mr-2" %>
-      <p>Archive</p>
-    <% end %>
-    <% if test_suite.configured? %>
-      <%= button_to test_suite_test_runs_path(test_suite), class: "flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer" do %>
-        <%= feather_icon "play", class: "w-4 mr-2" %>
-        <p>Run</p>
+      <%= button_to archive_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer ' do %>
+        <%= feather_icon "archive", class: "w-4 mr-2" %>
+        <p>Archive</p>
+      <% end %>
+      <% if test_suite.configured? %>
+        <%= button_to test_suite_test_runs_path(test_suite), class: "flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer" do %>
+          <%= feather_icon "play", class: "w-4 mr-2" %>
+          <p>Run</p>
+        <% end %>
+        </div>
       <% end %>
       </div>
-    <% end %>
-    </div>
+  <% if test_suite.test_runs.length > 0 %>
+    <table>
+      <thead>
+      <tr>
+        <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Run Time</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% test_suite.test_runs.each do |test_run| %>
+        <tr>
+          <td class="border px-4 py-2"><%= test_run.status.titleize %></td>
+          <td class="border px-4 py-2"><%= test_run.run_time %></td>
+          <td class="border px-4 py-2">Details</td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>
+
+
