@@ -18,7 +18,7 @@ class PromptsController < ApplicationController
   end
 
   def edit
-    @inputs = current_account.inputs.order(updated_at: :desc)
+    @inputs = @current_account.inputs.order(updated_at: :desc)
     @models = Model.where(enabled: true).order(Arel.sql("CASE WHEN name = 'text-davinci-003' THEN 0 WHEN name = 'gpt-3.5-turbo' THEN 1 ELSE 2 END, name"))
     if params[:draft].present?
       @prompt_draft = PromptDraft.find(params[:draft])
@@ -103,7 +103,7 @@ class PromptsController < ApplicationController
   end
 
   def archived
-    @prompts = current_account.prompts.where(status: 'archived').order(updated_at: :desc)
+    @prompts = @current_account.prompts.where(status: 'archived').order(updated_at: :desc)
     respond_to do |format|
       format.turbo_stream
       format.html { render :index }
