@@ -42,13 +42,16 @@ export default class extends Controller {
 
     setActiveTab(target) {
         this.tabTargets.forEach(t => {
-            if (t === target) {
-                t.classList.remove('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
-                t.classList.add('bg-white', 'text-black');
-            } else {
-                t.classList.add('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
-                t.classList.remove('bg-white', 'text-black');
-            }
+            t.querySelectorAll('div').forEach(div => {
+                if (div === target) {
+                    div.classList.remove('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
+                    div.classList.add('bg-white', 'text-black');
+                } else {
+                    div.classList.add('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
+                    div.classList.remove('bg-white', 'text-black');
+                }
+            });
         });
     }
+
 }
