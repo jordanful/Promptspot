@@ -42,7 +42,7 @@
   <div class="flex flex-col">
 
     <%= f.label :open_ai_api_key, 'OpenAI API key' %>
-    <%= f.text_field :open_ai_api_key, placeholder: "OpenAI API key", class: "rounded-md border-gray-300" %>
+    <%= f.text_field :open_ai_api_key, type: 'password', placeholder: "OpenAI API key", value: @current_organization.openai_api_key, class: "rounded-md border-gray-300" %>
   </div>
   <%= f.submit "Save", class: "rounded-lg py-2 ml-2 px-4 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
 <% end %>
