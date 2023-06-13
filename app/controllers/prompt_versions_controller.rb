@@ -19,7 +19,7 @@ class PromptVersionsController < ApplicationController
     input.user_id = current_user.id
     input.save
     prompt = params[:system_prompt] + '/n/n' + params[:input]
-    client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
+    client = OpenAI::Client.new(access_token: @current_organization.openai_api_key)
     response = client.completions(
       parameters: {
         model: params[:model],

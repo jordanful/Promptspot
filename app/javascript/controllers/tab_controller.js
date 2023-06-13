@@ -4,6 +4,10 @@ export default class extends Controller {
     static targets = ["tab", "newPrompt", "savedPrompts"]
 
     connect() {
+        this.initializeTabs();
+    }
+
+    initializeTabs() {
         const savedTab = localStorage.getItem('selectedTab') || 'new'
 
         if (this.savedPromptsTarget.children.length == 0) {

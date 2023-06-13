@@ -1,10 +1,10 @@
-<%= form_with(model: test_suite, local: true, data: { controller: "prompt-panel", "prompt-panel-test-suite-id-value": @test_suite.id, turbo_frame: false }, class: 'w-full xl:w-2/3') do |form| %>
-  <% if test_suite.errors.any? %>
+<%= form_with(model: @test_suite, local: true, data: { controller: "prompt-panel", "prompt-panel-test-suite-id-value": @test_suite.id, turbo_frame: false }, class: 'w-full xl:w-2/3') do |form| %>
+  <% if @test_suite.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(test_suite.errors.count, "error") %> prohibited this test_suite from being saved:</h2>
+      <h2><%= pluralize(@test_suite.errors.count, "error") %> prohibited this test_suite from being saved:</h2>
 
       <ul>
-        <% test_suite.errors.full_messages.each do |message| %>
+        <% @test_suite.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -75,7 +75,7 @@
   </div>
   <hr/>
   <div class="mt-8" data-controller="model-picker">
-    <h2 class="text-lg mb-6">Select one or more models</h2>
+    <h2 class="text-lg mb-6">Select a model</h2>
     <div data-model-picker-target="list" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4">
       <% @models.each do |m| %>
         <div data-action="click->model-picker#selectModel" data-model-id="<%= m.id %>" class="model-picker-model border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 flex inline-flex flex-col mr-3 cursor-pointer
@@ -86,9 +86,7 @@
           <p class="mt-2 text-gray-500"><%= m.description %></p>
         </div>
       <% end %>
-
     </div>
-
   </div>
 
   <div class="actions my-8 flex flex-row">
@@ -134,9 +132,9 @@
       <div id="new_prompt" class="hidden">
         <%= render partial: 'prompts/mini-form', locals: { prompt: Prompt.new } %>
       </div>
-      <div id="new_input" class="hidden">
-        <%#= render partial: 'inputs/form', locals: { input: Input.new } %>
-      </div>
+    </div>
+    <div id="new_input" class="hidden">
+      <%= render partial: 'inputs/mini-form', locals: { input: Input.new } %>
     </div>
   </div>
 <% end %>

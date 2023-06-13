@@ -11,13 +11,16 @@ export default class extends Controller {
         const modelId = event.currentTarget.dataset.modelId
         const modelInput = this.element.querySelector(`input[data-model-id="${modelId}"]`);
 
-        // Toggle selected class on the clicked model
-        event.currentTarget.classList.toggle('selected')
+        // Remove 'selected' class from all models
+        this.modelTargets.forEach(model => model.classList.remove('selected'))
 
-        if (modelInput) {
-            // If input already exists for this modelId, remove it
-            modelInput.remove();
-        } else {
+        // Remove all model input fields
+        this.element.querySelectorAll(`input[name="test_suite[model_ids][]"]`).forEach(input => input.remove());
+
+        // Add 'selected' class to the clicked model
+        event.currentTarget.classList.add('selected')
+
+        if (!modelInput) {
             // Create a new hidden input for this modelId
             const input = document.createElement("input");
             input.type = "hidden";

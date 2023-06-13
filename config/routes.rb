@@ -1,14 +1,15 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :users, only: [:show, :index]
-  resources :test_suites, path: :tests do
+  resources :test_suites, path: :suites do
     post 'create_and_run', on: :member
     post 'archive', on: :member
     resources :test_runs, path: :runs, only: [:create, :show, :index] do
+      post 'archive', on: :member
+      post 'unarchive', on: :member
       resources :test_run_details, path: :details, only: [:show]
     end
   end
-  resources :test_runs, only: [:show]
 
   resources :inputs do
     post 'archive', on: :member

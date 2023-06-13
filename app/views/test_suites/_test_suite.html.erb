@@ -48,20 +48,31 @@
       <% end %>
       </div>
   <% if test_suite.test_runs.length > 0 %>
-    <table>
-      <thead>
-      <tr>
-        <th class="px-4 py-2">Status</th>
-        <th class="px-4 py-2">Run Time</th>
-        <th></th>
-      </tr>
-      </thead>
+    <table class="mt-6 ">
       <tbody>
       <% test_suite.test_runs.each do |test_run| %>
-        <tr>
-          <td class="border px-4 py-2"><%= test_run.status.titleize %></td>
-          <td class="border px-4 py-2"><%= test_run.run_time %></td>
-          <td class="border px-4 py-2">Details</td>
+        <tr class="even:bg-blue-50 rounded-md">
+          <td class="px-4 py-2"><%= test_run.run_time.strftime('%B %e, %l:%M %p') %></td>
+          <td class="px-4 py-2">
+            <% if test_run.status == "running" %>
+              <div class="flex inline-flex rounded-md items-center justify-center bg-gray-200 px-2 py-1">
+                <div class="font-medium uppercase text-sm text-gray-800"><%= test_run.status.titleize %></div>
+              </div>
+            <% elsif test_run.status == "error" %>
+              <div class="flex inline-flex rounded-md items-center justify-center bg-red-400 px-2 py-1">
+                <div class="font-medium uppercase text-sm text-red-800"><%= test_run.status.titleize %></div>
+              </div>
+            <% elsif test_run.status == "complete" %>
+              <div class="flex inline-flex rounded-md items-center justify-center bg-green-400 px-2 py-1">
+                <div class="font-medium uppercase text-sm text-green-800"><%= test_run.status.titleize %></div>
+              </div>
+            <% end %>
+          </td>
+          <td class=" px-4 py-2">
+            <% if test_run.status != "running" %>
+              <%= link_to 'Details', test_suite_test_run_path(test_suite, test_run), class: 'text-black hover:underline' %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
       </tbody>

@@ -1,0 +1,21 @@
+<% if input.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(input.errors.count, "error") %> prohibited this input from being saved:</h2>
+
+    <ul>
+      <% input.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="field flex flex-col">
+  <textarea id="newInputText" class="rounded-md border-gray-300 font-mono text-lg" rows="12" placeholder="Type or paste your input" data-prompt-panel-target='newInputTextArea'></textarea>
+</div>
+
+<div class="flex items-center">
+  <button id="new_input_form" class='cursor-pointer mt-4 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' data-action="click->prompt-panel#createInput" data-prompt-panel-target='inputForm'>Save</button>
+  <div class="spinner ml-4 hidden" data-prompt-panel-target='spinner'/>
+</div>
+

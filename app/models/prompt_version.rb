@@ -9,7 +9,7 @@ class PromptVersion < ApplicationRecord
 
   def generate(input, model)
     full_prompt = self.text + '/n/n' + input.text
-    client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
+    client = OpenAI::Client.new(access_token: current_organization.open_ai_api_key)
     response = client.completions(
       parameters: {
         model: model.name,

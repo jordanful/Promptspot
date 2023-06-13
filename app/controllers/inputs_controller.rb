@@ -4,7 +4,7 @@ class InputsController < ApplicationController
   before_action :authorize_user!, only: %i[ show edit update destroy archive unarchive ]
 
   def index
-    @inputs = current_account.inputs
+    @inputs = @current_account.inputs
   end
 
   def show
@@ -20,7 +20,7 @@ class InputsController < ApplicationController
 
   def create
     @input = Input.new(input_params)
-    @input.account_id = current_account.id
+    @input.account_id = @current_account.id
     @input.user_id = current_user.id
     respond_to do |format|
       if @input.save
@@ -36,7 +36,7 @@ class InputsController < ApplicationController
   private
 
   def authorize_user!
-    unless @input.account_id == current_account.id
+    unless @input.account_id == @current_account.id
       redirect_to inputs_url, notice: "You are not authorized to do that."
     end
   end

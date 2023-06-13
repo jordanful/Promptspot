@@ -1,7 +1,7 @@
 import {Controller} from "stimulus"
 
 export default class extends Controller {
-    static targets = ["panel", "doneButton", "list", "prompt", "input", "promptIds", "inputIds", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea", "spinner", "form"]
+    static targets = ["panel", "doneButton", "list", "prompt", "input", "promptIds", "inputIds", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea", "newInputTextArea", "spinner", "form", "inputForm"]
 
     connect() {
         this.handleClick = this.handleClick.bind(this)
@@ -63,7 +63,12 @@ export default class extends Controller {
         event.stopPropagation()
         this.showSection('new_input')
         this.headlineTarget.innerText = 'New input'
+        this.newInputTextAreaTarget.focus()
         this.hideDoneButton()
+        this.activeType = 'input'
+        this.activeSection = document.getElementById('inputs')
+        this.activeTarget = this.inputIdsTarget
+        this.activeListTarget = this.selectedInputsTarget
     }
 
     showSection(id) {
@@ -74,6 +79,7 @@ export default class extends Controller {
 
         // Show the specific section
         document.getElementById(id).style.display = 'block'
+        console.log(document.getElementById(id))
         this.openPanel()
     }
 
@@ -184,6 +190,67 @@ export default class extends Controller {
 
     reset() {
         this.newPromptTextAreaTarget.value = ''; // clear the textarea
+        this.newInputTextAreaTarget.value = ''; // clear the textarea
+    }
+
+    async createInput(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const newInputText = this.newInputTextAreaTarget.value;
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Show spinner and disable form
+        this.spinnerTarget.style.display = 'block';
+        this.inputFormTarget.disabled = true;
+
+        const response = await fetch('/inputs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-Token': csrfToken,
+            },
+            body: JSON.stringify({
+                input: {
+                    text: newInputText
+                }
+            }),
+        });
+
+        const responseData = await response.json();
+
+        // Hide spinner and re-enable form
+        this.spinnerTarget.style.display = 'none';
+        this.inputFormTarget.disabled = false;
+
+        if (response.ok) {
+            // The input has been created successfully
+            // Now add it to the list of inputs and select it
+            this.activeTarget.value = responseData.id;
+            this.activeSection.insertAdjacentHTML('beforeend', `
+            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 selected"
+                data-action="click->prompt-panel#selectInput"
+                data-prompt-panel-target="input"
+                data-input-id="${responseData.id}">
+            <p class="text-base mb-2 title">${responseData.title}</p>
+            <p class="text-gray-600 text-sm font-mono">${responseData.text}</p>
+            </div>
+        `);
+            this.showSection('inputs');
+            this.updateSelectedPromptsOrInputsView();
+            this.close(event);
+            this.reset();
+        } else {
+            // An error occurred, show the error messages
+            this.activeSection.insertAdjacentHTML('beforeend', `
+            <div class="alert alert-danger">
+            <p>${responseData.error}</p>
+            </div>
+        `);
+        }
     }
 
     async createPrompt(event) {

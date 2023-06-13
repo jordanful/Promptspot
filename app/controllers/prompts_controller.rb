@@ -6,9 +6,9 @@ class PromptsController < ApplicationController
   # GET /prompts or /prompts.json
   def index
     @prompts = if params[:query].present?
-                 current_account.prompts.where.not(status: 'archived').where('title LIKE ?', "%#{params[:query]}%").order(updated_at: :desc)
+                 @current_account.prompts.where.not(status: 'archived').where('title LIKE ?', "%#{params[:query]}%").order(updated_at: :desc)
                else
-                 current_account.prompts.where.not(status: 'archived').order(updated_at: :desc)
+                 @current_account.prompts.where.not(status: 'archived').order(updated_at: :desc)
                end
   end
 

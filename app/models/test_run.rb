@@ -1,6 +1,7 @@
 class TestRun < ApplicationRecord
   belongs_to :test_suite
   has_many :test_run_details
+  validates :archived, inclusion: { in: [true, false] }
   after_create :run
 
   def check_and_update_status
@@ -8,6 +9,14 @@ class TestRun < ApplicationRecord
       self.update!(status: 'complete')
       # TODO: Send email
     end
+  end
+
+  def archive
+    self.update!(archived: true)
+  end
+
+  def unarchive
+    self.update!(archived: false)
   end
 
   private

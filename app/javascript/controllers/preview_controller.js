@@ -8,7 +8,7 @@ export default class extends Controller {
         this.beforeSend()
         let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
         let model = this.modelTarget.value;
-        let userPrompt = this.inputTarget.value;
+        let input = this.inputTarget.value;
         let systemPromptElement = document.getElementById('system-prompt');
         let systemPrompt = systemPromptElement.value;
         let params = new URLSearchParams();
