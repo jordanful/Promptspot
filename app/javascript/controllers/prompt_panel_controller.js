@@ -160,6 +160,19 @@ export default class extends Controller {
                 selectedElement.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
             }
         })
+
+        // Remove existing input_ids hidden inputs
+        this.element.querySelectorAll(`input[name="test_suite[input_ids][]"]`).forEach(input => input.remove());
+
+        // Create new hidden inputs for each selected input ID
+        selectedIds.forEach(inputId => {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "test_suite[input_ids][]";
+            input.value = inputId;
+            this.element.appendChild(input);
+        });
+
         this.updateSelectedPromptsOrInputsView()
         this.selectionChanged = true;
     }

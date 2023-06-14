@@ -26,22 +26,20 @@ class TestSuitesController < ApplicationController
           render :new, notice: "Please select prompts, inputs, and models."
           return
         end
-        test_suite_params[key] = test_suite_params[key].first.split(',')
       end
 
-      @test_suite.attributes = test_suite_params
+      @test_suite.transaction do
+        @test_suite.update!(name: test_suite_params[:name])
+        @test_suite.input_ids = test_suite_params[:input_ids]
+        @test_suite.prompt_ids = test_suite_params[:prompt_ids]
+        @test_suite.model_ids = test_suite_params[:model_ids]
+      end
 
-      if @test_suite.save
-        if params[:data_action] == 'run_now'
-          @test_suite.run
-          redirect_to test_suite_test_run_path(@test_suite.test_runs.last), notice: 'Test created and queued.'
-        else
-          redirect_to test_suites_path, notice: 'Test created.'
-        end
+      if params[:data_action] == 'run_now'
+        @test_suite.run
+        redirect_to test_suite_test_run_path(@test_suite.test_runs.last), notice: 'Test created and queued.'
       else
-        load_prompts_and_inputs_and_models
-        Rails.logger.info @test_suite.errors.inspect
-        render :new, notice: @test_suite.errors.full_messages.join(', ')
+        redirect_to test_suites_path, notice: 'Test created.'
       end
     rescue Exception => e
       Rails.logger.error e
@@ -71,12 +69,33 @@ class TestSuitesController < ApplicationController
   end
 
   def update
-    test_suite_params[:input_ids] = test_suite_params[:input_ids].first.split(',')
-    test_suite_params[:prompt_ids] = test_suite_params[:prompt_ids].first.split(',')
-    test_suite_params[:model_ids] = test_suite_params[:model_ids].first.split(',')
-    if @test_suite.update(test_suite_params)
-      redirect_to @test_suite, notice: 'Test suite was successfully updated.'
-    else
+    begin
+      test_suite_params = test_suite_params()
+
+      [:input_ids, :prompt_ids, :model_ids].each do |key|
+        unless test_suite_params[key].present?
+          load_prompts_and_inputs_and_models
+          render :edit, notice: "Please select prompts, inputs, and models."
+          return
+        end
+      end
+
+      @test_suite.transaction do
+        @test_suite.update!(name: test_suite_params[:name])
+        @test_suite.input_ids = test_suite_params[:input_ids]
+        @test_suite.prompt_ids = test_suite_params[:prompt_ids]
+        @test_suite.model_ids = test_suite_params[:model_ids]
+      end
+      if params[:data_action] == 'run_now'
+        @test_suite.run
+        redirect_to test_suite_test_run_path(@test_suite.test_runs.last), notice: 'Test updated and queued.'
+      else
+        redirect_to test_suites_path, notice: 'Test updated.'
+      end
+    rescue Exception => e
+      Rails.logger.error e
+      load_prompts_and_inputs_and_models
+      flash.now[:alert] = "An error occurred while updating the test suite. Please try again."
       render :edit
     end
   end
