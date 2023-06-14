@@ -86,17 +86,18 @@ class TestSuitesController < ApplicationController
         @test_suite.prompt_ids = test_suite_params[:prompt_ids]
         @test_suite.model_ids = test_suite_params[:model_ids]
       end
+
       if params[:data_action] == 'run_now'
         @test_suite.run
-        redirect_to test_suite_test_run_path(@test_suite.test_runs.last), notice: 'Test updated and queued.'
+        redirect_to test_suites_path(@test_suite.test_runs.last), notice: 'Test updated and queued.'
       else
         redirect_to test_suites_path, notice: 'Test updated.'
       end
     rescue Exception => e
       Rails.logger.error e
       load_prompts_and_inputs_and_models
-      flash.now[:alert] = "An error occurred while updating the test suite. Please try again."
-      render :edit
+      redirect_to request.referer, notice: "An error occurred while updating the test suite. Please try again."
+
     end
   end
 

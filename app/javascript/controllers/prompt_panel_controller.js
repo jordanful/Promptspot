@@ -1,12 +1,20 @@
 import {Controller} from "stimulus"
 
 export default class extends Controller {
-    static targets = ["panel", "doneButton", "list", "prompt", "input", "promptIds", "inputIds", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea", "newInputTextArea", "spinner", "form", "inputForm"]
+    static targets = ["panel", "doneButton", "list", "prompt", "input", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea", "newInputTextArea", "spinner", "form", "inputForm"]
 
     connect() {
         this.handleClick = this.handleClick.bind(this);
         document.addEventListener('click', this.handleClick);
         this.selectionChanged = false;
+        this.inputIds = [];
+        this.promptIds = [];
+        this.updateInputAndPromptIds();
+    }
+
+    updateInputAndPromptIds() {
+        this.inputIds = Array.from(this.selectedInputsTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id);
+        this.promptIds = Array.from(this.selectedPromptsTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id);
         this.setupRemoveButtons();
         this.updateSelectedPromptsOrInputsView();
     }
@@ -14,7 +22,6 @@ export default class extends Controller {
 
     disconnect() {
         document.removeEventListener('click', this.handleClick)
-
     }
 
 
@@ -31,11 +38,8 @@ export default class extends Controller {
         this.activeSection = document.getElementById('prompts')
         this.showSection('prompts')
         this.headlineTarget.innerText = 'Select one or more prompts'
-        this.activeTarget = this.promptIdsTarget
         this.activeListTarget = this.selectedPromptsTarget
-        this.activeTarget.value = Array.from(this.activeListTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id).join(',')
         this.showDoneButton()
-
     }
 
     openInput(event) {
@@ -45,12 +49,9 @@ export default class extends Controller {
         this.activeSection = document.getElementById('inputs')
         this.showSection('inputs')
         this.headlineTarget.innerText = 'Select one or more inputs'
-        this.activeTarget = this.inputIdsTarget
         this.activeListTarget = this.selectedInputsTarget
-        this.activeTarget.value = Array.from(this.activeListTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id).join(',')
         this.showDoneButton()
     }
-
 
     openNewPrompt(event) {
         event.preventDefault()
@@ -87,7 +88,6 @@ export default class extends Controller {
 
         // Show the specific section
         document.getElementById(id).style.display = 'block'
-        console.log(document.getElementById(id))
         this.openPanel()
     }
 
@@ -118,23 +118,29 @@ export default class extends Controller {
     selectPrompt(event) {
         event.preventDefault()
         const promptId = event.currentTarget.dataset.promptId
-        if (!this.activeTarget.value.split(',').includes(promptId)) {
-            this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${promptId}` : promptId
+        if (!this.promptIds.includes(promptId)) {
+            this.promptIds.push(promptId);
             event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
             if (document.querySelectorAll('[data-prompt-id]').length === 1) {
                 this.close(event)
             }
+
+            const prompt = document.createElement("input");
+            prompt.type = "hidden";
+            prompt.name = "test_suite[prompt_ids][]";
+            prompt.value = promptId;
+            prompt.id = `hidden-prompt-${promptId}`; // Add an ID for easier reference later
+            this.element.appendChild(prompt);
         } else {
-            this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== promptId).join(',')
+            this.promptIds = this.promptIds.filter(id => id !== promptId);
             event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
-        }
-        const selectedIds = this.activeTarget.value.split(',')
-        selectedIds.forEach(id => {
-            const selectedElement = document.querySelector(`[data-prompt-id="${id}"]`)
-            if (selectedElement) {
-                selectedElement.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
+
+            // Remove the corresponding hidden input
+            const hiddenInput = document.querySelector(`#hidden-prompt-${promptId}`);
+            if (hiddenInput) {
+                hiddenInput.remove();
             }
-        })
+        }
         this.updateSelectedPromptsOrInputsView()
         this.selectionChanged = true;
     }
@@ -142,60 +148,70 @@ export default class extends Controller {
     selectInput(event) {
         event.preventDefault()
         const inputId = event.currentTarget.dataset.inputId
-        if (!this.activeTarget.value.split(',').includes(inputId)) {
-            this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${inputId}` : inputId
+        if (!this.inputIds.includes(inputId)) {
+            this.inputIds.push(inputId);
             event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
             if (document.querySelectorAll('[data-input-id]').length === 1) {
                 this.close(event)
             }
-        } else {
-            this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== inputId).join(',')
-            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
-        }
-        // Make sure to maintain selections when the panel is closed
-        const selectedIds = this.activeTarget.value.split(',')
-        selectedIds.forEach(id => {
-            const selectedElement = document.querySelector(`[data-input-id="${id}"]`)
-            if (selectedElement) {
-                selectedElement.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
-            }
-        })
 
-        // Remove existing input_ids hidden inputs
-        this.element.querySelectorAll(`input[name="test_suite[input_ids][]"]`).forEach(input => input.remove());
-
-        // Create new hidden inputs for each selected input ID
-        selectedIds.forEach(inputId => {
             const input = document.createElement("input");
             input.type = "hidden";
             input.name = "test_suite[input_ids][]";
             input.value = inputId;
+            input.id = `hidden-input-${inputId}`; // Add an ID for easier reference later
             this.element.appendChild(input);
-        });
+        } else {
+            this.inputIds = this.inputIds.filter(id => id !== inputId);
+            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
 
+            // Remove the corresponding hidden input
+            const hiddenInput = document.querySelector(`#hidden-input-${inputId}`);
+            if (hiddenInput) {
+                hiddenInput.remove();
+            }
+        }
         this.updateSelectedPromptsOrInputsView()
         this.selectionChanged = true;
     }
 
 
     updateSelectedPromptsOrInputsView() {
-        if (this.activeListTarget) {
-            this.activeListTarget.innerHTML = '';
-            const ids = this.activeTarget.value.split(',');
-            ids.forEach((id) => {
-                const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${id}"]`);
-                if (selectedElement) {
-                    const title = selectedElement.querySelector('.title').innerText;
-                    this.activeListTarget.innerHTML += `
-                <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
+        // Clear the lists
+        this.selectedPromptsTarget.innerHTML = ''
+        this.selectedInputsTarget.innerHTML = ''
+
+        // Add the selected prompts
+        this.promptIds.forEach((promptId) => {
+            let promptElement = document.querySelector(`[data-prompt-id='${promptId}']`)
+            if (promptElement) {
+                const title = promptElement.querySelector('.title').innerText;
+                this.selectedPromptsTarget.innerHTML += `
+                <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${promptId}">
                     ${title}
                     <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
                 </div>
-            `;
-                }
-            });
-            this.setupRemoveButtons();
-        }
+            `
+            } else {
+                console.warn(`Prompt element not found for ID: ${promptId}`);
+            }
+        })
+
+        // Add the selected inputs
+        this.inputIds.forEach((inputId) => {
+            let inputElement = document.querySelector(`[data-input-id='${inputId}']`)
+            if (inputElement) {
+                const title = inputElement.querySelector('.title').innerText;
+                this.selectedInputsTarget.innerHTML += `
+               <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${inputId}">
+                    ${title}
+                    <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+                </div>
+            `
+            } else {
+                console.warn(`Input element not found for ID: ${inputId}`);
+            }
+        })
     }
 
 

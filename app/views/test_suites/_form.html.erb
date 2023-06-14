@@ -16,7 +16,6 @@
   <hr/>
   <div class="flex flex-row items-start justify-between my-4 py-8">
     <div class="field flex flex-col inline-flex grow">
-      <%= form.hidden_field :prompt_ids, multiple: true, data: { "prompt-panel-target": 'promptIds' } %>
       <div class="flex flex-row items-center">
         <% if @prompts.length == 0 %>
           <button type="button" data-action="click->prompt-panel#openNewPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
@@ -52,7 +51,6 @@
   <hr/>
   <div class="flex flex-row items-start justify-between my-4 py-8">
     <div class="field flex flex-col inline-flex grow">
-      <%= form.hidden_field :input_ids, multiple: true, data: { "prompt-panel-target": 'inputIds' } %>
       <div class="flex flex-row items-center">
         <% if @inputs.length == 0 %>
           <button type="button" data-action="click->prompt-panel#openNewInput" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
