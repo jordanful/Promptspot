@@ -212,6 +212,7 @@ export default class extends Controller {
             } else {
                 console.warn(`Input element not found for ID: ${inputId}`);
             }
+            this.setupRemoveButtons();
         })
     }
 
@@ -219,7 +220,11 @@ export default class extends Controller {
     setupRemoveButtons() {
         const pills = document.querySelectorAll('.pill-remove');
         pills.forEach((removeButton) => {
-            removeButton.addEventListener('click', (event) => {
+            // First, remove any existing event listener
+            const clonedButton = removeButton.cloneNode(true);
+            removeButton.parentNode.replaceChild(clonedButton, removeButton);
+            // Then, add a new event listener
+            clonedButton.addEventListener('click', (event) => {
                 event.stopPropagation();
                 const pill = event.target.parentElement;
                 const idToRemove = pill.dataset.id;
@@ -232,21 +237,11 @@ export default class extends Controller {
                         hiddenInput.remove();
                     }
                 } else if (this.selectedInputsTarget.contains(pill)) {
-                    console.log('Attempting to remove an input...');
-                    console.log(`idToRemove: ${idToRemove}`);
-                    console.log(`Current inputIds: ${JSON.stringify(this.inputIds)}`);
-
                     this.activeListTarget = this.selectedInputsTarget;
                     this.inputIds = this.inputIds.filter(id => id !== idToRemove);
-
-                    console.log(`Updated inputIds: ${JSON.stringify(this.inputIds)}`);
-
                     const hiddenInput = document.querySelector(`#hidden-input-${idToRemove}`);
                     if (hiddenInput) {
-                        console.log(`Removing hidden input with id #hidden-input-${idToRemove}`);
                         hiddenInput.remove();
-                    } else {
-                        console.log(`No hidden input found with id #hidden-input-${idToRemove}`);
                     }
                 }
 
