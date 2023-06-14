@@ -10,7 +10,7 @@
             <div class="w-1/2 flex justify-center items-center bg-white text-black w-full h-full rounded-l-md p-3 cursor-pointer" data-tab="new" data-action="click->tab#toggle">
               New input
             </div>
-            <div class="w-1/2 flex justify-center items-center bg-slate-100 text-gray-600 hover:bg-slate-50 rounded-r-md p-3 cursor-pointer" data-tab="saved" data-action="click->tab#toggle">
+            <div data-tab-target="tab" class="w-1/2 flex justify-center items-center bg-slate-100 text-gray-600 hover:bg-slate-50 rounded-r-md p-3 cursor-pointer" data-tab="saved" data-action="click->tab#toggle">
               Saved inputs
             </div>
           </div>
@@ -29,10 +29,10 @@
           </button>
 
           <div class="dropdown-menu w-full bg-white shadow border-gray-300 border rounded-md flex flex-col mt-1 overflow-y-auto max-h-56" style="display:none" data-dropdown-target="menu">
-            <% inputs.each do |prompt| %>
-              <div class="dropdown-item flex flex-col cursor-pointer hover:bg-blue-50 p-3" data-id="<%= prompt.id %>" data-action="click->dropdown#select">
-                <div class="dropdown-item-title mb-1 font-medium"><%= prompt.title %></div>
-                <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= prompt.text %></div>
+            <% inputs.each do |input| %>
+              <div class="dropdown-item flex flex-col cursor-pointer hover:bg-blue-50 p-3" data-id="<%= input.id %>" data-action="click->dropdown#select">
+                <div class="dropdown-item-title mb-1 font-medium"><%= input.title %></div>
+                <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= input.text %></div>
               </div>
             <% end %>
           </div>
@@ -67,6 +67,7 @@
         <%= form.select :model, Model.where(enabled: true).pluck(:name), {}, { class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { controller: 'model-select', 'preview-target': 'model', action: 'change->model-select#saveModel', 'model-select-target': 'modelSelect' } } %>
       </fieldset>
 
+      <div data-preview-target="errorMessage" class="hidden mt-3 text-red-500"></div>
 
       <%= button_tag(type: 'submit', class: 'cursor-pointer rounded-md bg-white border text-lg font-medium py-2 shadow-sm border-gray-300 flex items-center justify-center w-full mt-4',
                      data: {

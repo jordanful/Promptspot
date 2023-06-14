@@ -29,12 +29,17 @@
             Select Prompt(s)
           </button>
           <div data-action="click->prompt-panel#openNewPrompt" class="ml-4 text-base cursor-pointer hover:underline text-blue-600">
-            or create a new one
+            or create a new prompt
           </div>
         <% end %>
       </div>
       <div data-prompt-panel-target="selectedPrompts" class="mt-6 flex flex-wrap">
-        <!-- Selected prompts will be listed here -->
+        <% @test_suite.prompts.each do |prompt| %>
+          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
+            <%= prompt.title %>
+            <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+          </div>
+        <% end %>
       </div>
     </div>
     <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
@@ -65,7 +70,12 @@
         <% end %>
       </div>
       <div data-prompt-panel-target="selectedInputs" class="mt-6 flex flex-wrap">
-        <!-- Selected inputs will be listed here -->
+        <% @test_suite.inputs.each do |input| %>
+          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
+            <%= input.title %>
+            <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+          </div>
+        <% end %>
       </div>
     </div>
     <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
@@ -78,16 +88,21 @@
     <h2 class="text-lg mb-6">Select a model</h2>
     <div data-model-picker-target="list" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4">
       <% @models.each do |m| %>
-        <div data-action="click->model-picker#selectModel" data-model-id="<%= m.id %>" class="model-picker-model border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 flex inline-flex flex-col mr-3 cursor-pointer
-  " data-model-picker-target="model">
+        <div
+          data-action="click->model-picker#selectModel"
+          data-model-id="<%= m.id %>"
+          class="model-picker-model border-gray-300 border rounded-md p-4 cursor-pointer mb-4
+        <%= 'bg-blue-50' if @test_suite.model_ids.first == m.id %> flex inline-flex flex-col mr-3 cursor-pointer"
+          data-model-picker-target="model"
+        >
           <p class="font-mono text-lg"><%= m.name %></p>
           <p class="text-sm text-gray-500 mt-2"><%= m.model_provider.name %></p>
-
           <p class="mt-2 text-gray-500"><%= m.description %></p>
         </div>
       <% end %>
     </div>
   </div>
+
 
   <div class="actions my-8 flex flex-row">
     <%= button_tag 'Save', type: "submit", data: { action: "save_for_later" }, class: 'cursor-pointer shadow-md mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
@@ -109,7 +124,7 @@
     <div data-prompt-panel-target="list">
       <div id="prompts" class="hidden">
         <% @prompts.each do |prompt| %>
-          <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50"
+          <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 <%= @test_suite.prompts.include?(prompt) ? 'bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300' : '' %>"
                data-action="click->prompt-panel#selectPrompt"
                data-prompt-panel-target="prompt"
                data-prompt-id="<%= prompt.id %>">
@@ -120,7 +135,7 @@
       </div>
       <div id="inputs" class="hidden">
         <% @inputs.each do |input| %>
-          <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50"
+          <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 <%= @test_suite.inputs.include?(input) ? 'bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300' : '' %>"
                data-action="click->prompt-panel#selectInput"
                data-prompt-panel-target="input"
                data-input-id="<%= input.id %>">
@@ -129,6 +144,7 @@
           </div>
         <% end %>
       </div>
+
       <div id="new_prompt" class="hidden">
         <%= render partial: 'prompts/mini-form', locals: { prompt: Prompt.new } %>
       </div>

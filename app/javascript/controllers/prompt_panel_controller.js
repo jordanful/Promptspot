@@ -6,8 +6,8 @@ export default class extends Controller {
     connect() {
         this.handleClick = this.handleClick.bind(this)
         document.addEventListener('click', this.handleClick)
-
     }
+
 
     disconnect() {
         document.removeEventListener('click', this.handleClick)
@@ -28,6 +28,7 @@ export default class extends Controller {
         this.headlineTarget.innerText = 'Select one or more prompts'
         this.activeTarget = this.promptIdsTarget
         this.activeListTarget = this.selectedPromptsTarget
+        this.activeTarget.value = Array.from(this.activeListTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id).join(',')
         this.showDoneButton()
     }
 
@@ -40,6 +41,7 @@ export default class extends Controller {
         this.headlineTarget.innerText = 'Select one or more inputs'
         this.activeTarget = this.inputIdsTarget
         this.activeListTarget = this.selectedInputsTarget
+        this.activeTarget.value = Array.from(this.activeListTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id).join(',')
         this.showDoneButton()
     }
 
@@ -110,18 +112,22 @@ export default class extends Controller {
         const promptId = event.currentTarget.dataset.promptId
         if (!this.activeTarget.value.split(',').includes(promptId)) {
             this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${promptId}` : promptId
-            // Add 'selected' class to highlight this prompt
-            event.currentTarget.classList.add('selected')
-
-            // If this is the only prompt, close the panel
+            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
             if (document.querySelectorAll('[data-prompt-id]').length === 1) {
                 this.close(event)
             }
         } else {
             this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== promptId).join(',')
-            // Remove 'selected' class since this prompt is deselected
-            event.currentTarget.classList.remove('selected')
+            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
         }
+        // Make sure to maintain selections when the panel is closed
+        const selectedIds = this.activeTarget.value.split(',')
+        selectedIds.forEach(id => {
+            const selectedElement = document.querySelector(`[data-prompt-id="${id}"]`)
+            if (selectedElement) {
+                selectedElement.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
+            }
+        })
         this.updateSelectedPromptsOrInputsView()
     }
 
@@ -130,42 +136,44 @@ export default class extends Controller {
         const inputId = event.currentTarget.dataset.inputId
         if (!this.activeTarget.value.split(',').includes(inputId)) {
             this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${inputId}` : inputId
-            // Add 'selected' class to highlight this input
-            event.currentTarget.classList.add('selected')
-
-            // If this is the only input, close the panel
+            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
             if (document.querySelectorAll('[data-input-id]').length === 1) {
                 this.close(event)
             }
         } else {
             this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== inputId).join(',')
-            // Remove 'selected' class since this input is deselected
-            event.currentTarget.classList.remove('selected')
+            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
         }
+        // Make sure to maintain selections when the panel is closed
+        const selectedIds = this.activeTarget.value.split(',')
+        selectedIds.forEach(id => {
+            const selectedElement = document.querySelector(`[data-input-id="${id}"]`)
+            if (selectedElement) {
+                selectedElement.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
+            }
+        })
         this.updateSelectedPromptsOrInputsView()
     }
 
 
     updateSelectedPromptsOrInputsView() {
-        this.activeListTarget.innerHTML = ''
-        const ids = this.activeTarget.value.split(',')
-        ids.forEach((id) => {
-            console.log(`id: ${id}`)
-            const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${id}"]`)
-            if (selectedElement) {
-                const title = selectedElement.querySelector('.title').innerText
-                this.activeListTarget.innerHTML += `
-            <div class="rounded-lg bg-white border border-blue-200 text-gray-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
-                ${title}
-                <span class="pill-remove cursor-pointer ml-2 p-1 text-lg text-red-500">✕</span>
-            </div>
-        `
-            } else {
-                console.log(`Selected element not found for id: ${id}`)
-            }
-        })
-        this.setupRemoveButtons()
-
+        if (this.activeListTarget) {
+            this.activeListTarget.innerHTML = ''
+            const ids = this.activeTarget.value.split(',')
+            ids.forEach((id) => {
+                const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${id}"]`)
+                if (selectedElement) {
+                    const title = selectedElement.querySelector('.title').innerText
+                    this.activeListTarget.innerHTML += `
+                <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
+                    ${title}
+                    <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+                </div>
+            `
+                }
+            })
+            this.setupRemoveButtons()
+        }
     }
 
 
@@ -180,7 +188,7 @@ export default class extends Controller {
                 // Update selected state in the panel
                 const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${idToRemove}"]`)
                 if (selectedElement) {
-                    selectedElement.classList.remove('selected')
+                    selectedElement.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
                 }
 
                 pill.remove()
@@ -231,7 +239,7 @@ export default class extends Controller {
             // Now add it to the list of inputs and select it
             this.activeTarget.value = responseData.id;
             this.activeSection.insertAdjacentHTML('beforeend', `
-            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 selected"
+            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50"
                 data-action="click->prompt-panel#selectInput"
                 data-prompt-panel-target="input"
                 data-input-id="${responseData.id}">
@@ -294,7 +302,7 @@ export default class extends Controller {
             // Now add it to the list of prompts and select it
             this.activeTarget.value = responseData.id;
             this.activeSection.insertAdjacentHTML('beforeend', `
-            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 selected"
+            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300"
                 data-action="click->prompt-panel#selectPrompt"
                 data-prompt-panel-target="prompt"
                 data-prompt-id="${responseData.id}">
