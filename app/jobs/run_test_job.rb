@@ -3,7 +3,8 @@ class RunTestJob < ApplicationJob
 
   def perform(test_run_detail)
     test_run_detail.update!(status: 'running')
-    output = test_run_detail.prompt_version.generate(test_run_detail.input, test_run_detail.model)
+    organization = test_run_detail.test_run.test_suite.account.organization
+    output = test_run_detail.prompt_version.generate(test_run_detail.input, test_run_detail.model, organization)
     test_run_detail.update!(output: output, status: 'complete')
     test_run_detail.test_run.check_and_update_status
   rescue StandardError => e

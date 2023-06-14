@@ -7,9 +7,9 @@ class PromptVersion < ApplicationRecord
   before_create :set_version_number
   attr_accessor :save_input
 
-  def generate(input, model)
-    full_prompt = self.text + '/n/n' + input.text
-    client = OpenAI::Client.new(access_token: @current_organization.open_ai_api_key)
+  def generate(input, model, organization)
+    full_prompt = text + '/n/n' + input.text
+    client = OpenAI::Client.new(access_token: organization.openai_api_key)
     response = client.completions(
       parameters: {
         model: model.name,
@@ -17,7 +17,6 @@ class PromptVersion < ApplicationRecord
         max_tokens: Rails.application.config.max_tokens
       }
     )
-    Rails.logger.info "OpenAI response: #{response}"
     response["choices"][0]["text"]
   rescue
     Rails.logger.error "Error: #{$!}"

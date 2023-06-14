@@ -1,5 +1,5 @@
 class TestSuitesController < ApplicationController
-  before_action :set_test_suite, only: [:show, :edit, :update, :destroy, :archive, :unarchive]
+  before_action :set_test_suite, only: [:show, :edit, :update, :destroy, :archive, :unarchive, :authorize_user!]
   before_action :authenticate_user!
   before_action :authorize_user!, only: [:show, :edit, :update, :destroy, :archive, :unarchive]
 
@@ -109,7 +109,7 @@ class TestSuitesController < ApplicationController
   private
 
   def authorize_user!
-    if @current_account.id != TestSuite.find(params[:account_id])
+    if @current_account.id != @test_suite.account_id
       redirect_to root_path, notice: "Whoops. You do not have access to that test."
     end
   end
