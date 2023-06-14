@@ -4,14 +4,19 @@ export default class extends Controller {
     static targets = ["panel", "doneButton", "list", "prompt", "input", "promptIds", "inputIds", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea", "newInputTextArea", "spinner", "form", "inputForm"]
 
     connect() {
-        this.handleClick = this.handleClick.bind(this)
-        document.addEventListener('click', this.handleClick)
+        this.handleClick = this.handleClick.bind(this);
+        document.addEventListener('click', this.handleClick);
+        this.selectionChanged = false;
+        this.setupRemoveButtons();
+        this.updateSelectedPromptsOrInputsView();
     }
 
 
     disconnect() {
         document.removeEventListener('click', this.handleClick)
+
     }
+
 
     handleClick(event) {
         if (this.panelTarget.style.display === 'block' && !this.panelTarget.contains(event.target)) {
@@ -30,6 +35,7 @@ export default class extends Controller {
         this.activeListTarget = this.selectedPromptsTarget
         this.activeTarget.value = Array.from(this.activeListTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id).join(',')
         this.showDoneButton()
+
     }
 
     openInput(event) {
@@ -100,12 +106,14 @@ export default class extends Controller {
 
     close(event) {
         event.preventDefault()
-        if (this.activeTarget) {
+        if (this.activeTarget && this.selectionChanged) {
             this.updateSelectedPromptsOrInputsView()
+            this.selectionChanged = false;
         }
         this.overlayTarget.classList.remove('overlay-open')
         this.panelTarget.classList.remove('panel-open')
     }
+
 
     selectPrompt(event) {
         event.preventDefault()
@@ -120,7 +128,6 @@ export default class extends Controller {
             this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== promptId).join(',')
             event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
         }
-        // Make sure to maintain selections when the panel is closed
         const selectedIds = this.activeTarget.value.split(',')
         selectedIds.forEach(id => {
             const selectedElement = document.querySelector(`[data-prompt-id="${id}"]`)
@@ -129,6 +136,7 @@ export default class extends Controller {
             }
         })
         this.updateSelectedPromptsOrInputsView()
+        this.selectionChanged = true;
     }
 
     selectInput(event) {
@@ -153,48 +161,56 @@ export default class extends Controller {
             }
         })
         this.updateSelectedPromptsOrInputsView()
+        this.selectionChanged = true;
     }
 
 
     updateSelectedPromptsOrInputsView() {
         if (this.activeListTarget) {
-            this.activeListTarget.innerHTML = ''
-            const ids = this.activeTarget.value.split(',')
+            this.activeListTarget.innerHTML = '';
+            const ids = this.activeTarget.value.split(',');
             ids.forEach((id) => {
-                const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${id}"]`)
+                const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${id}"]`);
                 if (selectedElement) {
-                    const title = selectedElement.querySelector('.title').innerText
+                    const title = selectedElement.querySelector('.title').innerText;
                     this.activeListTarget.innerHTML += `
                 <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
                     ${title}
                     <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
                 </div>
-            `
+            `;
                 }
-            })
-            this.setupRemoveButtons()
+            });
+            this.setupRemoveButtons();
         }
     }
 
 
     setupRemoveButtons() {
-        this.activeListTarget.querySelectorAll('.pill-remove').forEach((removeButton) => {
+        const pills = document.querySelectorAll('.pill-remove');
+        pills.forEach((removeButton) => {
             removeButton.addEventListener('click', (event) => {
-                event.stopPropagation()
-                const pill = event.target.parentElement
-                const idToRemove = pill.dataset.id
-                this.activeTarget.value = this.activeTarget.value.split(',').filter(id => id !== idToRemove).join(',')
+                event.stopPropagation();
+                const pill = event.target.parentElement;
+                const idToRemove = pill.dataset.id;
 
-                // Update selected state in the panel
-                const selectedElement = document.querySelector(`[data-${this.activeTarget.id === 'prompt_ids' ? 'prompt' : 'input'}-id="${idToRemove}"]`)
-                if (selectedElement) {
-                    selectedElement.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
-                }
+                // Get the current active target
+                const activeTarget = this.activeListTarget;
 
-                pill.remove()
-            })
-        })
+                // Update the active target value by removing the ID to be removed
+                const updatedValue = activeTarget.value
+                    .split(',')
+                    .filter((id) => id !== idToRemove)
+                    .join(',');
+
+                activeTarget.value = updatedValue;
+
+                // Remove the pill from the active list
+                pill.remove();
+            });
+        });
     }
+
 
     reset() {
         this.newPromptTextAreaTarget.value = ''; // clear the textarea
@@ -233,13 +249,11 @@ export default class extends Controller {
         // Hide spinner and re-enable form
         this.spinnerTarget.style.display = 'none';
         this.inputFormTarget.disabled = false;
-
         if (response.ok) {
-            // The input has been created successfully
-            // Now add it to the list of inputs and select it
-            this.activeTarget.value = responseData.id;
+            this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${responseData.id}` : responseData.id;
+
             this.activeSection.insertAdjacentHTML('beforeend', `
-            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50"
+            <div class="bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 rounded-md p-4 cursor-pointer mb-4"
                 data-action="click->prompt-panel#selectInput"
                 data-prompt-panel-target="input"
                 data-input-id="${responseData.id}">
@@ -298,11 +312,10 @@ export default class extends Controller {
         this.formTarget.disabled = false;
 
         if (response.ok) {
-            // The prompt has been created successfully
-            // Now add it to the list of prompts and select it
-            this.activeTarget.value = responseData.id;
+
+            this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${responseData.id}` : responseData.id;
             this.activeSection.insertAdjacentHTML('beforeend', `
-            <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300"
+            <div class="bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 rounded-md p-4 cursor-pointer mb-4 rounded-md p-4 cursor-pointer mb-4"
                 data-action="click->prompt-panel#selectPrompt"
                 data-prompt-panel-target="prompt"
                 data-prompt-id="${responseData.id}">

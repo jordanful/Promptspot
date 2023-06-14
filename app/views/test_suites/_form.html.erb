@@ -2,7 +2,6 @@
   <% if @test_suite.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@test_suite.errors.count, "error") %> prohibited this test_suite from being saved:</h2>
-
       <ul>
         <% @test_suite.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,7 +9,6 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field flex flex-col my-4">
     <%= form.label :name %>
     <%= form.text_field :name, class: "rounded-md border-gray-300 text-lg w-full md:w-72", placeholder: "Name this test" %>
@@ -35,7 +33,7 @@
       </div>
       <div data-prompt-panel-target="selectedPrompts" class="mt-6 flex flex-wrap">
         <% @test_suite.prompts.each do |prompt| %>
-          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
+          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= prompt.id %>>
             <%= prompt.title %>
             <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
           </div>
@@ -71,7 +69,7 @@
       </div>
       <div data-prompt-panel-target="selectedInputs" class="mt-6 flex flex-wrap">
         <% @test_suite.inputs.each do |input| %>
-          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${id}">
+          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= input.id %>>
             <%= input.title %>
             <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
           </div>
@@ -92,7 +90,7 @@
           data-action="click->model-picker#selectModel"
           data-model-id="<%= m.id %>"
           class="model-picker-model border-gray-300 border rounded-md p-4 cursor-pointer mb-4
-        <%= 'bg-blue-50' if @test_suite.model_ids.first == m.id %> flex inline-flex flex-col mr-3 cursor-pointer"
+        <%= "bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300" if @test_suite.model_ids.first == m.id %> flex inline-flex flex-col mr-3 cursor-pointer"
           data-model-picker-target="model"
         >
           <p class="font-mono text-lg"><%= m.name %></p>
@@ -103,12 +101,10 @@
     </div>
   </div>
 
-
   <div class="actions my-8 flex flex-row">
     <%= button_tag 'Save', type: "submit", data: { action: "save_for_later" }, class: 'cursor-pointer shadow-md mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     <%= button_tag 'Save and run', type: "submit", data: { action: "run_now" }, class: 'shadow-md flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer' %>
   </div>
-
 
   <div class="fixed inset-0 bg-black opacity-0" style=" pointer-events: none;" data-prompt-panel-target="overlay" data-action="click->prompt-panel#close"></div>
 
@@ -144,7 +140,6 @@
           </div>
         <% end %>
       </div>
-
       <div id="new_prompt" class="hidden">
         <%= render partial: 'prompts/mini-form', locals: { prompt: Prompt.new } %>
       </div>

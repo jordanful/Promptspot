@@ -12,13 +12,13 @@ export default class extends Controller {
         const modelInput = this.element.querySelector(`input[data-model-id="${modelId}"]`);
 
         // Remove 'selected' class from all models
-        this.modelTargets.forEach(model => model.classList.remove('selected'))
+        this.modelTargets.forEach(model => model.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300"))
 
         // Remove all model input fields
         this.element.querySelectorAll(`input[name="test_suite[model_ids][]"]`).forEach(input => input.remove());
 
         // Add 'selected' class to the clicked model
-        event.currentTarget.classList.add('selected')
+        event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
 
         if (!modelInput) {
             // Create a new hidden input for this modelId
