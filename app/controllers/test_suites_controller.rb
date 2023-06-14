@@ -109,7 +109,7 @@ class TestSuitesController < ApplicationController
   private
 
   def authorize_user!
-    if @current_account != TestSuite.find(params[:id]).account
+    if @current_account.id != TestSuite.find(params[:account_id])
       redirect_to root_path, notice: "Whoops. You do not have access to that test."
     end
   end

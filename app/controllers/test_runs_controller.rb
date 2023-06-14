@@ -29,7 +29,8 @@ class TestRunsController < ApplicationController
   private
 
   def authorize_user!
-    unless @current_account.id == @test_run.test_suite.account_id
+    @test_suite = TestSuite.find(params[:test_suite_id])
+    unless @current_account.id == @test_suite.account_id
       redirect_to root_path, notice: 'You are not authorized to view that page.'
     end
   end
