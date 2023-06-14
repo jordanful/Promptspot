@@ -195,6 +195,7 @@ export default class extends Controller {
             } else {
                 console.warn(`Prompt element not found for ID: ${promptId}`);
             }
+            this.setupRemoveButtons();
         })
 
         // Add the selected inputs
@@ -223,18 +224,32 @@ export default class extends Controller {
                 const pill = event.target.parentElement;
                 const idToRemove = pill.dataset.id;
 
-                // Get the current active target
-                const activeTarget = this.activeListTarget;
+                if (this.selectedPromptsTarget.contains(pill)) {
+                    this.activeListTarget = this.selectedPromptsTarget;
+                    this.promptIds = this.promptIds.filter(id => id !== idToRemove);
+                    const hiddenInput = document.querySelector(`#hidden-prompt-${idToRemove}`);
+                    if (hiddenInput) {
+                        hiddenInput.remove();
+                    }
+                } else if (this.selectedInputsTarget.contains(pill)) {
+                    console.log('Attempting to remove an input...');
+                    console.log(`idToRemove: ${idToRemove}`);
+                    console.log(`Current inputIds: ${JSON.stringify(this.inputIds)}`);
 
-                // Update the active target value by removing the ID to be removed
-                const updatedValue = activeTarget.value
-                    .split(',')
-                    .filter((id) => id !== idToRemove)
-                    .join(',');
+                    this.activeListTarget = this.selectedInputsTarget;
+                    this.inputIds = this.inputIds.filter(id => id !== idToRemove);
 
-                activeTarget.value = updatedValue;
+                    console.log(`Updated inputIds: ${JSON.stringify(this.inputIds)}`);
 
-                // Remove the pill from the active list
+                    const hiddenInput = document.querySelector(`#hidden-input-${idToRemove}`);
+                    if (hiddenInput) {
+                        console.log(`Removing hidden input with id #hidden-input-${idToRemove}`);
+                        hiddenInput.remove();
+                    } else {
+                        console.log(`No hidden input found with id #hidden-input-${idToRemove}`);
+                    }
+                }
+
                 pill.remove();
             });
         });
