@@ -71,11 +71,10 @@ class TestSuitesController < ApplicationController
 
   def update
     begin
-
       [:input_ids, :prompt_ids, :model_ids].each do |key|
         unless test_suite_params[key].present?
           load_prompts_and_inputs_and_models
-          render :edit, notice: "Please select prompts, inputs, and models."
+          redirect_to edit_test_suite_path(@test_suite), notice: "Please select prompts, inputs, and models."
           return
         end
       end
@@ -96,7 +95,7 @@ class TestSuitesController < ApplicationController
     rescue StandardError => e
       Rails.logger.error e
       load_prompts_and_inputs_and_models
-      render :edit, notice: "An error occurred while updating this test. Our team has been notified."
+      redirect_to edit_test_suite_path(@test_suite), notice: "An error occurred while updating this test. Our team has been notified."
     end
   end
 
