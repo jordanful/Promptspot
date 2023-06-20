@@ -40,6 +40,7 @@
     <orderEntry type="library" scope="PROVIDED" name="activestorage (v7.0.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v7.0.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.4, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bcrypt (v3.1.18, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bindex (v0.8.1, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.16.0, RVM: ruby-3.0.5) [gem]" level="application" />
@@ -67,6 +68,11 @@
     <orderEntry type="library" scope="PROVIDED" name="io-console (v0.6.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="irb (v1.6.4, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.11.5, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="json (v2.6.3, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kaminari (v1.2.2, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kaminari-actionview (v1.2.2, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kaminari-activerecord (v1.2.2, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kaminari-core (v1.2.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="listen (v3.8.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.21.3, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.8.1, RVM: ruby-3.0.5) [gem]" level="application" />
@@ -84,6 +90,8 @@
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.5.9, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.15.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parallel (v1.22.1, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parser (v3.2.0.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.4.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v5.0.1, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="puma (v5.6.5, RVM: ruby-3.0.5) [gem]" level="application" />
@@ -96,6 +104,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.6.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails_feather (v0.1.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="railties (v7.0.5, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rainbow (v3.1.1, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.6, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-fsevent (v0.11.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-inotify (v0.10.1, RVM: ruby-3.0.5) [gem]" level="application" />
@@ -104,7 +113,10 @@
     <orderEntry type="library" scope="PROVIDED" name="reline (v0.3.4, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="responders (v3.0.1, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rexml (v3.2.5, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.43.0, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.24.1, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-openai (v4.1.0, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.11.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby2_keywords (v0.0.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.3.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v4.9.1, RVM: ruby-3.0.5) [gem]" level="application" />
@@ -116,6 +128,7 @@
     <orderEntry type="library" scope="PROVIDED" name="timeout (v0.3.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="turbo-rails (v1.4.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.6, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v2.4.2, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="warden (v1.2.9, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="web-console (v4.2.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webdrivers (v5.2.0, RVM: ruby-3.0.5) [gem]" level="application" />
@@ -154,6 +167,8 @@
         <option value="integration_test" />
         <option value="jbuilder" />
         <option value="job" />
+        <option value="kaminari:config" />
+        <option value="kaminari:views" />
         <option value="mailbox" />
         <option value="mailer" />
         <option value="migration" />
@@ -197,6 +212,8 @@
         <option value="integration_test" />
         <option value="jbuilder" />
         <option value="job" />
+        <option value="kaminari:config" />
+        <option value="kaminari:views" />
         <option value="mailbox" />
         <option value="mailer" />
         <option value="migration" />
@@ -530,6 +547,14 @@
           </RakeTaskImpl>
           <RakeTaskImpl description="" fullCommand="default" id="default" />
           <RakeTaskImpl description="" fullCommand="environment" id="environment" />
+          <RakeTaskImpl id="fly">
+            <subtasks>
+              <RakeTaskImpl description="" fullCommand="fly:build" id="build" />
+              <RakeTaskImpl description="" fullCommand="fly:release" id="release" />
+              <RakeTaskImpl description="" fullCommand="fly:server" id="server" />
+              <RakeTaskImpl description="" fullCommand="fly:swapfile" id="swapfile" />
+            </subtasks>
+          </RakeTaskImpl>
           <RakeTaskImpl id="railties">
             <subtasks>
               <RakeTaskImpl id="install">

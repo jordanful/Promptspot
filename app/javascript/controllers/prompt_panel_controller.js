@@ -17,6 +17,19 @@ export default class extends Controller {
         this.promptIds = Array.from(this.selectedPromptsTarget.getElementsByClassName('pill')).map(pill => pill.dataset.id);
         this.setupRemoveButtons();
         this.updateSelectedPromptsOrInputsView();
+        this.createHiddenInputsForForm(this.inputIds, "input");
+        this.createHiddenInputsForForm(this.promptIds, "prompt");
+    }
+
+    createHiddenInputsForForm(ids, type) {
+        ids.forEach(id => {
+            const hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = `test_suite[${type}_ids][]`;
+            hiddenInput.value = id;
+            hiddenInput.id = `hidden-${type}-${id}`; // Add an ID for easier reference later
+            this.element.appendChild(hiddenInput);
+        });
     }
 
 

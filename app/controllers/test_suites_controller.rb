@@ -62,6 +62,7 @@ class TestSuitesController < ApplicationController
   end
 
   def show
+
   end
 
   def edit
@@ -70,7 +71,6 @@ class TestSuitesController < ApplicationController
 
   def update
     begin
-      test_suite_params = test_suite_params()
 
       [:input_ids, :prompt_ids, :model_ids].each do |key|
         unless test_suite_params[key].present?
@@ -82,9 +82,9 @@ class TestSuitesController < ApplicationController
 
       @test_suite.transaction do
         @test_suite.update!(name: test_suite_params[:name])
-        @test_suite.input_ids = test_suite_params[:input_ids]
-        @test_suite.prompt_ids = test_suite_params[:prompt_ids]
-        @test_suite.model_ids = test_suite_params[:model_ids]
+        @test_suite.input_ids = test_suite_params.require(:input_ids)
+        @test_suite.prompt_ids = test_suite_params.require(:prompt_ids)
+        @test_suite.model_ids = test_suite_params.require(:model_ids)
       end
 
       if params[:data_action] == 'run_now'
@@ -93,11 +93,10 @@ class TestSuitesController < ApplicationController
       else
         redirect_to test_suites_path, notice: 'Test updated.'
       end
-    rescue Exception => e
+    rescue StandardError => e
       Rails.logger.error e
       load_prompts_and_inputs_and_models
-      redirect_to request.referer, notice: "An error occurred while updating the test suite. Please try again."
-
+      render :edit, notice: "An error occurred while updating this test. Our team has been notified."
     end
   end
 
