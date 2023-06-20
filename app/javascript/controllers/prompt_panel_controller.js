@@ -241,6 +241,7 @@ export default class extends Controller {
                 event.stopPropagation();
                 const pill = event.target.parentElement;
                 const idToRemove = pill.dataset.id;
+                let panelElement;
 
                 if (this.selectedPromptsTarget.contains(pill)) {
                     this.activeListTarget = this.selectedPromptsTarget;
@@ -249,6 +250,8 @@ export default class extends Controller {
                     if (hiddenInput) {
                         hiddenInput.remove();
                     }
+                    // Find the corresponding element in the panel and remove selection classes
+                    panelElement = document.querySelector(`[data-prompt-id='${idToRemove}']`);
                 } else if (this.selectedInputsTarget.contains(pill)) {
                     this.activeListTarget = this.selectedInputsTarget;
                     this.inputIds = this.inputIds.filter(id => id !== idToRemove);
@@ -256,6 +259,12 @@ export default class extends Controller {
                     if (hiddenInput) {
                         hiddenInput.remove();
                     }
+                    // Find the corresponding element in the panel and remove selection classes
+                    panelElement = document.querySelector(`[data-input-id='${idToRemove}']`);
+                }
+
+                if (panelElement) {
+                    panelElement.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300");
                 }
 
                 pill.remove();
