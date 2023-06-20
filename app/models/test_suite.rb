@@ -14,5 +14,4 @@ class TestSuite < ApplicationRecord
   def configured?
     prompts.any? || inputs.any?
   end
-
 end

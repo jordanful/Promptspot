@@ -274,8 +274,8 @@ export default class extends Controller {
 
 
     reset() {
-        this.newPromptTextAreaTarget.value = ''; // clear the textarea
-        this.newInputTextAreaTarget.value = ''; // clear the textarea
+        this.newPromptTextAreaTarget.value = '';
+        this.newInputTextAreaTarget.value = '';
     }
 
     async createInput(event) {
@@ -283,11 +283,8 @@ export default class extends Controller {
         event.stopPropagation();
 
         const newInputText = this.newInputTextAreaTarget.value;
-
-        // Get CSRF token
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        // Show spinner and disable form
         this.spinnerTarget.style.display = 'block';
         this.inputFormTarget.disabled = true;
 

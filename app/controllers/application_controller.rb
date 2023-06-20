@@ -16,22 +16,13 @@ class ApplicationController < ActionController::Base
 
   def set_current_organization
     if current_user
-      Rails.logger.info "Current user: #{current_user.inspect}"
-      Rails.logger.info "Current user's account: #{current_user.account.inspect}"
       @current_organization = current_user.account.organization
-      Rails.logger.info "Current organization: #{@current_organization.inspect}"
-    else
-      Rails.logger.info "No current user"
     end
   end
 
   def set_current_account
     if current_user
-      Rails.logger.info "Current user: #{current_user.inspect}"
       @current_account = current_user.account
-      Rails.logger.info "Current account: #{@current_account.inspect}"
-    else
-      Rails.logger.info "No current user"
     end
   end
 

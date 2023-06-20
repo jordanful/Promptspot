@@ -1,0 +1,3 @@
+<turbo-frame id="test_runs_<%= @test_suite.id %>">
+  <%= render partial: 'test_suites/test_suite', locals: { test_suite: @test_suite, paginated_test_runs: @paginated_test_runs } %>
+</turbo-frame>
