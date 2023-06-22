@@ -40,6 +40,10 @@ class TestRunsController < ApplicationController
     end
   end
 
+  def download
+    send_data @test_run.to_csv, filename: "promtspot_#{@test_run.test_suite.name.parameterize(separator: '_')}_run_#{params[:id]}.csv"
+  end
+
   def unarchive
     begin
       @test_run.unarchive

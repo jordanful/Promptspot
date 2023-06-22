@@ -1,3 +1,5 @@
+require 'csv'
+
 class TestRun < ApplicationRecord
   belongs_to :test_suite
   has_many :test_run_details
@@ -20,6 +22,15 @@ class TestRun < ApplicationRecord
 
   def unarchive
     update!(archived: false)
+  end
+
+  def to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << ['Prompt', 'Input', 'Model', 'Output']
+      test_run_details.each do |detail|
+        csv << [detail.prompt.current.text, detail.input.text, detail.model.name, detail.output]
+      end
+    end
   end
 
   private

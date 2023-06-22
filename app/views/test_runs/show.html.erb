@@ -1,90 +1,30 @@
-<div class="flex">
-  <div class="w-1/3"></div>
-  <div class="w-2/3 ml-4 ">
+<div>
 
-    <div class="flex flex-row items-center justify-between">
-      <div>
-        <div class="flex items-center justify-start">
-          <h1 class="text-2xl"><%= @test_run.test_suite.name.titleize %></h1>
-
-          <div class="flex items-center ml-6">
-            <%= button_to 'Run again', test_suite_test_runs_path(@test_run.test_suite), class: "flex mr-3 items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white text-sm font-medium cursor-pointer" %>
-            <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
-            <!--  <div>Share</div>-->
-          </div>
+  <div class="flex flex-row items-center justify-between">
+    <div>
+      <div class="flex items-center justify-start">
+        <h1 class="text-2xl"><%= @test_run.test_suite.name.titleize %></h1>
+        <div class="flex items-center ml-6">
+          <%= button_to 'Run again', test_suite_test_runs_path(@test_run.test_suite), class: "flex mr-3 items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white text-sm font-medium cursor-pointer" %>
+          <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer mr-3 rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
+          <!--  <div>Share</div>-->
+          <%= link_to 'Download CSV', download_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
         </div>
       </div>
-      <div class="flex flex-wrap items-center ml-4">
-        <% @test_run.test_suite.models.each do |m| %>
-          <p class="font-mono font-medium text-gray-600 text-xs rounded-full bg-gray-200 px-2 py-1 mr-2 flex items-center justify-center"><%= m.name %>
-          </p>
-        <% end %>
-      </div>
-
     </div>
-    <p class="text-sm mt-4 font-medium text-gray-400">Last run
-      on <%= @test_run.run_time.strftime('%B %e, %l:%M %p') %></p>
-
-
-    <div class="flex items-start flex-row">
-
-      <table class="table mt-12 w-full rounded-lg" id="tableByPrompt">
-        <thead>
-        <tr>
-          <th class="text-left p-4 font-medium">Input</th>
-          <th class="text-left p-4 font-medium">Output</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @test_run.test_run_details.each do |details| %>
-
-          <tr class="bg-white" data-prompt-id="<%= details.prompt_version.id %>">
-            <td class="font-mono text-left p-4 hover:underline">
-              <%= link_to input_path(details.input) do %>
-                <%= simple_format(details.input.text) %>
-              <% end %>
-            </td>
-            <td class="text-left p-4">
-              <div class="flex flex-col items-start" data-controller="clipboard">
-                <div id="copy-output" data-clipboard-target="output" class="font-mono"><%= simple_format(details.output) %></div>
-                <button class="copy-btn mt-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
-                  <span data-clipboard-target="copyIcon" class="text-green-500"></span>
-                  <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
-                </button>
-              </div>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-
-      <table class="table mt-12 w-full rounded-lg hidden" id="tableByInput">
-        <thead>
-        <tr>
-          <th class="text-left font-medium p-4">Prompt</th>
-          <th class="text-left font-medium p-4">Output</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @test_run.test_run_details.each do |details| %>
-          <tr class="bg-white" data-input-id="<%= details.input.id %>">
-            <td class="font-mono text-left p-4"><%= details.prompt_version.text %></td>
-            <td class="font-mono text-left p-4">
-              <div class="flex flex-col items-start" data-controller="clipboard">
-                <div id="copy-output" data-clipboard-target="output" class="font-mono"><%= details.output %></div>
-                <button class="copy-btn mt-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
-                  <span data-clipboard-target="copyIcon" class="text-green-500"></span>
-                  <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
-                </button>
-              </div>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
+    <div class="flex flex-wrap items-center ml-4">
+      <% @test_run.test_suite.models.each do |m| %>
+        <p class="font-mono font-medium text-gray-600 text-xs rounded-full bg-gray-200 px-2 py-1 mr-2 flex items-center justify-center"><%= m.name %>
+        </p>
+      <% end %>
     </div>
 
-    <div class="fixed left-0 top-0 h-screen w-1/3 overflow-y-auto bg-white shadow-lg">
+  </div>
+  <p class="text-sm mt-4 font-medium text-gray-400">Last run
+    on <%= @test_run.run_time.strftime('%B %e, %l:%M %p') %></p>
+
+  <div class="flex flex-col">
+    <div>
       <div class="flex flex-col px-6 mt-8" data-controller="run-view-toggle">
         <div class="w-full flex items-center">
           <div id="viewByPrompt" data-action="click->run-view-toggle#viewByPrompt" class="bg-blue-100 w-1/2 rounded-l-md  border border-gray-300 cursor-pointer flex items-center justify-center px-3 py-2 text-sm font-medium">
@@ -95,7 +35,6 @@
           </div>
         </div>
       </div>
-      <% prompts = @test_run.test_run_details.map(&:prompt_version).uniq %>
       <% prompts = @test_run.test_run_details.map(&:prompt_version).uniq %>
       <div data-controller="prompt-dropdown" id="promptDropdown" class="mt-12">
         <% if prompts.length > 1 %>
@@ -128,5 +67,64 @@
         <input type="hidden" name="input_id" id="input_id" value="<%= inputs.first&.id %>" data-input-dropdown-target="value">
       </div>
     </div>
+    <div class='overflow-x'>
+      <table class="table-auto mt-12 rounded-lg table-auto overflow-scroll w-full" id="tableByPrompt">
+        <thead>
+        <tr>
+          <th class="text-left p-4 font-medium">Input</th>
+          <th class="text-left p-4 font-medium">Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @test_run.test_run_details.each do |details| %>
+
+          <tr class="bg-white" data-prompt-id="<%= details.prompt_version.id %>">
+            <td class="font-mono text-left p-4 hover:underline">
+              <%= link_to input_path(details.input) do %>
+                <%= simple_format(details.input.text) %>
+              <% end %>
+            </td>
+            <td class="text-left p-4">
+              <div class="flex flex-col items-start" data-controller="clipboard">
+                <div id="copy-output" data-clipboard-target="output" class="font-mono"><%= simple_format(details.output) %></div>
+                <button class="copy-btn mt-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
+                  <span data-clipboard-target="copyIcon" class="text-green-500"></span>
+                  <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class='overflow-x'>
+      <table class=" mt-12 rounded-lg hidden table-auto overflow-scroll w-full" id="tableByInput">
+        <thead>
+        <tr>
+          <th class="text-left font-medium p-4">Prompt</th>
+          <th class="text-left font-medium p-4">Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @test_run.test_run_details.each do |details| %>
+          <tr class="bg-white" data-input-id="<%= details.input.id %>">
+            <td class="font-mono text-left p-4"><%= details.prompt_version.text %></td>
+            <td class="font-mono text-left p-4">
+              <div class="flex flex-col items-start" data-controller="clipboard">
+                <div id="copy-output" data-clipboard-target="output" class="font-mono"><%= details.output %></div>
+                <button class="copy-btn mt-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
+                  <span data-clipboard-target="copyIcon" class="text-green-500"></span>
+                  <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+
 </div>

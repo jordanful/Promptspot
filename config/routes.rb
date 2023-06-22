@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :test_runs, path: :runs, only: [:create, :show, :index, :destroy] do
       post 'archive', on: :member
       post 'unarchive', on: :member
+      get 'download', on: :member, defaults: { format: :csv }, constraints: { format: :csv }
       resources :test_run_details, path: :details, only: [:show]
     end
   end
