@@ -35,6 +35,10 @@
         <%= feather_icon "settings", class: "w-4 mr-2" %>
         <p>Configure</p>
       <% end %>
+      <%= button_to clone_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer', data: { turbo: false } do %>
+        <%= feather_icon "copy", class: "w-4 mr-2" %>
+        <p>Clone</p>
+      <% end %>
       <%= button_to archive_test_suite_path(test_suite), class: 'mr-4 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer ' do %>
         <%= feather_icon "archive", class: "w-4 mr-2" %>
         <p>Archive</p>

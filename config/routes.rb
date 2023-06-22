@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :test_suites, path: :tests do
     post 'create_and_run', on: :member
     post 'archive', on: :member
+    post 'clone', on: :member
     resources :test_runs, path: :runs, only: [:create, :show, :index, :destroy] do
       post 'archive', on: :member
       post 'unarchive', on: :member

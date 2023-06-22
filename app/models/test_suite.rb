@@ -16,6 +16,22 @@ class TestSuite < ApplicationRecord
     prompts.any? || inputs.any?
   end
 
+  def clone
+    new_test_suite = dup
+    new_test_suite.name = "#{name} (copy)"
+    new_test_suite.save!
+    prompts.each do |prompt|
+      new_test_suite.prompts << prompt
+    end
+    inputs.each do |input|
+      new_test_suite.inputs << input
+    end
+    models.each do |model|
+      new_test_suite.models << model
+    end
+    new_test_suite
+  end
+
   def archive
     self.archived = true
     self.save!

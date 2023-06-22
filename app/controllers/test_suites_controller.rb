@@ -19,7 +19,6 @@ class TestSuitesController < ApplicationController
 
     begin
       test_suite_params = test_suite_params()
-
       [:input_ids, :prompt_ids, :model_ids].each do |key|
         unless test_suite_params[key].present?
           load_prompts_and_inputs_and_models
@@ -49,6 +48,13 @@ class TestSuitesController < ApplicationController
       flash.now[:alert] = @test_suite.errors.full_messages.to_sentence
       render :new
     end
+  end
+
+  def clone
+    @test_suite = TestSuite.find(params[:id])
+    @test_suite = @test_suite.clone
+    load_prompts_and_inputs_and_models
+    render :new
   end
 
   def archive

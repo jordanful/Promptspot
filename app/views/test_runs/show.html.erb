@@ -1,40 +1,41 @@
 <div>
 
   <div class="flex flex-row items-center justify-between">
-    <div>
-      <div class="flex items-center justify-start">
-        <h1 class="text-2xl"><%= @test_run.test_suite.name.titleize %></h1>
-        <div class="flex items-center ml-6">
-          <%= button_to 'Run again', test_suite_test_runs_path(@test_run.test_suite), class: "flex mr-3 items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white text-sm font-medium cursor-pointer" %>
-          <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer mr-3 rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
-          <!--  <div>Share</div>-->
-          <%= link_to 'Download CSV', download_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
+    <div class="flex items-center justify-start">
+
+      <h1 class="text-2xl"><%= @test_run.test_suite.name.titleize %></h1>
+      <div class="flex items-center ml-6">
+        <%= button_to 'Run again', test_suite_test_runs_path(@test_run.test_suite), class: "flex mr-3 items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white text-sm font-medium cursor-pointer" %>
+        <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer mr-3 rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
+        <!--  <div>Share</div>-->
+        <%= link_to 'Download CSV', download_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
+      </div>
+    </div>
+    <div class="flex flex-col px-6" data-controller="run-view-toggle">
+      <div class="flex items-center">
+        <div id="viewByPrompt" data-action="click->run-view-toggle#viewByPrompt" class="bg-blue-100 rounded-l-md  border border-blue-200 cursor-pointer flex items-center justify-center px-3 py-2 text-sm font-medium">
+          View by prompt
+        </div>
+        <div id="viewByInput" data-action="click->run-view-toggle#viewByInput" class="rounded-r-md hover:bg-blue-50 border border-l-0 border-blue-200 cursor-pointer flex items-center justify-center px-3 py-2 text-sm font-medium">
+          View by input
         </div>
       </div>
     </div>
+  </div>
+  <div class="flex items-center mt-4">
+
+    <p class="text-sm font-medium text-gray-400">Last run
+      on <%= @test_run.run_time.strftime('%B %e, %l:%M %p') %></p>
     <div class="flex flex-wrap items-center ml-4">
       <% @test_run.test_suite.models.each do |m| %>
         <p class="font-mono font-medium text-gray-600 text-xs rounded-full bg-gray-200 px-2 py-1 mr-2 flex items-center justify-center"><%= m.name %>
         </p>
       <% end %>
     </div>
-
   </div>
-  <p class="text-sm mt-4 font-medium text-gray-400">Last run
-    on <%= @test_run.run_time.strftime('%B %e, %l:%M %p') %></p>
 
   <div class="flex flex-col">
     <div>
-      <div class="flex flex-col px-6 mt-8" data-controller="run-view-toggle">
-        <div class="w-full flex items-center">
-          <div id="viewByPrompt" data-action="click->run-view-toggle#viewByPrompt" class="bg-blue-100 w-1/2 rounded-l-md  border border-gray-300 cursor-pointer flex items-center justify-center px-3 py-2 text-sm font-medium">
-            View by prompt
-          </div>
-          <div id="viewByInput" data-action="click->run-view-toggle#viewByInput" class="bg-white w-1/2 rounded-r-md hover:bg-blue-50 border border-l-0 border-gray-300 cursor-pointer flex items-center justify-center px-3 py-2 text-sm font-medium">
-            View by input
-          </div>
-        </div>
-      </div>
       <% prompts = @test_run.test_run_details.map(&:prompt_version).uniq %>
       <div data-controller="prompt-dropdown" id="promptDropdown" class="mt-12">
         <% if prompts.length > 1 %>
