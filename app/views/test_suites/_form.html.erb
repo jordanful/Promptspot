@@ -16,6 +16,8 @@
   <hr/>
   <div class="flex flex-row items-start justify-between my-4 py-8">
     <div class="field flex flex-col inline-flex grow">
+      <h2 class="text-xl mb-6">Select prompt(s)</h2>
+
       <div class="flex flex-row items-center">
         <% if @prompts.length == 0 %>
           <button type="button" data-action="click->prompt-panel#openNewPrompt" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
@@ -50,7 +52,9 @@
   </div>
   <hr/>
   <div class="flex flex-row items-start justify-between my-4 py-8">
+
     <div class="field flex flex-col inline-flex grow">
+      <h2 class="text-xl mb-6">Select input(s)</h2>
       <div class="flex flex-row items-center">
         <% if @inputs.length == 0 %>
           <button type="button" data-action="click->prompt-panel#openNewInput" class="items-center rounded-lg py-3 px-5 bg-white border border-blue-200 text-blue-600 hover:bg-gray-50 inline-block font-medium shadow-md">
@@ -80,25 +84,31 @@
     </p>
   </div>
   <hr/>
-  <div class="mt-8" data-controller="model-picker">
-    <h2 class="text-lg mb-6">Select a model</h2>
-    <div data-model-picker-target="list" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4">
-      <% @models.each do |m| %>
-        <div
-          data-action="click->model-picker#selectModel"
-          data-model-id="<%= m.id %>"
-          class="model-picker-model border-gray-300 border rounded-md p-4 cursor-pointer mb-4
-        <%= "bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300" if @test_suite.model_ids.first == m.id %> flex inline-flex flex-col mr-3 cursor-pointer"
-          data-model-picker-target="model"
-        >
-          <p class="font-mono text-lg"><%= m.name %></p>
-          <p class="text-sm text-gray-500 mt-2"><%= m.model_provider.name %></p>
-          <p class="mt-2 text-gray-500"><%= m.description %></p>
-        </div>
-      <% end %>
+  <div class="flex flex-row items-start justify-between mt-8 py-8" data-controller="model-picker">
+    <div class="flex-grow">
+      <h2 class="text-xl mb-6">Select a model</h2>
+      <div data-model-picker-target="list" class="grid grid-cols-1 md:grid-cols-2">
+        <% @models.each do |m| %>
+          <div
+            data-action="click->model-picker#selectModel"
+            data-model-id="<%= m.id %>"
+            class="model-picker-model border rounded-md p-4 cursor-pointer mb-4
+        <%= "bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300" if @test_suite.model_ids.first == m.id %>  flex inline-flex flex-col mr-3"
+            data-model-picker-target="model"
+          >
+            <p class="font-mono text-lg"><%= m.name %></p>
+            <p class="text-sm text-gray-500 mt-2"><%= m.model_provider.name %></p>
+            <p class="mt-2 text-gray-500"><%= m.description %></p>
+          </div>
+        <% end %>
+      </div>
     </div>
+    <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
+      Currently built for completion tasks. More models coming soon, including chat-based models.
+    </p>
   </div>
 
+  <%= form.hidden_field :mode, value: 'completion' %>
   <div class="actions my-8 flex flex-row">
     <%= button_tag 'Save', type: "submit", data: { action: "save_for_later" }, class: 'cursor-pointer shadow-md mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
     <%= button_tag 'Save and run', type: "submit", data: { action: "run_now" }, class: 'shadow-md flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer' %>
@@ -123,7 +133,7 @@
                data-prompt-panel-target="prompt"
                data-prompt-id="<%= prompt.id %>">
             <p class="text-base mb-2 title"><%= prompt.title %></p>
-            <p class="text-gray-600 text-sm font-mono"><%= prompt.prompt_versions.order(:version_number).last.text %></p>
+            <%= simple_format(prompt.prompt_versions.order(:version_number).last.text, class: "text-gray-600 text-sm font-mono") %>
           </div>
         <% end %>
       </div>
@@ -134,7 +144,7 @@
                data-prompt-panel-target="input"
                data-input-id="<%= input.id %>">
             <p class="text-base mb-2 title"><%= input.title %></p>
-            <p class="text-gray-600 text-sm font-mono"><%= input.text %></p>
+            <%= simple_format(input.text, class: "text-gray-600 text-sm font-mono") %>
           </div>
         <% end %>
       </div>

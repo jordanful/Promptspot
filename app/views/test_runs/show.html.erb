@@ -9,7 +9,7 @@
 
           <div class="flex items-center ml-6">
             <%= button_to 'Run again', test_suite_test_runs_path(@test_run.test_suite), class: "flex mr-3 items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white text-sm font-medium cursor-pointer" %>
-            <%= button_to 'Archive', archive_test_suite_test_run_path(@test_run), class: 'cursor-pointer rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
+            <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'cursor-pointer rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white text-sm inline-block font-medium' %>
             <!--  <div>Share</div>-->
           </div>
         </div>
@@ -41,12 +41,12 @@
           <tr class="bg-white" data-prompt-id="<%= details.prompt_version.id %>">
             <td class="font-mono text-left p-4 hover:underline">
               <%= link_to input_path(details.input) do %>
-                <%= details.input.text %>
+                <%= simple_format(details.input.text) %>
               <% end %>
             </td>
             <td class="text-left p-4">
               <div class="flex flex-col items-start" data-controller="clipboard">
-                <div id="copy-output" data-clipboard-target="output" class="font-mono"><%= details.output %></div>
+                <div id="copy-output" data-clipboard-target="output" class="font-mono"><%= simple_format(details.output) %></div>
                 <button class="copy-btn mt-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
                   <span data-clipboard-target="copyIcon" class="text-green-500"></span>
                   <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
@@ -86,25 +86,26 @@
 
     <div class="fixed left-0 top-0 h-screen w-1/3 overflow-y-auto bg-white shadow-lg">
       <div class="flex flex-col px-6 mt-8" data-controller="run-view-toggle">
-        <div class="mb-2 font-medium">View by</div>
         <div class="w-full flex items-center">
           <div id="viewByPrompt" data-action="click->run-view-toggle#viewByPrompt" class="bg-blue-100 w-1/2 rounded-l-md  border border-gray-300 cursor-pointer flex items-center justify-center px-3 py-2 text-sm font-medium">
-            Prompt
+            View by prompt
           </div>
           <div id="viewByInput" data-action="click->run-view-toggle#viewByInput" class="bg-white w-1/2 rounded-r-md hover:bg-blue-50 border border-l-0 border-gray-300 cursor-pointer flex items-center justify-center px-3 py-2 text-sm font-medium">
-            Input
+            View by input
           </div>
         </div>
       </div>
       <% prompts = @test_run.test_run_details.map(&:prompt_version).uniq %>
+      <% prompts = @test_run.test_run_details.map(&:prompt_version).uniq %>
       <div data-controller="prompt-dropdown" id="promptDropdown" class="mt-12">
-        <p class="font-medium px-6 mb-2">Select a prompt</p>
+        <% if prompts.length > 1 %>
+          <p class="font-medium px-6 mb-2">Select a prompt</p>
+        <% end %>
         <div class="dropdown-menu w-full flex flex-col " data-prompt-dropdown-target="menu">
-          <% prompts = @test_run.test_run_details.map(&:prompt_version).uniq %>
           <% prompts.each do |prompt| %>
             <div class="dropdown-item p-6 flex flex-col cursor-pointer hover:bg-blue-50 <%= 'selected' if prompt.id == prompts.first.id %>" data-id="<%= prompt.id %>" data-action="click->prompt-dropdown#select">
               <div class="dropdown-item-title mb-1 font-medium"><%= prompt.prompt.title %></div>
-              <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= prompt.text %></div>
+              <%= simple_format(prompt.text, class: "dropdown-item-text font-mono text-sm text-gray-600") %>
             </div>
           <% end %>
         </div>
@@ -112,13 +113,15 @@
       </div>
 
       <div data-controller="input-dropdown" id="inputDropdown" data-run-view-toggle-target="inputDropdown" class="hidden mt-12">
-        <p class="font-medium px-6 mb-2">Select an input</p>
+        <% inputs = @test_run.test_run_details.map(&:input).uniq %>
+        <% if inputs.length > 1 %>
+          <p class="font-medium px-6 mb-2">Select an input</p>
+        <% end %>
         <div class="dropdown-menu w-full flex flex-col" data-input-dropdown-target="menu">
-          <% inputs = @test_run.test_run_details.map(&:input).uniq %>
           <% inputs.each do |input| %>
             <div class="dropdown-item p-6 flex flex-col cursor-pointer hover:bg-blue-50 <%= 'selected' if input.id == inputs.first.id %>" data-id="<%= input.id %>" data-action="click->input-dropdown#select">
               <div class="dropdown-item-title mb-1 font-medium"><%= input.title %></div>
-              <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= input.text %></div>
+              <%= simple_format(input.text, class: "dropdown-item-text font-mono text-sm text-gray-600") %>
             </div>
           <% end %>
         </div>

@@ -9,7 +9,8 @@ class TestRunDetail < ApplicationRecord
   private
 
   def run_test
-    self.update!(status: 'queued')
+    update!(status: 'queued')
     RunTestJob.perform_later(self)
   end
+
 end

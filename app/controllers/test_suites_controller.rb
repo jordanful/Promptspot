@@ -23,16 +23,18 @@ class TestSuitesController < ApplicationController
       [:input_ids, :prompt_ids, :model_ids].each do |key|
         unless test_suite_params[key].present?
           load_prompts_and_inputs_and_models
-          render :new, notice: "Please select prompts, inputs, and models."
+          render :new, alert: "Please select prompts, inputs, and models."
           return
         end
       end
 
       @test_suite.transaction do
-        @test_suite.update!(name: test_suite_params[:name])
+        @test_suite.name = test_suite_params[:name]
         @test_suite.input_ids = test_suite_params[:input_ids]
         @test_suite.prompt_ids = test_suite_params[:prompt_ids]
         @test_suite.model_ids = test_suite_params[:model_ids]
+        @test_suite.mode = test_suite_params[:mode]
+        @test_suite.save! # This will raise an exception if validations fail
       end
 
       if params[:data_action] == 'run_now'
@@ -41,24 +43,30 @@ class TestSuitesController < ApplicationController
       else
         redirect_to test_suites_path, notice: 'Test created.'
       end
-    rescue Exception => e
+    rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error e
       load_prompts_and_inputs_and_models
-      flash.now[:alert] = "An error occurred while creating the test suite. Please try again."
+      flash.now[:alert] = @test_suite.errors.full_messages.to_sentence
       render :new
     end
   end
 
   def archive
-    @test_suite.archived = true
-    @test_suite.save
-    redirect_to test_suites_path, notice: 'Test archived'
+    @test_suite.archive
+    respond_to do |format|
+      format.html { redirect_to test_suites_path, notice: 'Archived' }
+    end
+  rescue StandardError => e
+    Rails.logger.error e
+    redirect_to test_suites_path, notice: 'An error occurred while archiving this test. Our team has been notified.'
   end
 
   def unarchive
-    @test_suite.archived = false
-    @test_suite.save
-    redirect_to test_suites_path, notice: 'Test unarchived'
+    @test_suite.unarchive
+    redirect_to test_suites_path, notice: 'Unarchived'
+  rescue StandardError => e
+    Rails.logger.error e
+    redirect_to test_suites_path, notice: 'An error occurred while unarchiving this test. Our team has been notified.'
   end
 
   def show
@@ -122,6 +130,6 @@ class TestSuitesController < ApplicationController
   end
 
   def test_suite_params
-    params.require(:test_suite).permit(:name, prompt_ids: [], input_ids: [], model_ids: [])
+    params.require(:test_suite).permit(:name, :mode, prompt_ids: [], input_ids: [], model_ids: [])
   end
 end

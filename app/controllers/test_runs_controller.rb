@@ -8,22 +8,46 @@ class TestRunsController < ApplicationController
 
   def create
     @test_suite = TestSuite.find(params[:test_suite_id])
+    if @current_organization.openai_api_key.blank?
+      flash[:error] = "Please set your OpenAI API key before running the test."
+      redirect_to test_suite_path(@test_suite) and return
+    end
     test_run = TestRun.create!(test_suite: @test_suite, status: 'queued')
     if test_run.save
-      redirect_to test_suite_path(@test_suite), notice: '👍 Running'
+      redirect_to test_suite_path(@test_suite)
     else
       redirect_to test_suite_path(@test_suite), notice: 'Test run failed to create.'
     end
   end
 
+  def destroy
+    begin
+      @test_run.destroy!
+      redirect_to test_suite_path(@test_run.test_suite), notice: 'Deleted.'
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error e
+      redirect_to test_suite_path(@test_run.test_suite), alert: 'Failed to delete the test run.'
+    end
+  end
+
   def archive
-    @test_run.archive
-    redirect_to test_suite_path(@test_run.test_suite), notice: 'Archived'
+    begin
+      @test_run.archive
+      redirect_to test_suite_path(@test_run.test_suite), notice: '🗃️Archived'
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error e
+      redirect_to test_suite_path(@test_run.test_suite), alert: 'Failed to archive the test run.'
+    end
   end
 
   def unarchive
-    @test_run.unarchive
-    redirect_to test_suite_path(@test_run.test_suite), notice: 'Unarchived'
+    begin
+      @test_run.unarchive
+      redirect_to test_suite_path(@test_run.test_suite), notice: '🗃️Unarchived'
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error e
+      redirect_to test_suite_path(@test_run.test_suite), alert: 'Failed to unarchive the test run.'
+    end
   end
 
   private

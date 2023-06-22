@@ -75,7 +75,6 @@ export default class extends Controller {
         this.hideDoneButton()
         this.activeType = 'prompt'
         this.activeSection = document.getElementById('prompts')
-        this.activeTarget = this.promptIdsTarget
         this.activeListTarget = this.selectedPromptsTarget
     }
 
@@ -89,7 +88,6 @@ export default class extends Controller {
         this.hideDoneButton()
         this.activeType = 'input'
         this.activeSection = document.getElementById('inputs')
-        this.activeTarget = this.inputIdsTarget
         this.activeListTarget = this.selectedInputsTarget
     }
 
@@ -119,7 +117,7 @@ export default class extends Controller {
 
     close(event) {
         event.preventDefault()
-        if (this.activeTarget && this.selectionChanged) {
+        if (this.selectionChanged) {
             this.updateSelectedPromptsOrInputsView()
             this.selectionChanged = false;
         }
@@ -308,8 +306,6 @@ export default class extends Controller {
         this.spinnerTarget.style.display = 'none';
         this.inputFormTarget.disabled = false;
         if (response.ok) {
-            this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${responseData.id}` : responseData.id;
-
             this.activeSection.insertAdjacentHTML('beforeend', `
             <div class="bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 rounded-md p-4 cursor-pointer mb-4"
                 data-action="click->prompt-panel#selectInput"
@@ -319,6 +315,8 @@ export default class extends Controller {
             <p class="text-gray-600 text-sm font-mono">${responseData.text}</p>
             </div>
         `);
+            this.inputIds.push(responseData.id);
+            this.createHiddenInputsForForm([responseData.id], "input");
             this.showSection('inputs');
             this.updateSelectedPromptsOrInputsView();
             this.close(event);
@@ -370,8 +368,6 @@ export default class extends Controller {
         this.formTarget.disabled = false;
 
         if (response.ok) {
-
-            this.activeTarget.value = this.activeTarget.value ? `${this.activeTarget.value},${responseData.id}` : responseData.id;
             this.activeSection.insertAdjacentHTML('beforeend', `
             <div class="bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 rounded-md p-4 cursor-pointer mb-4 rounded-md p-4 cursor-pointer mb-4"
                 data-action="click->prompt-panel#selectPrompt"
@@ -381,6 +377,8 @@ export default class extends Controller {
             <p class="text-gray-600 text-sm font-mono">${responseData.text}</p>
             </div>
         `);
+            this.promptIds.push(responseData.id);
+            this.createHiddenInputsForForm([responseData.id], "prompt");
             this.showSection('prompts');
             this.updateSelectedPromptsOrInputsView();
             this.close(event);

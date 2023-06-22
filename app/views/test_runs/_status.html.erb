@@ -1,0 +1,12 @@
+<% if test_run.status == "running" %>
+  <div class="flex inline-flex rounded-md items-center justify-center bg-white border border-gray-300 px-2 py-1">
+    <div class="font-medium text-gray-500">
+      <div class="spinner mr-1"></div>
+      <%= test_run.status.titleize %>
+    </div>
+  </div>
+<% elsif test_run.status == "error" %>
+  <div class="flex inline-flex rounded-md items-center justify-center bg-red-400 px-2 py-1 ml-2">
+    <div class="font-medium text-white"><%= test_run.status.titleize %></div>
+  </div>
+<% end %>

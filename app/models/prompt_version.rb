@@ -8,18 +8,19 @@ class PromptVersion < ApplicationRecord
   attr_accessor :save_input
 
   def generate(input, model, organization)
-    full_prompt = text + '/n/n' + input.text
+    full_prompt = "#{text}/n/n#{input.text}"
     client = OpenAI::Client.new(access_token: organization.openai_api_key)
     response = client.completions(
       parameters: {
         model: model.name,
         prompt: full_prompt,
-        max_tokens: Rails.application.config.max_tokens
+        max_tokens: Rails.application.config.max_tokens,
+        user: user.id
       }
     )
     response["choices"][0]["text"]
-  rescue
-    Rails.logger.error "Error: #{$!}"
+  rescue StandardError => e
+    puts "Error: #{e}"
   end
 
   private
@@ -30,7 +31,7 @@ class PromptVersion < ApplicationRecord
 
   def generate_prompt_title
     ActiveRecord::Base.transaction do
-      summary = Rails.application.config.title_system_prompt + '"""' + text + '"""'
+      summary = "#{Rails.application.config.title_system_prompt}\"\"\"#{text}\"\"\""
       client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
       response = client.completions(
         parameters: {

@@ -4,5 +4,6 @@ class Model < ApplicationRecord
 
   validates :name, presence: true
   validates :enabled, inclusion: { in: [true, false] }
+  validates :model_type, inclusion: { in: %w[completion chat code] }
 
 end

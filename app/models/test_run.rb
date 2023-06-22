@@ -5,24 +5,36 @@ class TestRun < ApplicationRecord
   after_create :run
 
   def check_and_update_status
-    if self.test_run_details.where.not(status: ['complete', 'error']).empty?
-      self.update!(status: 'complete')
+    if test_run_details.where(status: 'error').any?
+      update!(status: 'error')
+    else
+      update!(status: 'complete')
       # TODO: Send email
     end
+    broadcast_status_change
   end
 
   def archive
-    self.update!(archived: true)
+    update!(archived: true)
   end
 
   def unarchive
-    self.update!(archived: false)
+    update!(archived: false)
   end
 
   private
 
+  def broadcast_status_change
+    Turbo::StreamsChannel.broadcast_replace_to(
+      self,
+      target: "test_run_#{id}_row",
+      partial: "test_runs/row",
+      locals: { test_run: self, test_suite: self.test_suite, highlighted: true }
+    )
+  end
+
   def run
-    self.update!(status: 'running', run_time: Time.now)
+    update!(status: 'running', run_time: Time.now)
     test_suite.prompts.each do |prompt|
       test_suite.inputs.each do |input|
         test_suite.models.each do |model|

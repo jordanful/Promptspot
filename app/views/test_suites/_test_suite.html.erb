@@ -47,11 +47,12 @@
         </div>
       <% end %>
       </div>
+
   <% if test_suite.test_runs.any? %>
     <%= render partial: 'test_runs/test_runs', locals: { test_suite: test_suite } %>
   <% end %>
 
-
 </div>
+
 
 

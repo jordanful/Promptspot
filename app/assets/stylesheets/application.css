@@ -65,6 +65,11 @@
     display: none;
 }
 
+.highlight {
+    transition: background-color 3s ease-out;
+    background-color: #fef9c3;
+}
+
 .diff {
     overflow: auto;
 }

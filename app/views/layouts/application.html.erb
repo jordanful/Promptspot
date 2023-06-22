@@ -30,6 +30,7 @@
       </div>
     </ul>
   </nav>
+
   <% flash.each do |name, msg| %>
     <% if msg.is_a?(Array) %>
       <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>

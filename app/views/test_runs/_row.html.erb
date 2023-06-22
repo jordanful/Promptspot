@@ -1,0 +1,16 @@
+<tr class="even:bg-blue-50 rounded-md <%= defined?(highlighted) && highlighted ? 'highlight' : '' %>"
+    data-controller="highlight"
+    id="test_run_<%= test_run.id %>_row">
+  <td class="px-4 py-2 <%= test_run.status == "error" ? "text-red-400" : "text-gray-400" %>">
+    <%= test_run.run_time.strftime('%B %e, %l:%M %p') %>
+  </td>
+  <td class="px-4 py-2 flex items-center justify-end flex-row">
+    <% if test_run.status != "running" %>
+      <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite, test_run), class: 'flex inline-flex rounded-md items-center justify-center font-medium px-2 py-1 border bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium mx-2' %>
+    <% end %>
+    <% if test_run.status == "complete" %>
+      <%= link_to 'Details', test_suite_test_run_path(test_suite, test_run), class: 'text-blue-600 font-medium hover:underline mx-2' %>
+    <% end %>
+    <%= render "test_runs/status", test_run: test_run %>
+  </td>
+</tr>
