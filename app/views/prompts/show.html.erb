@@ -34,7 +34,7 @@
               <%= p.created_at.strftime('%B %e, %l:%M %p') %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-              <%= p.user.email %>
+              <%= p.user.display_name %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <% if current_user.id == p.user_id %>
@@ -73,13 +73,13 @@
     <% @prompt.prompt_versions.where.not(version_number: 1).order(version_number: :desc).each do |p| %>
       <%= link_to prompt_version_path(@prompt, p), class: "flex flex-col bg-gray-100 hover:bg-gray-200 rounded-lg p-3 mb-2" do %>
         <p>Published <%= time_ago_in_words(p.created_at) %> ago</p>
-        <p class="text-gray-400"><%= p.user.email %></p>
+        <p class="text-gray-400"><%= p.user.display_name %></p>
       <% end %>
     <% end %>
     <div class="flex flex-col bg-gray-100 rounded-lg p-3 mb-2">
       <p>Created <%= time_ago_in_words(@prompt.prompt_versions.first.created_at) %>
         ago</p>
-      <p class="text-gray-400"><%= @prompt.prompt_versions.first.user.email %></p>
+      <p class="text-gray-400"><%= @prompt.prompt_versions.first.user.display_name %></p>
 
     </div>
   </div>

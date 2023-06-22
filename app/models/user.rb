@@ -6,6 +6,10 @@ class User < ApplicationRecord
   has_many :test_suites
   before_validation :create_organization_and_account, on: :create
 
+  def display_name
+    "#{first_name} #{last_name}" || email
+  end
+
   private
 
   def create_organization_and_account

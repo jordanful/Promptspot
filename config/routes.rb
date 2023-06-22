@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
-  resources :users, only: [:show, :index]
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+
+  }
+
   resources :test_suites, path: :tests do
     post 'create_and_run', on: :member
     post 'archive', on: :member

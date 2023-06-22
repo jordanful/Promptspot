@@ -5,7 +5,7 @@
     <div class="text-sm text-gray-400 mb-2">
       <%= @prompt_version.created_at.strftime('%B %e, %l:%M %p') %>
       <br/>
-      <%= @prompt_version.user.email %>
+      <%= @prompt_version.user.display_name %>
     </div>
     <div class="font-mono text-gray-600 text-lg mb-4">
       <%= raw @diff_split.right if @previous_version %>
@@ -18,7 +18,7 @@
       <div class="text-sm text-gray-400 mb-2">
         <%= @previous_version.created_at.strftime('%B %e, %l:%M %p') %>
         <br/>
-        <%= @previous_version.user.email %>
+        <%= @previous_version.user.display_name %>
       </div>
       <div class="font-mono text-gray-600 text-lg mb-4">
         <%= raw @diff_split.left if @previous_version %>

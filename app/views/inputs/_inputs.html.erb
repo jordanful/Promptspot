@@ -2,6 +2,6 @@
   <%= link_to edit_input_path(input), data: { turbo_frame: "_top" }, class: "input bg-white rounded-lg shadow-md p-6 cursor-pointer flex flex-col items-start mb-4" do %>
     <p class="text-xl mb-4"><%= input.title %></p>
     <p class="text-gray-600 mb-3 font-mono"><%= truncate(input.text, length: 120, separator: ' ', omission: '...') %></p>
-    <p class="text-sm text-gray-400"><%= input.user.email %></p>
+    <p class="text-sm text-gray-400"><%= input.user.display_name %></p>
   <% end %>
 <% end %>

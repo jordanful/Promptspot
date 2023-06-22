@@ -57,7 +57,7 @@ class PromptsController < ApplicationController
   # PATCH/PUT /prompts/1 or /prompts/1.json
   def update
     new_version_text = prompt_params[:prompt_versions_attributes]['0'][:text]
-    last_version_text = @prompt.prompt_versions.last.text
+    last_version_text = @prompt.prompt_versions.order(version_number: :desc).first.text
     draft_id = params[:prompt_draft_id]
 
     if last_version_text == new_version_text
