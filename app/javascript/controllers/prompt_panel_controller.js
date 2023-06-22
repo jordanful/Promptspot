@@ -1,7 +1,7 @@
 import {Controller} from "stimulus"
 
 export default class extends Controller {
-    static targets = ["panel", "doneButton", "list", "prompt", "input", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea", "newInputTextArea", "spinner", "form", "inputForm"]
+    static targets = ["panel", "doneButton", "list", "prompt", "input", "selectedPrompts", "selectedInputs", "headline", "search", "overlay", "newPromptTextArea", "newInputTextArea", "spinner", "form", "inputForm", "runNow"]
 
     connect() {
         this.handleClick = this.handleClick.bind(this);
@@ -391,5 +391,9 @@ export default class extends Controller {
             </div>
         `);
         }
+    }
+
+    runNow(event) {
+        this.runNowTarget.value = "true"
     }
 }

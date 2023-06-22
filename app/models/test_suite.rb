@@ -25,4 +25,12 @@ class TestSuite < ApplicationRecord
     self.archived = false
     self.save!
   end
+
+  def run
+    TestRun.create(
+      test_suite_id: id,
+      status: 'running',
+      run_time: Time.now
+    )
+  end
 end

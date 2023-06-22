@@ -6,7 +6,7 @@
     </div>
   </div>
 <% elsif test_run.status == "error" %>
-  <div class="flex inline-flex rounded-md items-center justify-center bg-red-400 px-2 py-1 ml-2">
+  <div class="flex inline-flex rounded-md items-center justify-center bg-red-400 px-2 py-1 ml-4">
     <div class="font-medium text-white"><%= test_run.status.titleize %></div>
   </div>
 <% end %>

@@ -109,9 +109,11 @@
   </div>
 
   <%= form.hidden_field :mode, value: 'completion' %>
+  <%= form.hidden_field :run_now, value: '', data: { "prompt-panel-target": "runNow" } %>
+
   <div class="actions my-8 flex flex-row">
-    <%= button_tag 'Save', type: "submit", data: { action: "save_for_later" }, class: 'cursor-pointer shadow-md mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
-    <%= button_tag 'Save and run', type: "submit", data: { action: "run_now" }, class: 'shadow-md flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer' %>
+    <%= button_tag 'Save', type: "submit", class: 'cursor-pointer shadow-md mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+    <%= button_tag 'Save and run', type: "submit", data: { action: "prompt-panel#runNow" }, class: 'shadow-md flex items-center justify-center rounded-md py-2 px-3 bg-green-50 border border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer' %>
   </div>
 
   <div class="fixed inset-0 bg-black opacity-0" style=" pointer-events: none;" data-prompt-panel-target="overlay" data-action="click->prompt-panel#close"></div>

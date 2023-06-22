@@ -37,9 +37,9 @@ class TestSuitesController < ApplicationController
         @test_suite.save! # This will raise an exception if validations fail
       end
 
-      if params[:data_action] == 'run_now'
+      if test_suite_params[:run_now] == 'true'
         @test_suite.run
-        redirect_to test_suite_test_run_path(@test_suite.test_runs.last), notice: 'Test created and queued.'
+        redirect_to test_suite_path(@test_suite), notice: 'Test created and queued.'
       else
         redirect_to test_suites_path, notice: 'Test created.'
       end
@@ -93,9 +93,9 @@ class TestSuitesController < ApplicationController
         @test_suite.model_ids = test_suite_params.require(:model_ids)
       end
 
-      if params[:data_action] == 'run_now'
+      if test_suite_params[:run_now] == 'true'
         @test_suite.run
-        redirect_to test_suites_path(@test_suite.test_runs.last), notice: 'Test updated and queued.'
+        redirect_to test_suite_path(@test_suite), notice: 'Test updated and queued.'
       else
         redirect_to test_suites_path, notice: 'Test updated.'
       end
@@ -130,6 +130,6 @@ class TestSuitesController < ApplicationController
   end
 
   def test_suite_params
-    params.require(:test_suite).permit(:name, :mode, prompt_ids: [], input_ids: [], model_ids: [])
+    params.require(:test_suite).permit(:name, :mode, :run_now, prompt_ids: [], input_ids: [], model_ids: [])
   end
 end
