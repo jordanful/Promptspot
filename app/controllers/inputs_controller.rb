@@ -33,6 +33,18 @@ class InputsController < ApplicationController
     end
   end
 
+  def update
+    respond_to do |format|
+      if @input.update(input_params)
+        format.html { redirect_to inputs_url, notice: "👍 All set." }
+        format.json { render :show, status: :ok, location: @input }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @input.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def authorize_user!
