@@ -5,6 +5,9 @@ class User < ApplicationRecord
   belongs_to :account
   has_many :test_suites
   before_validation :create_organization_and_account, on: :create
+  validates :account_id, presence: true
+  validates :email, presence: true
+  validates :password, presence: true
 
   def display_name
     "#{first_name} #{last_name}" || email

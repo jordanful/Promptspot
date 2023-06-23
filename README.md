@@ -1,11 +1,10 @@
-<div style="text-align: center">
+<div style="text-align: center; display: flex; flex-direction: column; justify-items: center; align-items: center">
 
-![promptspot-logo.png](app%2Fassets%2Fimages%2Fpromptspot-logo.png)
+![promptspot-logo.png](app%2Fassets%2Fimages%2Fpromptspot-logo.svg)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 <p align="center" style="font-weight: 600; font-size: 16px;">
-Your open-source shortcut to easy prompt testing
-</p>
+Prompt testing made easy</p>
 </div>
 
 
@@ -87,7 +86,7 @@ There are two main use cases for tests:
 1) Testing a single prompt against multiple inputs
 2) Testing multiple prompts against a single input
 
-###                                                         
+###                                                            
 
 ## Roadmap
 

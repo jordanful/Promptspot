@@ -1,0 +1,8 @@
+FactoryBot.define do
+  factory :test_run do
+    test_suite_id { SecureRandom.uuid }
+    run_time { "2023-06-23 09:23:59" }
+    status { "complete" }
+    archived { false }
+  end
+end

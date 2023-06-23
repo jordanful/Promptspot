@@ -1,9 +1,10 @@
 require "test_helper"
 
-class TestRunTest < ActiveSupport::TestCase
+class TestSuiteInputTest < ActiveSupport::TestCase
   setup do
     WebMock.allow_net_connect!
     VCR.insert_cassette name
+
     @organization = FactoryBot.create(:organization)
     @account = FactoryBot.create(:account, organization: @organization)
     @user = FactoryBot.create(:user, account: @account)
@@ -20,20 +21,19 @@ class TestRunTest < ActiveSupport::TestCase
     WebMock.allow_net_connect!
   end
 
-  test "should create test run" do
-    FactoryBot.create(:test_run, test_suite: @test_suite)
-    assert TestRun.count == 1
+  test "should create test suite input" do
+    FactoryBot.create(:test_suite_input, test_suite: @test_suite, input: @input)
   end
 
-  test "should not create test run without test suite" do
+  test "should not create test suite input without test suite" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_run, test_suite: nil)
+      FactoryBot.create(:test_suite_input, test_suite: nil, input: @input)
     end
   end
 
-  test "should not create test run without an archived flag" do
+  test "should not create test suite input without input" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_run, test_suite: @test_suite, archived: nil)
+      FactoryBot.create(:test_suite_input, test_suite: @test_suite, input: nil)
     end
   end
 

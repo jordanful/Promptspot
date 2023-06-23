@@ -15,7 +15,6 @@ class OrganizationsTest < ApplicationSystemTestCase
     click_on "New organization"
 
     fill_in "Billing email", with: @organization.billing_email
-    fill_in "Stripe customer", with: @organization.stripe_customer_id
     click_on "Create Organization"
 
     assert_text "Organization was successfully created"
@@ -27,7 +26,6 @@ class OrganizationsTest < ApplicationSystemTestCase
     click_on "Edit this organization", match: :first
 
     fill_in "Billing email", with: @organization.billing_email
-    fill_in "Stripe customer", with: @organization.stripe_customer_id
     click_on "Update Organization"
 
     assert_text "Organization was successfully updated"

@@ -17,7 +17,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create organization" do
     assert_difference("Organization.count") do
-      post organizations_url, params: { organization: { billing_email: @organization.billing_email, stripe_customer_id: @organization.stripe_customer_id } }
+      post organizations_url, params: { organization: { billing_email: @organization.billing_email } }
     end
 
     assert_redirected_to organization_url(Organization.last)
@@ -34,7 +34,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update organization" do
-    patch organization_url(@organization), params: { organization: { billing_email: @organization.billing_email, stripe_customer_id: @organization.stripe_customer_id } }
+    patch organization_url(@organization), params: { organization: { billing_email: @organization.billing_email, } }
     assert_redirected_to organization_url(@organization)
   end
 
