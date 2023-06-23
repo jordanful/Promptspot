@@ -22,12 +22,12 @@
       </li>
       <div class="flex flex-row items-center text-blue-600 hover:text-blue-700">
         <% if current_user %>
-          <li class="mr-6"><%= link_to "Tests", test_suites_path %></li>
-          <li class="mr-6"><%= link_to "Prompts", prompts_url %></li>
-          <li class="mr-6"><%= link_to "Inputs", inputs_url %></li>
+          <li class="mr-6 font-mono font-medium"><%= link_to "Tests", test_suites_path %></li>
+          <li class="mr-6 font-mono font-medium"><%= link_to "Prompts", prompts_url %></li>
+          <li class="mr-6 font-mono font-medium"><%= link_to "Inputs", inputs_url %></li>
 
-          <li class="mr-6"><%= link_to "Account", edit_user_registration_path %></li>
-          <li><%= link_to "Sign out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "text-blue-500" %></li>
+          <li class="mr-6 font-medium font-mono"><%= link_to "Account", edit_user_registration_path %></li>
+          <li><%= link_to "Sign out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "text-blue-500 font-medium font-mono" %></li>
         <% else %>
           <li><%= link_to "Sign in", new_user_session_path %></li>
         <% end %>
