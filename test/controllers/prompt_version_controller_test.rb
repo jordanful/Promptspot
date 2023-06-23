@@ -17,9 +17,10 @@ class PromptVersionControllerTest < ActionDispatch::IntegrationTest
     WebMock.allow_net_connect!
   end
 
-  # test "should show prompt version" do
-  #   get prompt_version_url(prompt_id: @prompt.id, id: @prompt.prompt_versions.last.id,)
-  #   assert_response :success
-  # end
-
+  test "should show prompt version" do
+    prompt_version = FactoryBot.create(:prompt_version, prompt: @prompt, text: "Example prompt text", user_id: @user.id)
+    get prompt_version_url(prompt_id: @prompt.id, id: prompt_version.id,)
+    assert_response :success
+  end
+  
 end
