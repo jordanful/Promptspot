@@ -4,11 +4,11 @@
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 </div>
-Say goodbye to the chore of copying and pasting between apps, building your own internal tools, or relying on limited
+Say goodbye to the chore of copying and pasting prompts between apps, building your own internal tools, or relying on limited
 playgrounds. With ✨Promptspot, you have the power to:
 
-- Facilitate prompt collaboration within your team
 - Test prompts against numerous inputs in a single test suite
+- Facilitate prompt collaboration within your team
 - View outputs side-by-side
 - Download CSVs for offline analysis
 - Clone tests quickly for faster iteration
