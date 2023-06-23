@@ -30,6 +30,10 @@ class TestRunsController < ApplicationController
     end
   end
 
+  def download
+    send_data @test_run.to_csv, filename: "promtspot_#{@test_run.test_suite.name.parameterize(separator: '_')}_run_#{params[:id]}.csv"
+  end
+
   def archive
     begin
       @test_run.archive
@@ -38,10 +42,6 @@ class TestRunsController < ApplicationController
       Rails.logger.error e
       redirect_to test_suite_path(@test_run.test_suite), alert: 'Failed to archive the test run.'
     end
-  end
-
-  def download
-    send_data @test_run.to_csv, filename: "promtspot_#{@test_run.test_suite.name.parameterize(separator: '_')}_run_#{params[:id]}.csv"
   end
 
   def unarchive

@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <%= form.fields_for :prompt_versions, prompt.prompt_versions.order(:version_number).last do |prompt_version_form| %>
+  <%= form.fields_for :prompt_versions, prompt.prompt_versions.last do |prompt_version_form| %>
     <div class="field flex flex-col">
       <% if @prompt_draft %>
         <%= prompt_version_form.text_area :text, value: @prompt_draft.text, id: "system-prompt", class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>

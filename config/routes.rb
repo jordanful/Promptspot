@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     post 'unarchive', on: :member
     post 'create_draft', on: :member
     get :archived, on: :collection
-    resources :prompt_versions, as: :versions, path: :version do
+    resources :prompt_versions, as: :versions, path: :version, only: [:show] do
       collection do
         post 'preview'
       end

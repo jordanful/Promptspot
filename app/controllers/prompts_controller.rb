@@ -33,12 +33,14 @@ class PromptsController < ApplicationController
   def create
     @prompt = Prompt.new(prompt_params)
     @prompt.account_id = current_user.account.id
-    @prompt.prompt_versions.first.user_id = current_user.id
+    @prompt.prompt_versions.build if @prompt.prompt_versions.empty?
 
     draft_id = params[:prompt_draft_id]
 
     respond_to do |format|
       if @prompt.save
+        puts @prompt.inspect
+        puts @prompt.prompt_versions.inspect
         if draft_id.present?
           PromptDraft.find(draft_id).destroy
         end

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :model do
-    model_provider_id { SecureRandom.uuid }
+    model_provider
     name { "davinci" }
     enabled { false }
     description { "This is an example description" }
