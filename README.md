@@ -3,17 +3,14 @@
 ![promptspot-logo.png](app%2Fassets%2Fimages%2Fpromptspot-logo.svg)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-<p align="center" style="font-weight: 600; font-size: 16px;">
-Prompt testing made easy</p>
 </div>
-
-
 Say goodbye to the chore of copying and pasting between apps, building your own internal tools, or relying on limited
 playgrounds. With ✨Promptspot, you have the power to:
 
 - Facilitate prompt collaboration within your team
 - Test prompts against numerous inputs in a single test suite
 - View outputs side-by-side
+- Download CSVs for offline analysis
 - Clone tests quickly for faster iteration
 
 ## Getting Started
@@ -86,8 +83,6 @@ There are two main use cases for tests:
 1) Testing a single prompt against multiple inputs
 2) Testing multiple prompts against a single input
 
-###                                                            
-
 ## Roadmap
 
 We're just getting started! Here's what we're planning to build next:
@@ -95,11 +90,12 @@ We're just getting started! Here's what we're planning to build next:
 - [ ] Internal tests 🙂
 - [ ] Support for chat-based models
 - [ ] Support for other completion APIs (e.g. outside of OpenAI)
-- [ ] Support for diffusion / image-based models
+- [ ] Better team + collaboration support
 - [ ] Full API support (e.g. for CI/CD)
 - [ ] Prompt hosting (i.e. serve prompts to your app from Promptspot)
 - [ ] Support for multiple users and accounts
 - [ ] Shareable outputs (semi-private links to test results)
+- [ ] Support for diffusion / image-based models
 
 ## Contributing
 
