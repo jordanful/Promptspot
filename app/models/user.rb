@@ -16,8 +16,10 @@ class User < ApplicationRecord
   private
 
   def create_organization_and_account
+    return if account_id.present?
+
     ActiveRecord::Base.transaction do
-      organization = Organization.create!(billing_email: self.email)
+      organization = Organization.create!(billing_email: email)
       account = Account.create!(organization_id: organization.id)
       self.account_id = account.id
     end
@@ -25,4 +27,5 @@ class User < ApplicationRecord
     errors.add(:base, "There was an error creating the organization and account: #{e.message}")
     throw(:abort)
   end
+
 end
