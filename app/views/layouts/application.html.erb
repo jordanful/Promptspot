@@ -15,7 +15,11 @@
 <div class="container mx-auto p-8">
   <nav class="mb-12 mt-4">
     <ul class="flex items-center justify-between">
-      <li class="mr-4 font-bold text-2xl text-blue-600 tracking-tight"><%= link_to "PromptSpot", root_path %></li>
+      <li class="mr-4 font-bold text-2xl text-blue-600 tracking-tight">
+        <%= link_to root_path do %>
+          <%= image_tag("promptspot-logo.svg", class: "h-6") %>
+        <% end %>
+      </li>
       <div class="flex flex-row items-center text-blue-600 hover:text-blue-700">
         <% if current_user %>
           <li class="mr-6"><%= link_to "Tests", test_suites_path %></li>
