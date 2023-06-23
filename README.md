@@ -32,7 +32,6 @@ Sometimes called "system prompt" or "hidden prompt", in Promptspot a `prompt` is
 generate a completion. They can be as simple as a single sentence, or as complex as a multi-paragraph description of a
 user's state.
 
-Promptspot offers some neat features specific to prompts, including drafts, versioning, and diffs.
 Example:
 
 ```
@@ -47,6 +46,8 @@ Remember: ONLY RESPOND IN JSON.
 
 ===
 ```
+
+Promptspot offers some neat features specific to prompts, including drafts, versioning, and diffs.
 
 ### Inputs
 
@@ -87,7 +88,7 @@ There are two main use cases for tests:
 
 We're just getting started! Here's what we're planning to build next:
 
-- [ ] Internal tests 🙂
+- [ ] Wider test coverage
 - [ ] Support for chat-based models
 - [ ] Support for other completion APIs (e.g. outside of OpenAI)
 - [ ] Better team + collaboration support
