@@ -5,7 +5,7 @@
                   html: { data: { controller: "preview", url: preview_prompt_versions_path(prompt),
                                   target: "preview.output preview.form", "preview-prompt-id": prompt.id } } do |form| %>
       <fieldset data-controller="tab">
-        <% if inputs.length > 0 %>
+        <% if inputs&.length.to_i > 0 %>
           <div data-tab-target="tab" class="w-full flex justify-between items-center rounded-md border text-base shadow-sm font-medium border-gray-300 mb-4">
             <div class="w-1/2 flex justify-center items-center bg-white text-black w-full h-full rounded-l-md p-3 cursor-pointer" data-tab="new" data-action="click->tab#toggle">
               New input
@@ -29,7 +29,7 @@
           </button>
 
           <div class="dropdown-menu w-full bg-white shadow border-gray-300 border rounded-md flex flex-col mt-1 overflow-y-auto max-h-56" style="display:none" data-dropdown-target="menu">
-            <% inputs.each do |input| %>
+            <% inputs&.each do |input| %>
               <div class="dropdown-item flex flex-col cursor-pointer hover:bg-blue-50 p-3" data-id="<%= input.id %>" data-action="click->dropdown#select">
                 <div class="dropdown-item-title mb-1 font-medium"><%= input.title %></div>
                 <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= input.text %></div>
@@ -52,7 +52,8 @@
               <p class="text-lg mb-3">Select the model most appropriate for your use-case:
                 general purpose, chat, or code completion.</p>
               <div class="modal-content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:gap-6 sm:gap-3 gap-1">
-                <% models.each do |m| %>
+
+                <% models&.each do |m| %>
                   <div class="bg-gray-100 p-3 rounded-md">
                     <div class="text-lg font-mono"><%= m.name %></div>
                     <div class="font-medium text-sm my-2"><%= m.model_provider.name %></div>

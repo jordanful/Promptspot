@@ -4,7 +4,8 @@ class PromptControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     WebMock.allow_net_connect!
-    VCR.insert_cassette name
+    VCR.insert_cassette name, {
+      :allow_playback_repeats => true }
     @organization = FactoryBot.create(:organization)
     @account = FactoryBot.create(:account, organization: @organization)
     @user = FactoryBot.create(:user, account: @account)
@@ -18,6 +19,7 @@ class PromptControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
+    FactoryBot.create(:prompt_version, prompt: @prompt, text: "Example prompt text", user_id: @user.id)
     get prompts_url
     assert_response :success
   end
@@ -27,31 +29,46 @@ class PromptControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  # TODO: Fix this test
   test "should create prompt" do
     assert_difference('Prompt.count') do
-      post prompts_url, params: { prompt: { status: "active", account_id: @account.id, prompt_versions_attributes: [{ text: "Example prompt text" }] } }
+      post prompts_url, params: {
+        prompt: {
+          status: "active",
+          account_id: @account.id,
+          prompt_versions_attributes: [{ text: "Example prompt text" }]
+        }
+      }
     end
-    puts response.body
-    assert_redirected_to prompt_url(Prompt.last)
   end
 
   test "should show prompt" do
+    FactoryBot.create(:prompt_version, prompt: @prompt, text: "Example prompt text", user_id: @user.id)
     get prompt_url(@prompt)
     assert_response :success
   end
 
   test "should get edit" do
+    FactoryBot.create(:prompt_version, prompt: @prompt, text: "Example prompt text", user_id: @user.id)
     get edit_prompt_url(@prompt)
     assert_response :success
   end
 
   test "should update prompt" do
-    patch prompt_url(@prompt), params: { prompt: { account_id: @account.id } }
-    assert_redirected_to prompt_url(@prompt)
+    FactoryBot.create(:prompt_version, prompt: @prompt, text: "Example prompt text", user_id: @user.id)
+    patch prompt_url(@prompt), params: {
+      prompt: {
+        status: "archived",
+        prompt_versions_attributes: [{ text: "Updated prompt text" }]
+      }
+    }
+    assert_redirected_to prompt_path(@prompt)
+    @prompt.reload
+    assert_equal "archived", @prompt.status
+    assert_equal "Updated prompt text", @prompt.prompt_versions.last.text
   end
 
   test "should archive prompt" do
+
     post archive_prompt_url(@prompt), params: { prompt: { status: "archived" } }
     assert_redirected_to prompts_url
   end

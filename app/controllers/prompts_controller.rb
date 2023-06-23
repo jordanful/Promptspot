@@ -34,7 +34,7 @@ class PromptsController < ApplicationController
     @prompt = Prompt.new(prompt_params)
     @prompt.account_id = current_user.account.id
     @prompt.prompt_versions.build if @prompt.prompt_versions.empty?
-
+    @prompt.prompt_versions.last.user = current_user
     draft_id = params[:prompt_draft_id]
 
     respond_to do |format|
@@ -58,7 +58,7 @@ class PromptsController < ApplicationController
 
   # PATCH/PUT /prompts/1 or /prompts/1.json
   def update
-    new_version_text = prompt_params[:prompt_versions_attributes]['0'][:text]
+    new_version_text = prompt_params[:prompt_versions_attributes][0][:text]
     last_version_text = @prompt.prompt_versions.order(version_number: :desc).first.text
     draft_id = params[:prompt_draft_id]
 
