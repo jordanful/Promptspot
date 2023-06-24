@@ -23,8 +23,7 @@ class PromptVersionsController < ApplicationController
       input.save
     end
 
-    prompt = "#{params[:system_prompt]}/n/n#{input.text}"
-
+    prompt = "#{params[:system_prompt]}\n\n#{input.text}"
     client = OpenAI::Client.new(access_token: @current_organization.openai_api_key)
     response = client.completions(
       parameters: {
@@ -34,10 +33,11 @@ class PromptVersionsController < ApplicationController
       }
     )
     @result = response["choices"][0]["text"]
-    render partial: 'prompts/preview', locals: { result: @result }
-  rescue
-    render partial: 'prompts/preview', locals: { result: 'Error' }
-    Rails.logger.error "Error: #{$!}"
+
+    render json: { result: @result }
+  rescue StandardError => e
+    Rails.logger.error "Error: #{e.message}"
+    render json: { result: 'Error', error: e.message }, status: :internal_server_error
   end
 
   private

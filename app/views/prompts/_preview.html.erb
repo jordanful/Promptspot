@@ -80,12 +80,13 @@
       <% end %>
 
       <div class="overlay hidden fixed inset-0 bg-black opacity-50" data-preview-target="overlay"></div>
-      <div class="modal hidden fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white p-6 rounded-lg" data-preview-target="modal">
+      <div class="modal hidden fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white p-6 rounded-lg w-full h-full lg:w-2/3 lg:h-auto mx-auto overflow-auto" data-preview-target="modal">
         <div class="flex justify-end mb-3">
           <button data-action="click->preview#closeModal"><%= feather_icon 'x' %></button>
         </div>
-        <div id="result" data-preview-target="output" class="font-mono text-base"></div>
+        <textarea id="result" data-preview-target="output" class="font-mono text-lg w-full rounded-lg" rows="12"></textarea>
       </div>
+
 
     <% end %>
 
