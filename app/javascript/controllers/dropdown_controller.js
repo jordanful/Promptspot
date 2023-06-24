@@ -20,17 +20,10 @@ export default class extends Controller {
 
     select(event) {
         event.preventDefault();
-
         let item = event.currentTarget;
         let title = item.querySelector('.dropdown-item-title').innerHTML;
-
-        // Update button text
         this.buttonTarget.querySelector('.dropdown-text').innerHTML = title;
-
-        // Save selected ID
         this.valueTarget.value = item.dataset.id;
-
-        // Close dropdown
         this.menuTarget.style.display = "none";
     }
 }

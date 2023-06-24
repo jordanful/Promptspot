@@ -1,25 +1,23 @@
 import {Controller} from "stimulus";
 
 export default class extends Controller {
-    static targets = ["output", "input", "spinner", "submitButton", "form", "model", "modal", "overlay", "preview", "errorMessage"]
+    static targets = ["output", "input", "spinner", "submitButton", "form", "model", "preview", "errorMessage", "inputId"]
 
     submitForm(event) {
         event.preventDefault();
 
         let model = this.modelTarget.value;
         let input = this.inputTarget.value;
+        let inputId = this.inputIdTarget.value;
         let systemPromptElement = document.getElementById('system-prompt');
         let systemPrompt = systemPromptElement.value;
-        console.log(model, input, systemPrompt)
-        // Check if the fields are not empty
-        if (!model || !input || systemPrompt === "") {
-            // Show an error message
+        console.log("input: " + input);
+
+        if (!model || !(input || inputId) || systemPrompt === "") {
             this.errorMessageTarget.textContent = 'Please fill out all the fields.';
             this.errorMessageTarget.classList.remove('hidden');
-            return; // stop further execution
+            return;
         }
-
-        // If the fields are filled out, hide the error message
         this.errorMessageTarget.classList.add('hidden');
 
         this.beforeSend()
@@ -29,6 +27,7 @@ export default class extends Controller {
         let params = new URLSearchParams();
         params.append('system_prompt', systemPrompt);
         params.append('input', input);
+        params.append('input_id', inputId);
         params.append('model', model);
 
         fetch('/prompts/' + this.formTarget.dataset.previewPromptId + '/version/preview', {
@@ -43,7 +42,7 @@ export default class extends Controller {
             .then(response => response.text())
             .then(html => {
                 this.outputTarget.innerHTML = html;
-                this.openModal();
+                // this.openModal();
                 this.complete();
             })
             .catch(error => {
@@ -64,28 +63,28 @@ export default class extends Controller {
         this.submitButtonTarget.classList.remove('opacity-50');  // Remove the class
     }
 
-    openModal() {
-        this.modalTarget.classList.remove('hidden');
-        this.overlayTarget.classList.remove('hidden');
-    }
-
-    closeModal() {
-        this.modalTarget.classList.add('hidden');
-        this.overlayTarget.classList.add('hidden');
-        this.previewTarget.innerHTML = ''; // This will clear the preview panel
-    }
-
-    handleOutsideClick(event) {
-        if (event.target === this.overlayTarget) {
-            this.closeModal();
-        }
-    }
-
-    connect() {
-        this.overlayTarget.addEventListener('click', this.handleOutsideClick.bind(this));
-    }
-
-    disconnect() {
-        this.overlayTarget.removeEventListener('click', this.handleOutsideClick.bind(this));
-    }
+    // openModal() {
+    //     this.modalTarget.classList.remove('hidden');
+    //     this.overlayTarget.classList.remove('hidden');
+    // }
+    //
+    // closeModal() {
+    //     this.modalTarget.classList.add('hidden');
+    //     this.overlayTarget.classList.add('hidden');
+    //     this.previewTarget.innerHTML = ''; // This will clear the preview panel
+    // }
+    //
+    // handleOutsideClick(event) {
+    //     if (event.target === this.overlayTarget) {
+    //         this.closeModal();
+    //     }
+    // }
+    //
+    // connect() {
+    //     this.overlayTarget.addEventListener('click', this.handleOutsideClick.bind(this));
+    // }
+    //
+    // disconnect() {
+    //     this.overlayTarget.removeEventListener('click', this.handleOutsideClick.bind(this));
+    // }
 }

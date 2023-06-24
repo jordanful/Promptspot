@@ -23,7 +23,7 @@
                 <strong><%= input.title %></strong>
               </div>
             <% else %>
-              <span class="dropdown-text text-gray-600">Select an input</span>
+              <span class="dropdown-text">Select an input</span>
             <% end %>
             <div class="arrow mr-1"></div>
           </button>
@@ -36,7 +36,7 @@
               </div>
             <% end %>
           </div>
-          <input type="hidden" name="input_id" id="input_id" value="<%= input&.id %>" data-dropdown-target="value">
+          <input type="hidden" name="input_id" id="input_id" value="<%= input&.id %>" data-dropdown-target="value" data-preview-target="inputId">
         </div>
       </fieldset>
 

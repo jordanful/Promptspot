@@ -15,10 +15,16 @@ class PromptVersionsController < ApplicationController
   end
 
   def preview
-    input = Input.find_or_initialize_by(text: params[:input], account_id: current_user.account.id)
-    input.user_id = current_user.id
-    input.save
-    prompt = params[:system_prompt] + '/n/n' + params[:input]
+    if params[:input_id].present?
+      input = Input.find(params[:input_id])
+    else
+      input = Input.find_or_initialize_by(text: params[:input], account_id: current_user.account.id)
+      input.user_id = current_user.id
+      input.save
+    end
+
+    prompt = "#{params[:system_prompt]}/n/n#{input.text}"
+
     client = OpenAI::Client.new(access_token: @current_organization.openai_api_key)
     response = client.completions(
       parameters: {
@@ -28,9 +34,9 @@ class PromptVersionsController < ApplicationController
       }
     )
     @result = response["choices"][0]["text"]
-    render partial: 'preview', locals: { result: @result }
+    render partial: 'prompts/preview', locals: { result: @result }
   rescue
-    render partial: 'preview', locals: { result: 'Error' }
+    render partial: 'prompts/preview', locals: { result: 'Error' }
     Rails.logger.error "Error: #{$!}"
   end
 
