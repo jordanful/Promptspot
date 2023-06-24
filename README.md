@@ -2,9 +2,9 @@
 
 ![promptspot-logo.png](app%2Fassets%2Fimages%2Fpromptspot-logo.svg)
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-</div>
-Say goodbye to the chore of copying and pasting prompts between apps, building your own internal tools, or relying on limited
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)</div>
+Say goodbye to the chore of copying and pasting prompts between apps, building your own internal tools, or relying on
+limited
 playgrounds. With ✨Promptspot, you have the power to:
 
 - Test prompts against numerous inputs in a single test suite
@@ -104,4 +104,4 @@ We need your help! Promptspot is an open-source project, and we welcome contribu
 
 ## License
 
-Promptspot is licensed under the AGPL v3.0. See [LICENSE](LICENSE) for more information.
+Promptspot is licensed under the Apache License v2.0. See [LICENSE](LICENSE) for more information.
