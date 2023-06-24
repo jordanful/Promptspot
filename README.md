@@ -104,4 +104,4 @@ We need your help! Promptspot is an open-source project, and we welcome contribu
 
 ## License
 
-Promptspot is licensed under the Apache License v2.0. See [LICENSE](LICENSE) for more information.
+Promptspot is licensed under the Apache License v2.0. See [LICENSE](LICENSE.md) for more information.
