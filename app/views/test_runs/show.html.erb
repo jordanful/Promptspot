@@ -112,38 +112,43 @@
     <% end %>
   </div>
   <div id="tableByInput">
-    <% @test_run.test_run_details.each do |details| %>
-      <div data-input-id="<%= details.input.id %>" class="flex justify-between items-center my-12 w-full">
-        <div class="flex flex-col w-1/2" data-controller="clipboard">
-          <div class="flex justify-start items-center mb-2">
-            <h3 class="text-gray-600">Prompt</h3>
-            <button class="copy-btn ml-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
-              <span data-clipboard-target="copyIcon" class="text-green-500"></span>
-              <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
-            </button>
-            <%= link_to prompt_path(details.prompt_version.prompt) do %>
-              <span class="text-gray-400 hover:text-blue-600 ml-4 text-sm hover:underline">View</span>
-            <% end %>
-          </div>
-          <div class="font-mono text-gray-500 p-4 bg-white border border-gray-200 rounded-lg mr-3 h-80 overflow-y-scroll" id="copy-output" data-clipboard-target="output">
-            <%= simple_format(details.prompt_version.text) %>
-          </div>
+    <div data-input-id="<%= @inputs.first&.id %>" class="flex justify-between items-center my-12 w-full">
+      <div class="flex flex-col w-1/2" data-controller="clipboard">
+        <div class="flex justify-start items-center mb-2">
+          <h3 class="text-gray-600">Prompt</h3>
+          <button class="copy-btn ml-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
+            <span data-clipboard-target="copyIcon" class="text-green-500"></span>
+            <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
+          </button>
+          <%= link_to prompt_path(@prompts.first) do %>
+            <span class="text-gray-400 hover:text-blue-600 ml-4 text-sm hover:underline">View</span>
+          <% end %>
         </div>
-        <%= feather_icon 'arrow-right', class: 'text-2xl text-gray-400' %>
-        <div class="flex flex-col w-1/2" data-controller="clipboard">
-          <div class="flex justify-start items-center mb-2">
-            <h3 class="text-gray-600">Output</h3>
-            <button class="copy-btn ml-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
-              <span data-clipboard-target="copyIcon" class="text-green-500"></span>
-              <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
-            </button>
-          </div>
-          <div class="bg-white rounded-lg border border-gray-200 p-4 ml-3 h-80 overflow-y-scroll">
-            <div id="copy-output" data-clipboard-target="output" class="font-mono"><%= simple_format(details.output) %></div>
-          </div>
+        <div class="font-mono text-gray-500 p-4 bg-white border border-gray-200 rounded-lg mr-3 h-80 overflow-y-scroll" id="copy-output" data-clipboard-target="output">
+          <%= simple_format(@prompts.first.text) %>
         </div>
       </div>
-    <% end %>
+      <%= feather_icon 'arrow-right', class: 'text-2xl text-gray-400' %>
+      <div class="flex flex-col w-1/2" data-controller="clipboard">
+        <div class="flex justify-start items-center mb-2">
+          <h3 class="text-gray-600">Output</h3>
+          <button class="copy-btn ml-3 px-2 rounded border border-green-400 text-sm bg-green-50 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
+            <span data-clipboard-target="copyIcon" class="text-green-500"></span>
+            <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
+          </button>
+        </div>
+        <div id="outputsContainer" class="bg-white rounded-lg border border-gray-200 p-4 ml-3 h-80 overflow-y-scroll">
+          <% @inputs.each do |input| %>
+            <div id="output<%= input.id %>" class="output" style="display: none;">
+              <div id="copy-output" data-clipboard-target="output" class="font-mono">
+                <% detail = @test_run.test_run_details.find_by(input_id: input.id) %>
+                <%= simple_format(detail.output) if detail %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
