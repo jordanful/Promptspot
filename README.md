@@ -89,6 +89,7 @@ There are two main use cases for tests:
 We're just getting started! Here's what we're planning to build next:
 
 - [ ] Wider test coverage
+- [ ] "Input collections" (a collection of inputs that can be used, many-to-many, across multiple tests)
 - [ ] Support for chat-based models
 - [ ] Support for other completion APIs (e.g. outside of OpenAI)
 - [ ] Better team + collaboration support

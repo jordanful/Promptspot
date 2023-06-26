@@ -19,7 +19,7 @@ export default class extends Controller {
 
     copyFeedback() {
         this.copyIconTarget.innerHTML = "&#x2713;"
-        this.copyTextTarget.innerHTML = "Copied"
+        this.copyTextTarget.innerHTML = "<span class='ml-1'>Copied</span>"
 
         setTimeout(() => {
             this.resetButton()
