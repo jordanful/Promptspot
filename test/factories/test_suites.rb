@@ -1,8 +1,8 @@
 FactoryBot.define do
-  factory :test_suite do
+  factory :test_runs do
     name { "Test Suite Example" }
-    user_id { SecureRandom.uuid }
-    account_id { SecureRandom.uuid }
+    user_id
+    account_id
     archived { false }
     mode { "completion" }
   end

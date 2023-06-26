@@ -1,7 +1,7 @@
 class InputsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_input, only: %i[ show edit update destroy archive unarchive authorize_user!  ]
-  before_action :authorize_user!, only: %i[ show edit update destroy archive unarchive ]
+  before_action :authorize_user!, only: %i[ show edit update destroy]
 
   def index
     @inputs = @current_account.inputs
@@ -42,6 +42,14 @@ class InputsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @input.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def destroy
+    @input.destroy
+    respond_to do |format|
+      format.html { redirect_to inputs_url, notice: "👍 Deleted." }
+      format.json { head :no_content }
     end
   end
 

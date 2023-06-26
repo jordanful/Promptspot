@@ -4,7 +4,6 @@
     <div class="flex items-center justify-between mb-2 mt-12">
       <h2 class="text-xl font-medium ">Drafts</h2>
       <%= link_to 'New draft', edit_prompt_path(@prompt), class: "ml-3 rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-sm text-blue-600 hover:bg-white inline-block font-medium" %>
-
     </div>
     <% if @prompt.prompt_drafts.length > 0 %>
       <table class="min-w-full divide-y divide-gray-200">
@@ -20,7 +19,6 @@
             Author
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-
           </th>
         </tr>
         </thead>
@@ -31,7 +29,7 @@
               <%= p.text.truncate_words(6) %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-              <%= p.created_at.strftime('%B %e, %l:%M %p') %>
+              <%= p.created_at.in_time_zone(@current_organization.timezone).strftime('%B %e, %l:%M %p') %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
               <%= p.user.display_name %>

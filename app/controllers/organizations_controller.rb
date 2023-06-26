@@ -67,6 +67,6 @@ class OrganizationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def organization_params
-    params.require(:organization).permit(:billing_email, :openai_api_key)
+    params.require(:organization).permit(:billing_email, :openai_api_key, :timezone)
   end
 end

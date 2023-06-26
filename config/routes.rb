@@ -16,11 +16,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :inputs do
-    post 'archive', on: :member
-    post 'unarchive', on: :member
-    get :archived, on: :collection
-  end
+  resources :inputs
 
   resources :prompts do
     post 'archive', on: :member

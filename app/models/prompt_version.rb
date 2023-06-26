@@ -31,10 +31,10 @@ class PromptVersion < ApplicationRecord
 
   def generate_prompt_title
     return unless version_number == 1
-    
     ActiveRecord::Base.transaction do
       summary = "#{Rails.application.config.title_system_prompt}\"\"\"#{text}\"\"\""
-      client = OpenAI::Client.new(access_token: ENV["OPENAI_API_SECRET"])
+      # Use the organization's OpenAI API key if it exists, otherwise use the environment variable
+      client = OpenAI::Client.new(access_token: account.organization&.openai_api_key.presence || ENV["OPENAI_API_SECRET"])
       response = client.completions(
         parameters: {
           model: Rails.application.config.title_system_prompt_model,

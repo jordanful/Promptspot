@@ -58,11 +58,11 @@ class PromptsController < ApplicationController
 
   # PATCH/PUT /prompts/1 or /prompts/1.json
   def update
-    new_version_text = prompt_params[:prompt_versions_attributes][0][:text]
+    new_version_text = prompt_params.dig(:prompt_versions_attributes, 0, :text)
     last_version_text = @prompt.prompt_versions.order(version_number: :desc).first.text
     draft_id = params[:prompt_draft_id]
 
-    if last_version_text == new_version_text
+    if new_version_text.nil? || last_version_text == new_version_text
       redirect_to prompt_url(@prompt), notice: "No changes were made."
     else
       @prompt.assign_attributes(prompt_params)
@@ -142,7 +142,7 @@ class PromptsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def prompt_params
-    params.require(:prompt).permit(:status, :account_id, prompt_versions_attributes: [:text])
+    params.require(:prompt).permit(:status, :account_id, prompt_versions_attributes: [:text, :id])
   end
 
   def prompt_draft_params
