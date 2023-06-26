@@ -1,43 +1,36 @@
 import {Controller} from "stimulus"
 
 export default class extends Controller {
-    static targets = ["menu", "value"];
+    static targets = ["menu", "selected", "value"]
 
-    // Add the initialize method to call updateTable on load
-    initialize() {
-        this.updateTable();
+    connect() {
+        document.addEventListener('click', this.clickOutside.bind(this));
+    }
+
+    disconnect() {
+        document.removeEventListener('click', this.clickOutside.bind(this));
+    }
+
+    showMenu(event) {
+        event.stopPropagation();
+        this.menuTarget.classList.remove('hidden');
     }
 
     select(event) {
-        // Update value target with the selected input's id
-        this.valueTarget.value = event.currentTarget.dataset.id;
-
-        // Remove 'selected' class from all items
+        let inputId = event.currentTarget.dataset.id;
+        let inputTitle = event.currentTarget.querySelector('.dropdown-item-title').textContent;
+        this.valueTarget.value = inputId;
+        this.selectedTarget.textContent = inputTitle;
+        this.menuTarget.classList.add('hidden');
         this.menuTarget.querySelectorAll('.dropdown-item').forEach(item => {
             item.classList.remove('selected');
         });
-
-        // Add 'selected' class to the clicked item
         event.currentTarget.classList.add('selected');
-
-        // Call the function to update the table
-        this.updateTable();
     }
 
-    updateTable() {
-        // Retrieve the selected input's id
-        const inputId = this.valueTarget.value;
-
-        // Retrieve all table rows
-        const rows = document.querySelectorAll("#tableByInput tbody tr");
-
-        // Loop over each row
-        rows.forEach(row => {
-            // Retrieve the row's data-input-id
-            const rowInputId = row.dataset.inputId;
-
-            // Show the row if its input id matches the selected input id, otherwise hide it
-            row.style.display = (rowInputId === inputId) ? "table-row" : "none";
-        });
+    clickOutside(event) {
+        if (!this.element.contains(event.target)) {
+            this.menuTarget.classList.add('hidden');
+        }
     }
 }

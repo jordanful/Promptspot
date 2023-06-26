@@ -4,6 +4,8 @@ class TestRunsController < ApplicationController
   before_action :authorize_user!
 
   def show
+    @prompts = @test_run.test_run_details.map(&:prompt_version).uniq
+    @inputs = @test_run.test_run_details.map(&:input).uniq
   end
 
   def create

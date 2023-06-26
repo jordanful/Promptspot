@@ -3,41 +3,51 @@ import {Controller} from "stimulus"
 export default class extends Controller {
     static targets = ["menu", "value"];
 
-    // Add the initialize method to call updateTable on load
     initialize() {
-        this.updateTable();
+        // this.updatePrompts();
+    }
+
+    connect() {
+        document.addEventListener('click', this.clickOutside.bind(this));
+
+    }
+
+    disconnect() {
+        document.removeEventListener('click', this.clickOutside.bind(this));
+    }
+
+    clickOutside(event) {
+        if (!this.element.contains(event.target)) {
+            this.menuTarget.classList.add('hidden');
+        }
+    }
+
+
+    showMenu() {
+        this.menuTarget.classList.remove('hidden');
     }
 
     select(event) {
-        // Update value target with the selected prompt's id
         this.valueTarget.value = event.currentTarget.dataset.id;
-
-        // Remove 'selected' class from all items
         this.menuTarget.querySelectorAll('.dropdown-item').forEach(item => {
             item.classList.remove('selected');
         });
-
-        // Add 'selected' class to the clicked item
         event.currentTarget.classList.add('selected');
-
-        // Call the function to update the table
-        this.updateTable();
+        this.hideMenu();
     }
 
-    updateTable() {
-        // Retrieve the selected prompt's id
+    hideMenu() {
+        this.menuTarget.classList.add('hidden');
+    }
+
+
+    updatePrompts() {
         const promptId = this.valueTarget.value;
-
-        // Retrieve all table rows
-        const rows = document.querySelectorAll("#tableByPrompt tbody tr");
-
-        // Loop over each row
+        const rows = document.querySelectorAll("#tableByPrompt div");
         rows.forEach(row => {
-            // Retrieve the row's data-prompt-id
             const rowPromptId = row.dataset.promptId;
-
-            // Show the row if its prompt id matches the selected prompt id, otherwise hide it
-            row.style.display = (rowPromptId === promptId) ? "table-row" : "none";
+            console.log(rowPromptId, promptId)
+            row.style.display = (rowPromptId === promptId) ? "flex" : "hidden";
         });
     }
 }

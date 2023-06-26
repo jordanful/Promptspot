@@ -7,6 +7,14 @@ class PromptVersion < ApplicationRecord
   before_create :set_version_number
   attr_accessor :save_input
 
+  def prompt_title
+    self.prompt.title
+  end
+
+  def truncated_prompt_title
+    self.prompt.title.truncate(50)
+  end
+
   def generate(input, model, organization)
     full_prompt = "#{text}/n/n#{input.text}"
     client = OpenAI::Client.new(access_token: organization.openai_api_key)
