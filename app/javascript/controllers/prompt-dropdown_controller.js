@@ -5,6 +5,8 @@ export default class extends Controller {
 
     connect() {
         document.addEventListener('click', this.clickOutside.bind(this));
+        window.addEventListener('tab-switch', this.updateOutput.bind(this));  // Listen to 'tab-switch' event
+
         if (!this.valueTarget.value) {
             this.valueTarget.value = this.element.dataset.defaultPromptId;
         }
@@ -13,6 +15,7 @@ export default class extends Controller {
 
     disconnect() {
         document.removeEventListener('click', this.clickOutside.bind(this));
+        window.removeEventListener('tab-switch', this.updateOutput.bind(this));
     }
 
     clickOutside(event) {
@@ -45,6 +48,7 @@ export default class extends Controller {
 
 
     updateOutput() {
+        if (event.detail.tab && event.detail.tab !== 'prompt') return;
         let promptId = this.valueTarget.value;
         document.querySelectorAll(`.output`).forEach(outputDiv => {
             outputDiv.style.display = outputDiv.id === `output${promptId}` ? 'flex' : 'none';

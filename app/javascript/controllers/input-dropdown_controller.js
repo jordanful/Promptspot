@@ -5,9 +5,9 @@ export default class extends Controller {
 
     static values = {defaultInputId: String}
 
-
     connect() {
         document.addEventListener('click', this.clickOutside.bind(this));
+        window.addEventListener('tab-switch', this.updateOutput.bind(this));  // Listen to 'tab-switch' event
         if (!this.valueTarget.value) {
             this.valueTarget.value = this.defaultInputIdValue;
         }
@@ -15,6 +15,7 @@ export default class extends Controller {
 
     disconnect() {
         document.removeEventListener('click', this.clickOutside.bind(this));
+        window.removeEventListener('tab-switch', this.updateOutput.bind(this));
     }
 
     showMenu(event) {
@@ -36,6 +37,7 @@ export default class extends Controller {
     }
 
     updateOutput() {
+        if (event.detail.tab && event.detail.tab !== 'input') return;
         let inputId = this.valueTarget.value;
         document.querySelectorAll(`.output`).forEach(outputDiv => {
             outputDiv.style.display = outputDiv.id === `output${inputId}` ? 'flex' : 'none';
