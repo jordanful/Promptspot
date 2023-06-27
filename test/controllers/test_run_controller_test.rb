@@ -31,6 +31,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
 
   test "should show test run" do
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite)
+    FactoryBot.create(:test_run_detail, test_run: @test_run, prompt: @prompt, prompt_version: @prompt_version, input: @input)
     get test_suite_test_run_url(@test_suite, @test_run)
     assert_response :success
   end
@@ -89,6 +90,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
     user = FactoryBot.create(:user, account: account, email: "example3@test.com")
     sign_in_as(user)
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite)
+    FactoryBot.create(:test_run_detail, test_run: @test_run, prompt: @prompt, prompt_version: @prompt_version, input: @input)
     get test_suite_test_run_url(@test_suite, @test_run)
     assert_redirected_to root_url
   end
