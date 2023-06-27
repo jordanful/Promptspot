@@ -39,8 +39,6 @@ class PromptsController < ApplicationController
 
     respond_to do |format|
       if @prompt.save
-        puts @prompt.inspect
-        puts @prompt.prompt_versions.inspect
         if draft_id.present?
           PromptDraft.find(draft_id).destroy
         end

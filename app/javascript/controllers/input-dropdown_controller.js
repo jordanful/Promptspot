@@ -3,9 +3,14 @@ import {Controller} from "stimulus"
 export default class extends Controller {
     static targets = ["menu", "selected", "value"]
 
+    static values = {defaultInputId: String}
+
+
     connect() {
         document.addEventListener('click', this.clickOutside.bind(this));
-        this.updateOutput();
+        if (!this.valueTarget.value) {
+            this.valueTarget.value = this.defaultInputIdValue;
+        }
     }
 
     disconnect() {
@@ -32,8 +37,8 @@ export default class extends Controller {
 
     updateOutput() {
         let inputId = this.valueTarget.value;
-        document.querySelectorAll('.output').forEach(outputDiv => {
-            outputDiv.style.display = outputDiv.id === 'output' + inputId ? 'block' : 'none';
+        document.querySelectorAll(`.output`).forEach(outputDiv => {
+            outputDiv.style.display = outputDiv.id === `output${inputId}` ? 'flex' : 'none';
         });
     }
 
