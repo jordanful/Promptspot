@@ -93,6 +93,7 @@ We're just getting started! Here's what we're planning to build next:
 - [ ] Support for chat-based models
 - [ ] Support for other completion APIs (e.g. outside of OpenAI)
 - [ ] Better team + collaboration support
+- [ ] Use LLMs to help improve prompts themselves
 - [ ] Full API support (e.g. for CI/CD)
 - [ ] Prompt hosting (i.e. serve prompts to your app from Promptspot)
 - [ ] Support for multiple users and accounts

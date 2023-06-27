@@ -24,7 +24,7 @@ class InputControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
-    get new_index_url
+    get new_input_url
     assert_response :success
   end
 
@@ -40,7 +40,7 @@ class InputControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show prompt" do
-    get input_url(input)
+    get input_url(@input)
     assert_response :success
   end
 
@@ -55,7 +55,7 @@ class InputControllerTest < ActionDispatch::IntegrationTest
         text: "This is an updated input",
       }
     }
-    assert_redirected_to input_path(@input)
+    assert_redirected_to inputs_path
     @input.reload
     assert_equal "This is an updated input", @input.text
   end
