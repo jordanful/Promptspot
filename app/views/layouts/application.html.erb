@@ -47,7 +47,7 @@
   <% end %>
   <%= yield %>
 </div>
-<footer class="flex items-center justify-center mt-64">
+<footer class="flex items-center justify-center mt-64 mb-12">
   <a href="https://github.com/jordanful/promptspot" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base mr-3">
     <%= feather_icon 'github', size: '20', class: 'mr-1' %>
     Github
@@ -56,8 +56,17 @@
   <a href="https://twitter.com/jordanful" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base ml-3">
     @jordanful
     <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
-
   </a>
+
+  <div data-controller="theme" class="flex items-center justify-between py-4 ml-6">
+    <%= feather_icon 'sun', class: 'w-5 h-5 text-gray-500 mr-1' %>
+    <label class="switch">
+      <input type="checkbox" data-theme-target="theme" data-action="click->theme#changeTheme">
+      <span class="slider round"></span>
+    </label>
+    <%= feather_icon 'moon', class: 'w-5 h-5 text-gray-500 ml-1' %>
+  </div>
+
 
 </footer>
 </body>
