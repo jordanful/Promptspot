@@ -6,18 +6,20 @@
                                   target: "preview.output preview.form", "preview-prompt-id": prompt.id } } do |form| %>
       <fieldset data-controller="tab">
         <% if inputs&.length.to_i > 0 %>
-          <div data-tab-target="tab" class="w-full flex justify-between items-center rounded-md border text-base shadow-sm font-medium border-gray-300 mb-4">
-            <div class="w-1/2 flex justify-center items-center bg-white text-black w-full h-full rounded-l-md p-3 cursor-pointer" data-tab="new" data-action="click->tab#toggle">
+          <div data-tab-target="tab" class="w-full flex justify-between items-center rounded-md border text-base shadow-sm font-medium dark:border-slate-600 border border-gray-300 mb-4">
+            <div class="w-1/2 flex justify-center items-center bg-white text-black dark:bg-transparent dark:text-white w-full h-full rounded-l-md p-3 hover:bg-slate-600 hover:text-white dark:hover:bg-white dark:hover:bg-opacity-10 cursor-pointer" data-tab="new" data-action="click->tab#toggle">
               New input
             </div>
-            <div data-tab-target="tab" class="w-1/2 flex justify-center items-center bg-slate-100 text-gray-600 hover:bg-slate-50 rounded-r-md p-3 cursor-pointer" data-tab="saved" data-action="click->tab#toggle">
+            <div data-tab-target="tab" class="w-1/2 flex justify-center items-center bg-slate-100 dark:bg-black text-gray-600 dark:text-white hover:bg-slate-50 hover:bg-slate-600 hover:text-white dark:hover:bg-white dark:hover:bg-opacity-10 rounded-r-md p-3 cursor-pointer" data-tab="saved" data-action="click->tab#toggle">
               Saved inputs
             </div>
           </div>
+
+
         <% end %>
-        <%= form.text_area :inputs, rows: 10, placeholder: 'Enter input', class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { 'tab-target': 'newPrompt', 'preview-target': 'input' } %>
+        <%= form.text_area :inputs, rows: 10, placeholder: 'Enter input', class: 'rounded-md dark:border-slate-600 bg-white  dark:bg-opacity-10 border-gray-300 font-mono text-base w-full', data: { 'tab-target': 'newPrompt', 'preview-target': 'input' } %>
         <div data-controller="dropdown" data-tab-target="savedPrompts">
-          <button class="dropdown-button w-full bg-white border-gray-300 border text-base rounded-md flex justify-between items-center px-3 py-2 font-medium" data-action="click->dropdown#toggle" data-dropdown-target="button">
+          <button class="dropdown-button w-full bg-white dark:bg-opacity-10 dark:border-slate-600 border-gray-300 border text-base rounded-md flex justify-between items-center px-3 py-2 font-medium" data-action="click->dropdown#toggle" data-dropdown-target="button">
             <% if input %>
               <div class="dropdown-text">
                 <strong><%= input.title %></strong>
@@ -28,11 +30,11 @@
             <div class="arrow mr-1"></div>
           </button>
 
-          <div class="dropdown-menu w-full bg-white shadow border-gray-300 border rounded-md flex flex-col mt-1 overflow-y-auto max-h-56" style="display:none" data-dropdown-target="menu">
+          <div class="dropdown-menu w-full bg-white dark:bg-opacity-10 shadow dark:border-slate-600 border-gray-300 border rounded-md flex flex-col mt-1 overflow-y-auto max-h-56" style="display:none" data-dropdown-target="menu">
             <% inputs&.each do |input| %>
-              <div class="dropdown-item flex flex-col cursor-pointer hover:bg-blue-50 p-3" data-id="<%= input.id %>" data-action="click->dropdown#select">
+              <div class="dropdown-item flex flex-col cursor-pointer hover:bg-blue-50 dark:hover:bg-opacity-10 p-3" data-id="<%= input.id %>" data-action="click->dropdown#select">
                 <div class="dropdown-item-title mb-1 font-medium"><%= input.title %></div>
-                <div class="dropdown-item-text font-mono text-sm text-gray-600"><%= input.text %></div>
+                <div class="dropdown-item-text font-mono text-sm dark:text-gray-300 text-gray-600"><%= input.text %></div>
               </div>
             <% end %>
           </div>
@@ -44,17 +46,18 @@
         <div class="flex justify-between items-center">
           <%= form.label :model, 'Model' %>
           <div data-controller="modal">
-            <div data-action="click->modal#open" class="text-blue-600 hover:underline cursor-pointer">Learn about
+            <div data-action="click->modal#open" class="text-blue-600 dark:text-blue-200 hover:underline cursor-pointer">Learn
+              about
               models
             </div>
             <div class="overlay hidden fixed inset-0 bg-black opacity-50" data-modal-target="overlay"></div>
-            <div class="modal hidden fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white p-6 rounded-lg" data-modal-target="modal">
+            <div class="modal hidden fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white dark:bg-black p-6 rounded-lg" data-modal-target="modal">
               <p class="text-lg mb-3">Select the model most appropriate for your use-case:
                 general purpose, chat, or code completion.</p>
               <div class="modal-content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:gap-6 sm:gap-3 gap-1">
 
                 <% models&.each do |m| %>
-                  <div class="bg-gray-100 p-3 rounded-md">
+                  <div class="bg-gray-100 dark:bg-slate-900 p-3 rounded-md">
                     <div class="text-lg font-mono"><%= m.name %></div>
                     <div class="font-medium text-sm my-2"><%= m.model_provider.name %></div>
                     <div class="text-sm text-gray-500"><%= m.description %></div>
@@ -65,12 +68,12 @@
             </div>
           </div>
         </div>
-        <%= form.select :model, Model.where(enabled: true).pluck(:name), {}, { class: 'rounded-md border-gray-300 font-mono text-base w-full', data: { controller: 'model-select', 'preview-target': 'model', action: 'change->model-select#saveModel', 'model-select-target': 'modelSelect' } } %>
+        <%= form.select :model, Model.where(enabled: true).pluck(:name), {}, { class: 'rounded-md border-gray-300 bg-white border dark:border-slate-600 dark:bg-opacity-10 font-mono text-base w-full', data: { controller: 'model-select', 'preview-target': 'model', action: 'change->model-select#saveModel', 'model-select-target': 'modelSelect' } } %>
       </fieldset>
 
       <div data-preview-target="errorMessage" class="hidden mt-3 text-red-500"></div>
 
-      <%= button_tag(type: 'submit', class: 'cursor-pointer rounded-md bg-white border text-lg font-medium py-2 shadow-sm border-gray-300 flex items-center justify-center w-full mt-4',
+      <%= button_tag(type: 'submit', class: 'cursor-pointer rounded-md bg-white dark:bg-opacity-10 border text-lg font-medium py-2 shadow-sm dark:border-slate-400 border-gray-300 flex items-center justify-center w-full mt-4',
                      data: {
                        action: "preview#submitForm",
                        preview_target: "submitButton"
@@ -80,11 +83,11 @@
       <% end %>
 
       <div class="overlay hidden fixed inset-0 bg-black opacity-50" data-preview-target="overlay"></div>
-      <div class="modal hidden fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white p-6 rounded-lg w-full h-full lg:w-2/3 lg:h-auto mx-auto overflow-auto" data-preview-target="modal">
+      <div class="modal hidden fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white dark:bg-black p-6 rounded-lg w-full h-full lg:w-2/3 lg:h-auto mx-auto overflow-auto" data-preview-target="modal">
         <div class="flex justify-end mb-3">
           <button data-action="click->preview#closeModal"><%= feather_icon 'x' %></button>
         </div>
-        <textarea id="result" data-preview-target="output" class="font-mono text-lg w-full rounded-lg" rows="12"></textarea>
+        <textarea id="result" data-preview-target="output" class="font-mono text-lg w-full rounded-lg bg-white dark:bg-opacity-10" rows="12"></textarea>
       </div>
 
 

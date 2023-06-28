@@ -3,11 +3,11 @@
     <%= render @prompt %>
     <div class="flex items-center justify-between mb-2 mt-12">
       <h2 class="text-xl font-medium ">Drafts</h2>
-      <%= link_to 'New draft', edit_prompt_path(@prompt), class: "ml-3 rounded-md py-2 px-3 bg-blue-50 border border-blue-200 text-sm text-blue-600 hover:bg-white inline-block font-medium" %>
+      <%= link_to 'New draft', edit_prompt_path(@prompt), class: "ml-3 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer " %>
     </div>
     <% if @prompt.prompt_drafts.length > 0 %>
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+      <table class="min-w-full divide-y dark:divide-slate-600 divide-gray-200">
+        <thead class="bg-gray-50 dark:bg-opacity-0">
         <tr>
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Prompt
@@ -22,21 +22,21 @@
           </th>
         </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="bg-white dark:bg-opacity-10 divide-y divide-gray-200">
         <% @prompt.prompt_drafts.order(created_at: :desc).each do |p| %>
           <tr>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono dark:text-white text-gray-900">
               <%= p.text.truncate_words(6) %>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+            <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-white text-gray-600">
               <%= p.created_at.in_time_zone(@current_organization.timezone).strftime('%B %e, %l:%M %p') %>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+            <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-white text-gray-600">
               <%= p.user.display_name %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <% if current_user.id == p.user_id %>
-                <%= link_to 'Details', edit_prompt_path(@prompt, draft: p.id), class: "text-sm font-medium text-blue-600 hover:underline " %>
+                <%= link_to 'Details', edit_prompt_path(@prompt, draft: p.id), class: "text-sm font-medium dark:text-blue-200 text-blue-600 hover:underline " %>
               <% end %>
             </td>
           </tr>
@@ -54,25 +54,25 @@
   <div class="mt-12 md:w-1/3 ml-6">
     <div class="flex items-center justify-start mb-6 flex-wrap">
       <% if @prompt.archived? %>
-        <%= button_to 'Unarchive', unarchive_prompt_path(@prompt), class: "mr-3 mb-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+        <%= button_to 'Unarchive', unarchive_prompt_path(@prompt), class: "flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" %>
       <% else %>
-        <%= link_to 'Edit', edit_prompt_path(@prompt), class: "mr-3 mb-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium" %>
-        <%= button_to 'Archive', archive_prompt_path(@prompt), data: { turbo: false }, class: "mr-3 mb-3 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+        <%= link_to 'Edit', edit_prompt_path(@prompt), class: "flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" %>
+        <%= button_to 'Archive', archive_prompt_path(@prompt), data: { turbo: false }, class: "flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" %>
       <% end %>
       <%= button_to 'Delete', prompt_path(@prompt),
                     method: :delete,
                     data: { turbo: false },
-                    class: "bg-blue-50 mr-3 mb-3 border border-blue-200 text-red-500 hover:bg-red-50 hover:border-red-500 rounded-lg py-3 px-5 bg-gray-100 font-medium"
+                    class: "flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 border border-blue-200 dark:text-red-300 text-red-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3"
       %>
 
     </div>
     <% @prompt.prompt_versions.where.not(version_number: 1).order(version_number: :desc).each do |p| %>
-      <%= link_to prompt_version_path(@prompt, p), class: "flex flex-col bg-gray-100 hover:bg-gray-200 rounded-lg p-3 mb-2" do %>
+      <%= link_to prompt_version_path(@prompt, p), class: "flex flex-col dark:bg-opacity-10 bg-gray-100 hover:bg-gray-200 rounded-lg p-3 mb-2" do %>
         <p>Published <%= time_ago_in_words(p.created_at) %> ago</p>
         <p class="text-gray-400"><%= p.user.display_name %></p>
       <% end %>
     <% end %>
-    <div class="flex flex-col bg-gray-100 rounded-lg p-3 mb-2">
+    <div class="flex flex-col dark:bg-opacity-10 dark:border dark:border-slate-600 bg-gray-100 rounded-lg p-3 mb-2">
       <p>Created <%= time_ago_in_words(@prompt.prompt_versions.first.created_at) %>
         ago</p>
       <p class="text-gray-400"><%= @prompt.prompt_versions.first.user.display_name %></p>

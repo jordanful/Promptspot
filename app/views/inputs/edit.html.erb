@@ -10,7 +10,7 @@
         in <%= @input.tests.length == 1 ? 'one test' : `#{@input.tests.length} tests` %></p>
       <% @input.tests.each do |test| %>
         <%= link_to test_suite_path(test) do %>
-          <div class="rounded-xl w-auto inline-flex mb-2 text-lg text-gray-700 hover:text-blue-500 font-medium bg-gray-100 hover:bg-white flex items-center justify-center p-3">
+          <div class="rounded-xl w-auto inline-flex mb-2 text-lg text-gray-700 hover:text-blue-500 font-medium bg-gray-100 dark:bg-opacity-10 dark:hover:bg-slate-600 hover:bg-white flex items-center justify-center p-3">
             <%= test.name %>
           </div>
         <% end %>

@@ -51,6 +51,11 @@
     vertical-align: middle;
 }
 
+.spinner.dark {
+    border-top-color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -171,7 +176,7 @@
 }
 
 input:checked + .slider {
-    background-color: #a855f7;
+    background-color: #2563eb;
 }
 
 input:checked + .slider:before {

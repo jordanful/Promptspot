@@ -1,5 +1,5 @@
 <p class="text-2xl mb-4"><%= prompt.title %></p>
-<div class="prompt bg-white rounded-lg shadow-md p-6 flex flex-col items-start mb-4">
-  <%= simple_format(prompt.prompt_versions.order(:version_number).last.text, class: "text-gray-600 text-lg font-mono") %>
+<div class="prompt bg-white dark:bg-opacity-10 dark:border dark:border-slate-600 rounded-lg shadow-md p-6 flex flex-col items-start mb-4">
+  <%= simple_format(prompt.prompt_versions.order(:version_number).last.text, class: "dark:text-white text-gray-600 text-lg font-mono") %>
 </div>
 

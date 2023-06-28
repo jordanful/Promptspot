@@ -131,7 +131,7 @@ export default class extends Controller {
         const promptId = event.currentTarget.dataset.promptId
         if (!this.promptIds.includes(promptId)) {
             this.promptIds.push(promptId);
-            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
+            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
             if (document.querySelectorAll('[data-prompt-id]').length === 1) {
                 this.close(event)
             }
@@ -144,7 +144,7 @@ export default class extends Controller {
             this.element.appendChild(prompt);
         } else {
             this.promptIds = this.promptIds.filter(id => id !== promptId);
-            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
+            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
 
             // Remove the corresponding hidden input
             const hiddenInput = document.querySelector(`#hidden-prompt-${promptId}`);
@@ -161,7 +161,7 @@ export default class extends Controller {
         const inputId = event.currentTarget.dataset.inputId
         if (!this.inputIds.includes(inputId)) {
             this.inputIds.push(inputId);
-            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
+            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
             if (document.querySelectorAll('[data-input-id]').length === 1) {
                 this.close(event)
             }
@@ -174,7 +174,7 @@ export default class extends Controller {
             this.element.appendChild(input);
         } else {
             this.inputIds = this.inputIds.filter(id => id !== inputId);
-            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300")
+            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
 
             // Remove the corresponding hidden input
             const hiddenInput = document.querySelector(`#hidden-input-${inputId}`);
@@ -262,7 +262,7 @@ export default class extends Controller {
                 }
 
                 if (panelElement) {
-                    panelElement.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300");
+                    panelElement.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600");
                 }
 
                 pill.remove();

@@ -13,18 +13,18 @@
   <% end %>
 
   <div class="field mb-6">
-    <%= form.text_field :title, class: "border border-gray-300 rounded-md text-2xl" %>
+    <%= form.text_field :title, class: "border border-gray-300 dark:border-slate-600 dark:bg-opacity-10 bg-white rounded-md text-2xl" %>
   </div>
   <div class="field flex flex-col">
-    <%= form.text_area :text, id: :input_text, autofocus: true, class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter or paste your input text" %>
+    <%= form.text_area :text, id: :input_text, autofocus: true, class: "rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-opacity-10 font-mono text-lg", rows: 20, placeholder: "Enter or paste your input text" %>
   </div>
 
   <div class="actions mt-4 flex flex-row">
     <div>
-      <%= form.submit input.id ? 'Update now' : 'Save', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+      <%= form.submit input.id ? 'Update now' : 'Save', class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
     </div>
     <div>
-      <%= link_to 'Discard changes', inputs_url, class: 'mr-3 rounded-lg py-3 px-5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 inline-block font-medium cursor-pointer' %>
+      <%= link_to 'Discard changes', inputs_url, class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
     </div>
   </div>
 

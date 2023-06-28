@@ -11,17 +11,17 @@
     </div>
   <% end %>
   <div class="field mb-6">
-    <%= form.text_field :title, class: "text-2xl rounded-md border border-gray-300 w-full" %>
+    <%= form.text_field :title, class: "text-2xl dark:bg-opacity-10 bg-white rounded-md border dark:border-slate-600 border-gray-300 w-full" %>
   </div>
 
   <%= form.fields_for :prompt_versions, prompt.prompt_versions.last do |prompt_version_form| %>
     <div class="field flex flex-col">
       <% if @prompt_draft %>
-        <%= prompt_version_form.text_area :text, value: @prompt_draft.text, id: "system-prompt", class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
+        <%= prompt_version_form.text_area :text, value: @prompt_draft.text, id: "system-prompt", class: "dark:bg-opacity-10 dark:border-slate-600 bg-white rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
       <% elsif prompt.prompt_versions.last&.text %>
-        <%= prompt_version_form.text_area :text, value: prompt.prompt_versions.order(:version_number).last.text, id: "system-prompt", class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
+        <%= prompt_version_form.text_area :text, value: prompt.prompt_versions.order(:version_number).last.text, id: "system-prompt", class: "dark:bg-opacity-10 dark:border-slate-600 bg-white rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
       <% else %>
-        <%= prompt_version_form.text_area :text, value: "", id: "system-prompt", class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
+        <%= prompt_version_form.text_area :text, value: "", id: "system-prompt", class: "dark:bg-opacity-10 dark:border-slate-600 bg-white rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter your prompt", data: { "draft-target": "textarea" } %>
       <% end %>
     </div>
   <% end %>
@@ -38,28 +38,27 @@
 
   <div class="actions mt-4 flex flex-row">
     <% if @prompt_draft %>
-      <div>
-        <button type="button" class="rounded-lg mr-3 py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer" data-action="click->draft#saveDraft">
-          Save draft
-        </button>
-        <button type="button" class="bg-blue-50 mr-3 mb-3 border border-blue-200 text-red-500 hover:bg-red-50 hover:border-red-500 rounded-lg py-3 px-5 bg-gray-100 font-medium" data-action="click->draft#deleteDraft">
-          Delete draft
-        </button>
-      </div>
+      <button type="button" class="flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" data-action="click->draft#saveDraft">
+        Save draft
+      </button>
+      <button type="button" class="flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-red-300 border border-red-200 text-red-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" data-action="click->draft#deleteDraft">
+        Delete draft
+      </button>
+
     <% elsif @prompt.id %>
       <div>
-        <button type="button" class="rounded-lg mr-3 py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white font-medium cursor-pointer" data-action="click->draft#saveDraft">
+        <button type="button" class="flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" data-action="click->draft#saveDraft">
           Save as draft
         </button>
       </div>
 
     <% end %>
     <div>
-      <%= form.submit @prompt.id ? 'Publish now' : 'Save', class: 'cursor-pointer mr-3 rounded-lg py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white inline-block font-medium' %>
+      <%= form.submit @prompt.id ? 'Publish now' : 'Save', class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
     </div>
     <div>
 
-      <%= link_to 'Discard changes', @prompt.id ? prompt_path(@prompt) : prompts_url, class: 'mr-3 rounded-lg py-3 px-5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:bg-white inline-block font-medium cursor-pointer' %>
+      <%= link_to 'Discard changes', @prompt.id ? prompt_path(@prompt) : prompts_url, class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer' %>
     </div>
   </div>
 <% end %>

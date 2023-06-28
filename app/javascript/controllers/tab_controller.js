@@ -13,8 +13,10 @@ export default class extends Controller {
         if (this.savedPromptsTarget.children.length == 0) {
             this.tabTarget.style.display = 'none';
             this.savedPromptsTarget.style.display = 'none';
-            localStorage.setItem('selectedTab', 'new') // Set the tab to 'new' by default if there are no saved prompts
+            localStorage.setItem('selectedTab', 'new')
         } else {
+            this.setActiveTab(this.tabTargets.find(e => e.dataset.tab === savedTab));
+
             if (savedTab === 'new') {
                 this.newPromptTarget.style.display = 'block';
                 this.savedPromptsTarget.style.display = 'none';
@@ -22,14 +24,14 @@ export default class extends Controller {
                 this.newPromptTarget.style.display = 'none';
                 this.savedPromptsTarget.style.display = 'block';
             }
-            this.setActiveTab(this.tabTargets.find(e => e.dataset.tab === savedTab));
         }
     }
+
 
     toggle(event) {
         let target = event.currentTarget;
         this.setActiveTab(target);
-        localStorage.setItem('selectedTab', target.dataset.tab) // Save the current tab to local storage
+        localStorage.setItem('selectedTab', target.dataset.tab)
 
         if (target.dataset.tab === 'new') {
             this.newPromptTarget.style.display = 'block';
@@ -44,14 +46,13 @@ export default class extends Controller {
         this.tabTargets.forEach(t => {
             t.querySelectorAll('div').forEach(div => {
                 if (div === target) {
-                    div.classList.remove('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
-                    div.classList.add('bg-white', 'text-black');
+                    div.classList.remove('bg-slate-100', 'hover:bg-slate-10', 'text-gray-600', 'dark:bg-transparent', 'dark:text-white');
+                    div.classList.add('bg-white', 'text-black', 'dark:bg-slate-700', 'dark:text-white');
                 } else {
-                    div.classList.add('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600');
-                    div.classList.remove('bg-white', 'text-black');
+                    div.classList.add('bg-slate-100', 'hover:bg-slate-50', 'text-gray-600', 'dark:bg-transparent', 'dark:text-white', 'dark:hover:bg-white', 'dark:hover:bg-opacity-10');
+                    div.classList.remove('bg-white', 'text-black', 'dark:bg-slate-700', 'dark:text-white');
                 }
             });
         });
     }
-
 }
