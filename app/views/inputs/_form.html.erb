@@ -12,6 +12,9 @@
     </div>
   <% end %>
 
+  <div class="field mb-6">
+    <%= form.text_field :title, class: "border border-gray-300 rounded-md text-2xl" %>
+  </div>
   <div class="field flex flex-col">
     <%= form.text_area :text, id: :input_text, autofocus: true, class: "rounded-md border-gray-300 font-mono text-lg", rows: 20, placeholder: "Enter or paste your input text" %>
   </div>

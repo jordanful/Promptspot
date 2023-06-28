@@ -47,5 +47,18 @@
   <% end %>
   <%= yield %>
 </div>
+<footer class="flex items-center justify-center mt-64">
+  <a href="https://github.com/jordanful/promptspot" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base mr-3">
+    <%= feather_icon 'github', size: '20', class: 'mr-1' %>
+    Github
+    <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
+  </a>
+  <a href="https://twitter.com/jordanful" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base ml-3">
+    @jordanful
+    <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
+
+  </a>
+
+</footer>
 </body>
 </html>

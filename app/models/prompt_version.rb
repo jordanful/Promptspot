@@ -38,7 +38,7 @@ class PromptVersion < ApplicationRecord
   end
 
   def generate_prompt_title
-    return unless version_number == 1
+    return unless version_number == 1 # Only autogenerate a title for the first version of the prompt
     ActiveRecord::Base.transaction do
       summary = "#{Rails.application.config.title_system_prompt}\"\"\"#{text}\"\"\""
       # Use the organization's OpenAI API key if it exists, otherwise use the environment variable

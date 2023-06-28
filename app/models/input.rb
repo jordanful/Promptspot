@@ -6,6 +6,12 @@ class Input < ApplicationRecord
   validates :text, presence: true
   before_create :generate_prompt_summary
 
+  def tests
+    TestSuite.joins(test_suite_inputs: :input)
+             .where(test_suite_inputs: { input_id: id }, archived: false)
+             .distinct
+  end
+
   private
 
   def generate_prompt_summary

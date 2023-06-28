@@ -45,4 +45,15 @@ class PromptVersionTest < ActiveSupport::TestCase
     end
   end
 
+  test "should autogenerate prompt title" do
+    prompt_version = FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
+    assert prompt_version.prompt.title == @prompt.title
+  end
+
+  test "should not autogenerate prompt title if version number is not 1" do
+    FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
+    title = @prompt.title
+    FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
+    assert @prompt.title == title
+  end
 end

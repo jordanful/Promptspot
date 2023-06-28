@@ -60,7 +60,7 @@ class PromptsController < ApplicationController
     last_version_text = @prompt.prompt_versions.order(version_number: :desc).first.text
     draft_id = params[:prompt_draft_id]
 
-    if new_version_text.nil? || last_version_text == new_version_text
+    if (new_version_text.nil? || last_version_text == new_version_text) && prompt_params[:title] == @prompt.title
       redirect_to prompt_url(@prompt), notice: "No changes were made."
     else
       @prompt.assign_attributes(prompt_params)
@@ -74,7 +74,7 @@ class PromptsController < ApplicationController
           if draft_id.present?
             PromptDraft.find(draft_id).destroy
           end
-          format.html { redirect_to prompt_url(@prompt), notice: "Prompt was successfully updated." }
+          format.html { redirect_to prompt_url(@prompt), notice: "Updated" }
           format.json { render :show, status: :ok, location: @prompt }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -140,7 +140,7 @@ class PromptsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def prompt_params
-    params.require(:prompt).permit(:status, :account_id, prompt_versions_attributes: [:text, :id])
+    params.require(:prompt).permit(:status, :account_id, :title, prompt_versions_attributes: [:text, :id])
   end
 
   def prompt_draft_params
