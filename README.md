@@ -7,12 +7,21 @@ Say goodbye to the chore of copying and pasting prompts between apps, building y
 limited
 playgrounds. With ✨Promptspot, you have the power to:
 
-- Test prompts against numerous inputs in a single test suite
-- Facilitate prompt collaboration within your team
+- Test prompts against numerous inputs (your application data) in a single test suite
+- Collaborate on prompts with your team (e.g. version control, drafts)
 - View outputs side-by-side
 - Download CSVs for offline analysis
-- Clone tests quickly for faster iteration
+- Clone tests quickly for quick iteration
   ![screenshot](app%2Fassets%2Fimages%2Fscreenshot.png)
+
+## Stack
+
+- Rails 7
+- Stimulus
+- TailwindCSS
+- Postgres
+- Goodjob
+- Minitest
 
 ## Getting Started
 
