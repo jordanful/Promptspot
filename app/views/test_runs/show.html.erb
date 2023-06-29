@@ -2,11 +2,11 @@
   <div class="flex flex-row items-center justify-between">
     <div class="flex items-center justify-start">
       <h1 class="text-2xl"><%= @test_run.test_suite.name %></h1>
-      <div class="flex items-center ml-6 text-sm">
-        <%= button_to 'Run again', test_suite_test_runs_path(@test_run.test_suite), class: "flex items-center justify-center rounded-md py-2 px-3 bg-green-50 hover:dark:bg-emerald-900 dark:text-green-100 border dark:border-green-600 border-green-300 text-green-700 hover:dark:bg-emerald-700 hover:bg-white font-medium cursor-pointer mr-3" %>
-        <%= link_to 'Configure', edit_test_suite_path(@test_run.test_suite), class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
-        <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
-        <%= link_to 'Download CSV', download_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
+      <div class="flex flex-wrap items-center ml-6 text-sm">
+        <%= button_to 'Run again', test_suite_test_runs_path(@test_run.test_suite), class: "flex items-center justify-center rounded-md py-2 px-3 bg-green-50 hover:dark:bg-emerald-900 dark:text-green-100 border dark:border-green-600 border-green-300 text-green-700 hover:dark:bg-emerald-700 hover:bg-white font-medium cursor-pointer mr-3 mb-3" %>
+        <%= link_to 'Configure', edit_test_suite_path(@test_run.test_suite), class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3 mb-3' %>
+        <%= button_to 'Archive', archive_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3 mb-3' %>
+        <%= link_to 'Download CSV', download_test_suite_test_run_path(test_suite: @test_run.test_suite, test_run: @test_run), class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3 mb-3' %>
       </div>
     </div>
 
