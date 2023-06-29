@@ -34,4 +34,6 @@
 !/app/assets/builds/.keep
 .env
 .env.*
+.env.development
+.env.test
 ```
