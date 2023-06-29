@@ -20,9 +20,11 @@ class PromptsController < ApplicationController
   def edit
     @inputs = @current_account.inputs.order(updated_at: :desc)
     @models = Model.where(enabled: true).order(Arel.sql("CASE WHEN name = 'text-davinci-003' THEN 0 WHEN name = 'gpt-3.5-turbo' THEN 1 ELSE 2 END, name"))
-    if params[:draft].present?
-      @prompt_draft = PromptDraft.find(params[:draft])
-    end
+    @new_prompt_version = @prompt.prompt_versions.build(text: @prompt.prompt_versions.last.text)
+    return unless params[:draft].present?
+
+    @prompt_draft = PromptDraft.find(params[:draft])
+
   end
 
   def new
@@ -56,11 +58,12 @@ class PromptsController < ApplicationController
 
   # PATCH/PUT /prompts/1 or /prompts/1.json
   def update
-    new_version_text = prompt_params.dig(:prompt_versions_attributes, 0, :text)
+    new_version_text = prompt_params.dig("prompt_versions_attributes", "0", "text")
     last_version_text = @prompt.prompt_versions.order(version_number: :desc).first.text
     draft_id = params[:prompt_draft_id]
 
-    if (new_version_text.nil? || last_version_text == new_version_text) && prompt_params[:title] == @prompt.title
+    # TODO - Save if the user updated the title but not the body
+    if new_version_text.nil? || last_version_text == new_version_text
       redirect_to prompt_url(@prompt), notice: "No changes were made."
     else
       @prompt.assign_attributes(prompt_params)
@@ -148,9 +151,9 @@ class PromptsController < ApplicationController
   end
 
   def authorize_user!
-    unless current_user.account.id == @prompt.account_id
-      redirect_to prompts_path, notice: "You do not have access to that prompt."
-    end
+    return if current_user.account.id == @prompt.account_id
+    redirect_to prompts_path, notice: "You do not have access to that prompt."
+
   end
 
 end

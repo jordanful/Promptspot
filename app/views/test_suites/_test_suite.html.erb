@@ -44,7 +44,7 @@
         <p>Archive</p>
       <% end %>
       <% if test_suite.configured? %>
-        <%= button_to test_suite_test_runs_path(test_suite), class: "flex items-center justify-center rounded-md py-2 px-3 bg-green-50 dark:bg-emerald-900 dark:text-green-100 border dark:border-green-600 border-green-300 text-green-700 hover:bg-emerald-700 hover:bg-white font-medium cursor-pointer" do %>
+        <%= button_to test_suite_test_runs_path(test_suite), class: "flex items-center justify-center rounded-md py-2 px-3 bg-green-50 dark:bg-emerald-900 dark:text-green-100 border dark:border-green-600 border-green-300 text-green-700 hover:dark:bg-emerald-700 hover:bg-white font-medium cursor-pointer" do %>
           <%= feather_icon "play", class: "w-4 mr-2" %>
           <p>Run</p>
         <% end %>

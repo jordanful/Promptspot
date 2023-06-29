@@ -59,11 +59,14 @@
         <%= link_to 'Edit', edit_prompt_path(@prompt), class: "flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" %>
         <%= button_to 'Archive', archive_prompt_path(@prompt), data: { turbo: false }, class: "flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3" %>
       <% end %>
-      <%= button_to 'Delete', prompt_path(@prompt),
+      <!-- TODO: Uncomment the below once we settle on how TestRunDetails should work (probably nullify with defensive nil checking in place) -->
+      <%#
+   <%= button_to 'Delete', prompt_path(@prompt),
                     method: :delete,
                     data: { turbo: false },
                     class: "flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 border border-blue-200 dark:text-red-300 text-red-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3"
       %>
+
 
     </div>
     <% @prompt.prompt_versions.where.not(version_number: 1).order(version_number: :desc).each do |p| %>

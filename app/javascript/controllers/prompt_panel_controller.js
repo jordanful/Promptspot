@@ -27,7 +27,7 @@ export default class extends Controller {
             hiddenInput.type = "hidden";
             hiddenInput.name = `test_suite[${type}_ids][]`;
             hiddenInput.value = id;
-            hiddenInput.id = `hidden-${type}-${id}`; // Add an ID for easier reference later
+            hiddenInput.id = `hidden-${type}-${id}`;
             this.element.appendChild(hiddenInput);
         });
     }
@@ -131,7 +131,7 @@ export default class extends Controller {
         const promptId = event.currentTarget.dataset.promptId
         if (!this.promptIds.includes(promptId)) {
             this.promptIds.push(promptId);
-            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
+            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:text-white", "dark:border-slate-600", "dark:from-slate-900", "dark:to-slate-800")
             if (document.querySelectorAll('[data-prompt-id]').length === 1) {
                 this.close(event)
             }
@@ -144,7 +144,7 @@ export default class extends Controller {
             this.element.appendChild(prompt);
         } else {
             this.promptIds = this.promptIds.filter(id => id !== promptId);
-            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
+            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "dark:text-white", "border-blue-300", "dark:border-slate-600", "dark:from-slate-900", "dark:to-slate-800", "dark:border-slate-600")
 
             // Remove the corresponding hidden input
             const hiddenInput = document.querySelector(`#hidden-prompt-${promptId}`);
@@ -161,7 +161,7 @@ export default class extends Controller {
         const inputId = event.currentTarget.dataset.inputId
         if (!this.inputIds.includes(inputId)) {
             this.inputIds.push(inputId);
-            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
+            event.currentTarget.classList.add("bg-gradient-to-b", "from-blue-200", "to-blue-50", "dark:text-white", "border-blue-300", "dark:border-slate-600", "dark:from-slate-900", "dark:to-slate-800", "dark:border-slate-600")
             if (document.querySelectorAll('[data-input-id]').length === 1) {
                 this.close(event)
             }
@@ -174,7 +174,7 @@ export default class extends Controller {
             this.element.appendChild(input);
         } else {
             this.inputIds = this.inputIds.filter(id => id !== inputId);
-            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600")
+            event.currentTarget.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "dark:text-white", "border-blue-300", "dark:border-slate-600", "dark:from-slate-900", "dark:to-slate-800", "dark:border-slate-600")
 
             // Remove the corresponding hidden input
             const hiddenInput = document.querySelector(`#hidden-input-${inputId}`);
@@ -198,9 +198,9 @@ export default class extends Controller {
             if (promptElement) {
                 const title = promptElement.querySelector('.title').innerText;
                 this.selectedPromptsTarget.innerHTML += `
-                <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${promptId}">
+                <div class="rounded-lg font-medium dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 dark:text-white bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${promptId}">
                     ${title}
-                    <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+                    <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 dark:text-white text-blue-700">✕</span>
                 </div>
             `
             } else {
@@ -215,9 +215,9 @@ export default class extends Controller {
             if (inputElement) {
                 const title = inputElement.querySelector('.title').innerText;
                 this.selectedInputsTarget.innerHTML += `
-               <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${inputId}">
+               <div class="rounded-lg font-medium dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 dark:text-white bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id="${inputId}">
                     ${title}
-                    <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+                    <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 dark:text-white text-blue-700">✕</span>
                 </div>
             `
             } else {
@@ -262,7 +262,7 @@ export default class extends Controller {
                 }
 
                 if (panelElement) {
-                    panelElement.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "border-blue-300", "dark:bg-transparent", "dark:border-slate-600");
+                    panelElement.classList.remove("bg-gradient-to-b", "from-blue-200", "to-blue-50", "dark:text-white", "border-blue-300", "dark:border-slate-600", "dark:from-slate-900", "dark:to-slate-800", "dark:border-slate-600");
                 }
 
                 pill.remove();
@@ -369,7 +369,7 @@ export default class extends Controller {
 
         if (response.ok) {
             this.activeSection.insertAdjacentHTML('beforeend', `
-            <div class="bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 rounded-md p-4 cursor-pointer mb-4 rounded-md p-4 cursor-pointer mb-4"
+            <div class="bg-gradient-to-b from-blue-200 to-blue-50 dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 dark:text-white border border-blue-300 rounded-md p-4 cursor-pointer mb-4 rounded-md p-4 cursor-pointer mb-4"
                 data-action="click->prompt-panel#selectPrompt"
                 data-prompt-panel-target="prompt"
                 data-prompt-id="${responseData.id}">

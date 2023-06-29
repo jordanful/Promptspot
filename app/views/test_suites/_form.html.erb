@@ -34,9 +34,9 @@
       </div>
       <div data-prompt-panel-target="selectedPrompts" class="mt-6 flex flex-wrap">
         <% @test_suite.prompts.each do |prompt| %>
-          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= prompt.id %>>
+          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 dark:text-white dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= prompt.id %>>
             <%= prompt.title %>
-            <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+            <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 dark:text-white text-blue-700">✕</span>
           </div>
         <% end %>
       </div>
@@ -71,9 +71,9 @@
       </div>
       <div data-prompt-panel-target="selectedInputs" class="mt-6 flex flex-wrap">
         <% @test_suite.inputs.each do |input| %>
-          <div class="rounded-lg font-medium bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= input.id %>>
+          <div class="rounded-lg font-medium dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 dark:text-white bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= input.id %>>
             <%= input.title %>
-            <span class="pill-remove cursor-pointer ml-2 p-1 text-lg hover:text-blue-900 text-blue-700">✕</span>
+            <span class="pill-remove cursor-pointer ml-2 p-1 text-lg dark:text-white hover:text-blue-900 text-blue-700">✕</span>
           </div>
         <% end %>
       </div>
@@ -93,7 +93,7 @@
             data-action="click->model-picker#selectModel"
             data-model-id="<%= m.id %>"
             class="model-picker-model border rounded-md p-4 cursor-pointer mb-4
-        <%= "bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300" if @test_suite.model_ids.first == m.id %>  flex inline-flex flex-col mr-3"
+        <%= "bg-gradient-to-b from-blue-200 to-blue-50 dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 border-blue-300" if @test_suite.model_ids.first == m.id %>  flex inline-flex flex-col mr-3"
             data-model-picker-target="model"
           >
             <p class="font-mono text-lg"><%= m.name %></p>
@@ -113,7 +113,7 @@
 
   <div class="actions my-8 flex flex-row">
     <%= button_tag 'Save', type: "submit", class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
-    <%= button_tag 'Save and run', type: "submit", data: { action: "prompt-panel#runNow" }, class: 'flex items-center justify-center rounded-md py-2 px-3 bg-green-50 dark:bg-emerald-900 dark:text-green-100 border dark:border-green-600 border-green-300 text-green-700 hover:bg-emerald-700 hover:bg-white font-medium cursor-pointer' %>
+    <%= button_tag 'Save and run', type: "submit", data: { action: "prompt-panel#runNow" }, class: 'flex items-center justify-center rounded-md py-2 px-3 bg-green-50 dark:bg-emerald-900 dark:hover:bg-emerald-700 dark:text-green-100 border dark:border-green-600 border-green-300 text-green-700 hover:bg-white font-medium cursor-pointer' %>
   </div>
 
   <div class="fixed inset-0 bg-black opacity-0" style=" pointer-events: none;" data-prompt-panel-target="overlay" data-action="click->prompt-panel#close"></div>
