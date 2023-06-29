@@ -12,8 +12,8 @@ class AccountTest < ActiveSupport::TestCase
 
   test "should not create account without organization_id" do
     assert_raises(ActiveRecord::RecordInvalid) do
-      FactoryBot.create(:account)
+      FactoryBot.create(:account, organization: nil)
     end
   end
-  
+
 end

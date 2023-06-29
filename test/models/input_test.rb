@@ -27,7 +27,7 @@ class InputTest < ActiveSupport::TestCase
 
   def test_should_not_create_input_without_account_id
     assert_raises(ActiveRecord::RecordInvalid) do
-      FactoryBot.create(:input, user_id: @user.id)
+      FactoryBot.create(:input, user_id: @user.id, account: nil)
     end
   end
 

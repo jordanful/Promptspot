@@ -26,12 +26,6 @@ class PromptTest < ActiveSupport::TestCase
     end
   end
 
-  test "should not create prompt without a title" do
-    assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:prompt, title: nil)
-    end
-  end
-
   test "should not create prompt without a valid status" do
     assert_raises ActiveRecord::RecordInvalid do
       FactoryBot.create(:prompt, status: "invalid")

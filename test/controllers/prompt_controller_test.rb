@@ -58,9 +58,12 @@ class PromptControllerTest < ActionDispatch::IntegrationTest
     patch prompt_url(@prompt), params: {
       prompt: {
         status: "archived",
-        prompt_versions_attributes: [{ text: "Updated prompt text" }]
+        prompt_versions_attributes: {
+          '0' => { text: "Updated prompt text" }
+        }
       }
     }
+
     assert_redirected_to prompt_path(@prompt)
     @prompt.reload
     assert_equal "archived", @prompt.status

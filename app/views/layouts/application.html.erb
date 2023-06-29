@@ -11,52 +11,76 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
-<div class="container mx-auto p-8">
-  <nav class="mb-12 mt-4">
-    <ul class="flex items-center justify-between">
-      <li class="mr-4 font-bold text-2xl text-blue-600 tracking-tight">
-        <%= link_to root_path do %>
-          <%= image_tag("promptspot-logo.svg", class: "h-6") %>
-        <% end %>
-      </li>
-      <div class="flex flex-row items-center">
-        <% if current_user %>
-          <li class="mr-6 font-mono font-medium hover:text-gray-500"><%= link_to "Tests", test_suites_path %></li>
-          <li class="mr-6 font-mono font-medium hover:text-gray-500"><%= link_to "Prompts", prompts_url %></li>
-          <li class="mr-6 font-mono font-medium hover:text-gray-500"><%= link_to "Inputs", inputs_url %></li>
-          <li class="mr-6 font-medium font-mono hover:text-gray-500"><%= link_to "Account", edit_user_registration_path %></li>
-          <li><%= link_to "Sign out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "font-medium font-mono hover:text-gray-500" %></li>
-        <% else %>
-          <li class="font-medium font-mono hover:text-gray-500"><%= link_to "Sign in", new_user_session_path %></li>
-        <% end %>
-      </div>
-    </ul>
-  </nav>
-
-  <% flash.each do |name, msg| %>
-    <% if msg.is_a?(Array) %>
-      <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
-        <%= content_tag :div, msg.join(', ').html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+<body class="flex min-h-screen bg-gray-900 dark:bg-gray-900 dark:text-white">
+<nav class="w-48 p-8 bg-white dark:bg-slate-700 border-r dark:border-slate-700 border-gray-200 flex flex-col min-h-screen overflow-y-auto scrollbar-hide">
+  <!--  <div class="mb-4 font-bold text-2xl text-blue-600 tracking-tight">-->
+  <%#= link_to root_path do %>
+  <%#= image_tag("promptspot-logo.svg", class: "h-6") %>
+  <%# end %>
+  <!--  </div>-->
+  <div class="flex-grow">
+    <ul class="flex flex-col font-mono font-medium text-gray-700 tracking-wider">
+      <% if current_user %>
+        <li class="mb-8 <%= 'text-blue-500' if current_page?(test_suites_path) %> <%= 'hover:text-gray-500' unless current_page?(test_suites_path) %>">
+          <%= link_to test_suites_path, class: "flex items-center" do %>
+            Tests
+          <% end %>
+        </li>
+        <li class="mb-8 <%= 'text-blue-500' if current_page?(prompts_url) %> <%= 'hover:text-gray-500' unless current_page?(prompts_url) %>">
+          <%= link_to prompts_url, class: "flex items-center" do %>
+            Prompts
+          <% end %>
+        </li>
+        <li class="mb-8 <%= 'text-blue-500' if current_page?(inputs_url) %> <%= 'hover:text-gray-500' unless current_page?(inputs_url) %>">
+          <%= link_to inputs_url, class: "flex items-center" do %>
+            Inputs
+          <% end %>
+        </li>
+        <li class=" <%= 'text-blue-500' if current_page?(edit_user_registration_path) %> <%= 'hover:text-gray-500' unless current_page?(edit_user_registration_path) %>">
+          <%= link_to edit_user_registration_path, class: "flex items-center" do %>
+            Account
+          <% end %>
+        </li>
+      <% else %>
+        <li class="hover:text-gray-500"><%= link_to "Sign in", new_user_session_path %></li>
+        <li class="hover:text-gray-500 mt-6"><%= link_to "Get started", new_user_registration_path %></li>
       <% end %>
-    <% else %>
-      <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
-        <%= content_tag :div, msg.html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+    </ul>
+  </div>
+  <% if current_user %>
+    <div class="fixed bottom-10 left-8">
+      <%= link_to "Sign out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "hover:text-gray-500 font-mono" %>
+    </div>
+  <% end %>
+</nav>
+
+<div class="flex-grow flex flex-col bg-slate-50">
+  <main class="container mx-auto p-8">
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(Array) %>
+        <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
+          <%= content_tag :div, msg.join(', ').html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+        <% end %>
+      <% else %>
+        <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
+          <%= content_tag :div, msg.html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+        <% end %>
       <% end %>
     <% end %>
-  <% end %>
-  <%= yield %>
+    <%= yield %>
+  </main>
+  <footer class="flex items-center justify-center mt-64 mb-10">
+    <%= link_to 'Promptspot', root_url %>
+    <a href="https://github.com/jordanful/promptspot" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base ml-6 mr-3">
+      <%= feather_icon 'github', size: '20', class: 'mr-1' %>
+      Github
+      <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
+    </a>
+    <a href="https://twitter.com/jordanful" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base ml-3">
+      By @jordanful
+      <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
+    </a>
+  </footer>
 </div>
-<footer class="flex items-center justify-center mt-64 mb-10">
-  <a href="https://github.com/jordanful/promptspot" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base mr-3">
-    <%= feather_icon 'github', size: '20', class: 'mr-1' %>
-    Github
-    <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
-  </a>
-  <a href="https://twitter.com/jordanful" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base ml-3">
-    By @jordanful
-    <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
-  </a>
-</footer>
 </body>
 </html>
