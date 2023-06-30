@@ -36,6 +36,12 @@
             Inputs
           <% end %>
         </li>
+
+        <li class="mb-8 <%= 'text-blue-500' if current_page?(api_v1_docs_url) %> <%= 'hover:text-gray-500' unless current_page?(api_v1_docs_url) %>">
+          <%= link_to api_v1_docs_url, class: "flex items-center" do %>
+            Developers
+          <% end %>
+        </li>
         <li class=" <%= 'text-blue-500' if current_page?(edit_user_registration_path) %> <%= 'hover:text-gray-500' unless current_page?(edit_user_registration_path) %>">
           <%= link_to edit_user_registration_path, class: "flex items-center" do %>
             Account

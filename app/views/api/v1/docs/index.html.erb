@@ -1,0 +1,32 @@
+<div class="flex justify-between items-center mb-12">
+
+  <h1 class="text-2xl ">Developers</h1>
+  <div class="font-mono text-lg text-gray-600">
+    v1.0
+  </div>
+</div>
+
+<% @current_account.api_keys.each do |api_key| %>
+  <label class="text-gray-600">Promptspot API key</label>
+  <div data-controller="api-key" class="border border-gray-300 rounded-md bg-white flex-inline flex pr-3">
+    <input
+      data-api-key-target="keyField"
+      type="password"
+      class="outline-none focus:outline-none focus:border-0 border-0 rounded-md w-full pl-3"
+      value="<%= api_key.key %>"
+      readonly
+    >
+    <button
+      data-action="click->api-key#toggleKeyVisibility"
+    >
+      <span data-api-key-target="eyeIcon" style="display: none;"><%= feather_icon 'eye', size: "16" %></span>
+      <span data-api-key-target="eyeOffIcon" style=""><%= feather_icon 'eye-off', size: "16" %></span>
+    </button>
+    <button
+      data-action="click->api-key#copyKeyToClipboard"
+    >
+      <%= feather_icon 'copy', size: "16", class: "ml-3" %>
+    </button>
+  </div>
+<% end %>
+

@@ -32,8 +32,13 @@ Rails.application.routes.draw do
   end
   resources :accounts
   resources :organizations
+  namespace :api do
+    namespace :v1 do
+      get 'docs', to: 'docs#index'
+      resources :prompts
+    end
+  end
 
   mount GoodJob::Engine => 'jobs'
-  # Defines the root path route ("/")
   root "test_suites#index"
 end

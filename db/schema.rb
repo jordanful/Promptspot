@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_26_104103) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_30_094519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,6 +19,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_26_104103) do
     t.uuid "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "key"
+    t.uuid "account_id", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_api_keys_on_account_id"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -225,6 +234,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_26_104103) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "api_keys", "accounts"
   add_foreign_key "prompt_drafts", "prompts"
   add_foreign_key "prompt_drafts", "users"
   add_foreign_key "test_run_details", "prompt_versions"
