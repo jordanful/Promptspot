@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     post 'create_and_run', on: :member
     post 'archive', on: :member
     post 'clone', on: :member
-    resources :test_runs, path: :runs, only: [:create, :show, :index, :destroy] do
+    resources :test_runs, path: :runs, only: %i[create show index destroy] do
       post 'archive', on: :member
       post 'unarchive', on: :member
       get 'download', on: :member, defaults: { format: :csv }, constraints: { format: :csv }
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'docs', to: 'docs#index'
-      resources :prompts
+      resources :prompts, only: %i[index show], constraints: { format: :json }
     end
   end
 

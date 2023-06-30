@@ -1,3 +1,5 @@
+// app/javascript/controllers/api_key_controller.js
+
 import {Controller} from "stimulus"
 
 export default class extends Controller {
@@ -13,6 +15,7 @@ export default class extends Controller {
             eyeIcon.style.display = "none"
             eyeOffIcon.style.display = ""
 
+            // focus the field and select all the text
             keyField.focus()
             keyField.select()
         } else {
@@ -20,6 +23,7 @@ export default class extends Controller {
             eyeIcon.style.display = ""
             eyeOffIcon.style.display = "none"
 
+            // blur the field and deselect the key
             keyField.blur()
             window.getSelection().removeAllRanges()
         }
@@ -29,6 +33,24 @@ export default class extends Controller {
         const keyField = this.keyFieldTarget
         keyField.select()
         document.execCommand("copy")
-        alert("API Key copied to clipboard.")
+
+        this.showFlashMessage("👍 Copied")
+    }
+
+    showFlashMessage(message) {
+        const flashContainer = document.getElementById("flash-container")
+        const flashMessage = `
+      <div class="fixed inset-x-0 top-0 flex items-center justify-center mt-5">
+        <div class="py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300">
+          ${message}
+        </div>
+      </div>
+    `
+        flashContainer.innerHTML += flashMessage
+
+        // Remove the flash message after 3 seconds
+        setTimeout(() => {
+            flashContainer.removeChild(flashContainer.firstChild)
+        }, 3000)
     }
 }

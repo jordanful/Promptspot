@@ -62,6 +62,7 @@
 
 <div class="flex-grow flex flex-col bg-slate-50">
   <main class="container mx-auto p-8">
+    <div id="flash-container"></div> <!-- for JS flash messages -->
     <% flash.each do |name, msg| %>
       <% if msg.is_a?(Array) %>
         <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
