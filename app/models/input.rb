@@ -1,5 +1,5 @@
 class Input < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :account
   has_many :inputs
   has_many :test_suites, through: :test_suite_inputs

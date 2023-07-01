@@ -35,7 +35,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'docs', to: 'docs#index'
-      resources :prompts, only: %i[index show], constraints: { format: :json }
+      resources :prompts, only: %i[index show create destroy update archive unarchive], constraints: { format: :json }
+      resources :inputs, only: %i[index show create destroy update archive unarchive], constraints: { format: :json }
+      resources :test_runs, path: :runs, only: %i[index show create destroy update run], constraints: { format: :json }
     end
   end
 
