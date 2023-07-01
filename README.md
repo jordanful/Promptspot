@@ -14,8 +14,10 @@ playgrounds. With ✨Promptspot, you have the power to:
 - Clone tests quickly for quick iteration
 
 
-[![Video walkthrough](app%2Fassets%2Fimages%2Fscreenshot.png)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://youtu.be/1lGHRb9hryg))
+[![Video walkthrough](app%2Fassets%2Fimages%2Fscreenshot.png)](https://youtu.be/1lGHRb9hryg)
 *Click the image above for a quick 4m video walkthrough*
+
+
 
 ## Stack
 
