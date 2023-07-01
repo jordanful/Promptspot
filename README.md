@@ -12,7 +12,10 @@ playgrounds. With ✨Promptspot, you have the power to:
 - View outputs side-by-side
 - Download CSVs for offline analysis
 - Clone tests quickly for quick iteration
-  ![screenshot](app%2Fassets%2Fimages%2Fscreenshot.png)
+
+
+[![Video walkthrough](app%2Fassets%2Fimages%2Fscreenshot.png)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://youtu.be/1lGHRb9hryg))
+*Click the image above for a quick 4m video walkthrough*
 
 ## Stack
 
