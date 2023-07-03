@@ -30,16 +30,15 @@
   </div>
 <% end %>
 <div class="mt-12">
-  <h2 class="text-2xl text-gray-700 mb-1">Endpoints</h2>
-
-  <div class="flex items-center justify-start">
+  <section id="prompts">
+    <h2 class="text-2xl font-mono mb-6">Prompts</h2>
     <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex">
       <div class="font-mono font-medium text-xl text-green-500">/api/v1/prompts</div>
     </div>
-    <p class="text-lg text-gray-400 ml-6">Returns all Prompts</p>
-  </div>
-  <p class="mt-6 text-gray-400">Example response</p>
-  <div class="bg-gray-200 dark:bg-slate-800 rounded w-full md:w-2/3 p-3 mt-2">
+    <p class="text-lg text-gray-400 mt-4">Returns all Prompts</p>
+
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-gray-200 dark:bg-slate-800 rounded w-full md:w-2/3 p-3 mt-2">
 
     <pre class="text-sm font-mono overflow-x-scroll">
       [
@@ -69,20 +68,17 @@
                 }
             ]
     </pre>
-  </div>
+    </div>
 
 
-  <div class="flex items-center justify-start mt-12">
-
-    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex ">
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6 ">
       <div class="font-mono font-medium text-xl text-green-500">/api/v1/prompt/[id]</div>
     </div>
-    <p class="text-lg text-gray-400 ml-6">Returns a single Prompt's full details. Just grab the
+    <p class="text-lg text-gray-400">Returns a single Prompt's full details. Just grab the
       <span class="font-mono px-1 rounded bg-gray-100">text</span>
       field if you're looking for the prompt itself.</p>
-  </div>
-  <p class="mt-6 text-gray-400">Example response</p>
-  <div class="bg-gray-200 dark:bg-slate-800 rounded w-full md:w-2/3 p-3 mt-2">
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-gray-200 dark:bg-slate-800 rounded w-full md:w-2/3 p-3 mt-2">
 
     <pre class="text-sm font-mono overflow-x-scroll">
       {
@@ -95,6 +91,71 @@
         "text": "Travelhub is a platform for managing business travel policies and expenses. \n\nThe following is a travel expense policy on Travelhub:\n\n- Airline highest fare class for flights under 6 hours is economy.\n- Airline highest fare class for flights over 6 hours is premium economy.\n- Car rentals must have an average daily rate of $60 or under.\n- Lodging must have an average nightly rate of $250 or under.\n- Lodging must be rated 4 stars or higher.\n- Meals from restaurants, food delivery, grocery, bars & nightlife must be under $75\n- All other expenses must be under $3,500.\n- Reimbursements require review.\n\nRecommend a hotel and flight that are in policy. Keep the recommendation concise, no longer than a sentence or two, but include pleasantries as though you are a friendly colleague helping me out. My details and the travel options are below, delimited by a triple equals sign (===). Do not recommend flights nor hotels that are not in the list below, and do not recommend flights or hotels that are out of policy.\n\n===\n\n"
       }
       </pre>
-  </div>
+    </div>
+  </section>
+  <hr class="my-12"/>
+  <section id="inputs">
+    <h2 class="text-2xl font-mono mb-6">Inputs</h2>
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex">
+      <div class="font-mono font-medium text-xl text-green-500">/api/v1/inputs</div>
+    </div>
+    <p class="text-lg text-gray-400 mt-4">Returns all Inputs</p>
+
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-gray-200 dark:bg-slate-800 rounded w-full md:w-2/3 p-3 mt-2">
+
+    <pre class="text-sm font-mono overflow-x-scroll">
+      [
+                {
+                  "id ": "9e5e516e-d1c5-4e3f-9772-e12d238e6cfc",
+                  "status ": "active",
+                  "account_id ": "4919aa85 - 7b4c - 4589 - a713 - bd203e3ca830",
+                  "created_at ": "2023 - 06 - 21T15:50:00.728Z",
+                  "updated_at ": "2023 - 06 - 25T16:06:02.506Z",
+                  "title ": "Hotel Concierge Expert Recommendations"
+                },
+                {
+                  "id ": "f128f55a-104b-4b1b-9b75-2df9c51da2b6",
+                  "status ": "active",
+                  "account_id ": "4919aa85 - 7b4c - 4589 - a713 - bd203e3ca830",
+                  "created_at ": "2023 - 06 - 26T18:19:57.704Z",
+                  "updated_at ": "2023 - 06 - 26T18:19:58.572Z",
+                  "title ": "Recommend 3 Movies"
+                },
+                {
+                  "id ": "7b25f0df-4a22-4957-86bf-31f830d3c8fa",
+                  "status ": "archived",
+                  "account_id ": "4919aa85 - 7b4c - 4589 - a713 - bd203e3ca830",
+                  "created_at ": "2023 - 06 - 27T17:45:01.506Z",
+                  "updated_at ": "2023 - 06 - 28T20:00:16.260Z",
+                  "title ": "Manage Business Travel Policy and Expenses"
+                }
+            ]
+    </pre>
+    </div>
+
+
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6 ">
+      <div class="font-mono font-medium text-xl text-green-500">/api/v1/input/[id]</div>
+    </div>
+    <p class="text-lg text-gray-400">Returns a single Input's full details. Just grab the
+
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-gray-200 dark:bg-slate-800 rounded w-full md:w-2/3 p-3 mt-2">
+
+    <pre class="text-sm font-mono overflow-x-scroll">
+      {
+        "id": "7b25f0df-4a22-4957-86bf-31f830d3c8fa",
+        "status": "active",
+        "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+        "created_at": "2023-06-27T17:45:01.506Z",
+        "updated_at": "2023-06-28T20:00:16.260Z",
+        "title": "Manage Business Travel Policy and Expenses",
+        "text": "Travelhub is a platform for managing business travel policies and expenses. \n\nThe following is a travel expense policy on Travelhub:\n\n- Airline highest fare class for flights under 6 hours is economy.\n- Airline highest fare class for flights over 6 hours is premium economy.\n- Car rentals must have an average daily rate of $60 or under.\n- Lodging must have an average nightly rate of $250 or under.\n- Lodging must be rated 4 stars or higher.\n- Meals from restaurants, food delivery, grocery, bars & nightlife must be under $75\n- All other expenses must be under $3,500.\n- Reimbursements require review.\n\nRecommend a hotel and flight that are in policy. Keep the recommendation concise, no longer than a sentence or two, but include pleasantries as though you are a friendly colleague helping me out. My details and the travel options are below, delimited by a triple equals sign (===). Do not recommend flights nor hotels that are not in the list below, and do not recommend flights or hotels that are out of policy.\n\n===\n\n"
+      }
+      </pre>
+    </div>
+  </section>
+
 </div>
 
