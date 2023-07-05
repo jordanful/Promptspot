@@ -33,7 +33,7 @@
   <section id="prompts">
     <h2 class="text-2xl font-mono mb-6">Prompts</h2>
     <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex">
-      <div class="font-mono font-medium text-xl text-green-500">/api/v1/prompts</div>
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/prompts</div>
     </div>
     <p class="text-lg text-gray-400 mt-4">Returns all Prompts</p>
 
@@ -72,7 +72,7 @@
 
 
     <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6 ">
-      <div class="font-mono font-medium text-xl text-green-500">/api/v1/prompt/[id]</div>
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/prompts/[id]</div>
     </div>
     <p class="text-lg text-gray-400">Returns a single Prompt's full details. Just grab the
       <span class="font-mono px-1 rounded bg-gray-100">text</span>
@@ -97,7 +97,7 @@
   <section id="inputs">
     <h2 class="text-2xl font-mono mb-6">Inputs</h2>
     <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex">
-      <div class="font-mono font-medium text-xl text-green-500">/api/v1/inputs</div>
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/inputs</div>
     </div>
     <p class="text-lg text-gray-400 mt-4">Returns all Inputs</p>
 
@@ -131,7 +131,7 @@
 
 
     <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6 ">
-      <div class="font-mono font-medium text-xl text-green-500">/api/v1/input/[id]</div>
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/inputs/[id]</div>
     </div>
     <p class="text-lg text-gray-400">Returns a single Input's full details.
 
@@ -155,7 +155,7 @@
   <section id="tests">
     <h2 class="text-2xl font-mono mb-6">Tests</h2>
     <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex">
-      <div class="font-mono font-medium text-xl text-green-500">/api/v1/tests</div>
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/tests</div>
     </div>
     <p class="text-lg text-gray-400 mt-4">Returns all tests</p>
 
@@ -165,49 +165,157 @@
     <pre class="text-sm font-mono overflow-x-scroll">
   [
   {
-    "id": "41f27fab-0f6f-4629-a5c6-df7cd3516f9f",
-    "text": "User profile:\nName: Alice Lee\nAge: 29\nFavorite hotels: 1) Ace Hotel in New Orleans, 2) Hotel San Fernando in Mexico City, 3) Blackberry Farms in TN\n\nRequirements: Hilton loyalty hotels only\nPreferences: \n - Close to a hip restaurant for dinner or cocktail after work\n - Centrally located to public transportation",
-    "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+    "id": "79828826-5bb3-4ed9-92bb-5078bf5822e2",
+    "name": "Hotel concierge",
     "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
-    "created_at": "2023-06-21T15:51:11.496Z",
-    "updated_at": "2023-06-22T18:36:39.021Z",
-    "title": "\n\nAlice Lee's Hotel Preferences"
+    "created_at": "2023-06-21T15:58:58.727Z",
+    "updated_at": "2023-06-27T18:15:09.017Z",
+    "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+    "archived": false,
   },
   {
-    "id": "34588f06-f7f8-4d17-9010-241d09c29ab7",
-    "text": "User profile:\nName: Phoebe Carrin\nAge: 22\nFavorite hotels: 1) Hotel Lucia in Portland, 2) White Elephant in Palm Beach, FL, 3) Hotel 50 Bowery, NYC\n\nPreferences: \n - Close to a park or place to run a few miles\n - Not too far from the nearest large convention center",
-    "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+    "id": "983189d9-c653-43ff-a35b-677859f4312e",
+    "name": "Current weather",
     "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
-    "created_at": "2023-06-26T14:43:22.146Z",
-    "updated_at": "2023-06-26T14:43:22.146Z",
-    "title": "\n\nLikes city hotels near parks."
+    "created_at": "2023-06-22T18:31:50.933Z",
+    "updated_at": "2023-06-22T18:32:10.430Z",
+    "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+    "archived": true,
   },
-  ...
+      ...
 ]
     </pre>
     </div>
-
-
-    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6 ">
-      <div class="font-mono font-medium text-xl text-green-500">/api/v1/input/[id]</div>
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6">
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/tests/[id]</div>
     </div>
-    <p class="text-lg text-gray-400">Returns a single Input's full details.
+    <p class="text-lg text-gray-400">Returns a single Test's full details.
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-white dark:bg-opacity-10 rounded w-full md:w-2/3 p-3 mt-2">
+    <pre class="text-sm font-mono overflow-x-scroll">
+    {
+      "id": "79828826-5bb3-4ed9-92bb-5078bf5822e2",
+      "name": "Hotel concierge",
+      "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
+      "created_at": "2023-06-21T15:58:58.727Z",
+      "updated_at": "2023-06-27T18:15:09.017Z",
+      "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+      "archived": true,
+    }
+    </pre>
+    </div>
+  </section>
+  <hr class="my-12"/>
+  <section id="tests">
+    <h2 class="text-2xl font-mono mb-6">Tests</h2>
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex">
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/tests</div>
+    </div>
+    <p class="text-lg text-gray-400 mt-4">Returns all tests</p>
 
     <p class="mt-6 text-gray-400">Example response</p>
     <div class="bg-white dark:bg-opacity-10 rounded w-full md:w-2/3 p-3 mt-2">
 
     <pre class="text-sm font-mono overflow-x-scroll">
-      {
-        "id": "41f27fab-0f6f-4629-a5c6-df7cd3516f9f",
-        "text": "User profile:\nName: Alice Lee\nAge: 29\nFavorite hotels: 1) Ace Hotel in New Orleans, 2) Hotel San Fernando in Mexico City, 3) Blackberry Farms in TN\n\nRequirements: Hilton loyalty hotels only\nPreferences: \n - Close to a hip restaurant for dinner or cocktail after work\n - Centrally located to public transportation",
-        "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
-        "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
-        "created_at": "2023-06-21T15:51:11.496Z",
-        "updated_at": "2023-06-22T18:36:39.021Z",
-        "title": "\n\nAlice Lee's Hotel Preferences"
-      }
-      </pre>
+  [
+  {
+    "id": "79828826-5bb3-4ed9-92bb-5078bf5822e2",
+    "name": "Hotel concierge",
+    "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
+    "created_at": "2023-06-21T15:58:58.727Z",
+    "updated_at": "2023-06-27T18:15:09.017Z",
+    "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+    "archived": false,
+  },
+  {
+    "id": "983189d9-c653-43ff-a35b-677859f4312e",
+    "name": "Current weather",
+    "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
+    "created_at": "2023-06-22T18:31:50.933Z",
+    "updated_at": "2023-06-22T18:32:10.430Z",
+    "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+    "archived": true,
+  },
+      ...
+]
+    </pre>
     </div>
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6">
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/tests/[id]</div>
+    </div>
+    <p class="text-lg text-gray-400">Returns a single Test's full details.
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-white dark:bg-opacity-10 rounded w-full md:w-2/3 p-3 mt-2">
+    <pre class="text-sm font-mono overflow-x-scroll">
+    {
+      "id": "79828826-5bb3-4ed9-92bb-5078bf5822e2",
+      "name": "Hotel concierge",
+      "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
+      "created_at": "2023-06-21T15:58:58.727Z",
+      "updated_at": "2023-06-27T18:15:09.017Z",
+      "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+      "archived": true,
+    }
+    </pre>
+    </div>
+
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6">
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/tests/[test_id]/runs</div>
+    </div>
+    <p class="text-lg text-gray-400">Returns all instances of a test's run.
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-white dark:bg-opacity-10 rounded w-full md:w-2/3 p-3 mt-2">
+    <pre class="text-sm font-mono overflow-x-scroll">
+    {
+      "id": "79828826-5bb3-4ed9-92bb-5078bf5822e2",
+      "name": "Hotel concierge",
+      "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
+      "created_at": "2023-06-21T15:58:58.727Z",
+      "updated_at": "2023-06-27T18:15:09.017Z",
+      "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+      "archived": true,
+    }
+    </pre>
+    </div>
+
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6">
+      <div class="font-mono font-medium text-xl text-green-500">GET /api/v1/tests/[test_id]/runs/[id]</div>
+    </div>
+    <p class="text-lg text-gray-400">Returns details of a test run, including output if the test run has completed.
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-white dark:bg-opacity-10 rounded w-full md:w-2/3 p-3 mt-2">
+    <pre class="text-sm font-mono overflow-x-scroll">
+    {
+    "id": "9147eee0-268c-494e-9389-698cc5ef383f",
+    "test_suite_id": "c3ed529d-1b7c-4f82-a602-2ffddbbfce5e",
+    "run_time": "2023-06-28T19:58:45.387Z",
+    "created_at": "2023-06-28T19:58:45.385Z",
+    "updated_at": "2023-06-28T19:58:51.162Z",
+    "status": "complete",
+    "archived": false
+    }
+    </pre>
+    </div>
+
+    <div class="rounded-md bg-white dark:bg-opacity-10 p-2 border border-green-300 inline-flex mt-6">
+      <div class="font-mono font-medium text-xl text-green-500">POST /api/v1/tests/[test_id]/runs</div>
+    </div>
+    <p class="text-lg text-gray-400">Run a test
+    <p class="mt-6 text-gray-400">Example response</p>
+    <div class="bg-white dark:bg-opacity-10 rounded w-full md:w-2/3 p-3 mt-2">
+    <pre class="text-sm font-mono overflow-x-scroll">
+    {
+      "id": "79828826-5bb3-4ed9-92bb-5078bf5822e2",
+      "name": "Hotel concierge",
+      "user_id": "743175de-b393-4553-9a51-c0bd2e8ac4d0",
+      "created_at": "2023-06-21T15:58:58.727Z",
+      "updated_at": "2023-06-27T18:15:09.017Z",
+      "account_id": "4919aa85-7b4c-4589-a713-bd203e3ca830",
+      "archived": true,
+    }
+    </pre>
+    </div>
+
   </section>
 
 </div>

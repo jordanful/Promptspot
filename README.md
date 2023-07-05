@@ -11,13 +11,10 @@ playgrounds. With ✨Promptspot, you have the power to:
 - Collaborate on prompts with your team (e.g. version control, drafts)
 - View outputs side-by-side
 - Download CSVs for offline analysis
-- Clone tests quickly for quick iteration
-
+- Clone tests for quick iteration
 
 [![Video walkthrough](app%2Fassets%2Fimages%2Fscreenshot.png)](https://youtu.be/1lGHRb9hryg)
 *Click the image above for a quick 4m video walkthrough*
-
-
 
 ## Stack
 
