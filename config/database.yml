@@ -20,16 +20,17 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV['DATABASE_URL'] %>
+
 
 development:
   <<: *default
-  database: hotelbot_rails_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: hotelbot_rails
+  #username: promptspot
 
   # The password associated with the postgres role (username).
   #password:
@@ -57,7 +58,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: hotelbot_rails_test
+  database: promptspot_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -74,13 +75,13 @@ test:
 # URL environment variable explicitly:
 #
 #   production:
-#     url: <%= ENV["MY_APP_DATABASE_URL"] %>
+#     url: <%= ENV["DATABASE_URL"] %>
 #
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
 production:
   <<: *default
-  database: hotelbot_rails_production
-  username: hotelbot_rails
-  password: <%= ENV["HOTELBOT_RAILS_DATABASE_PASSWORD"] %>
+  database: promptspot_production
+  username: promptspot
+  password: <%= ENV["PROMPTSPOT_DATABASE_PASSWORD"] %>
