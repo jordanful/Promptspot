@@ -13,11 +13,8 @@ playgrounds. With ✨Promptspot, you have the power to:
 - Download CSVs for offline analysis
 - Clone tests quickly for quick iteration
 
-
 [![Video walkthrough](app%2Fassets%2Fimages%2Fscreenshot.png)](https://youtu.be/1lGHRb9hryg)
 *Click the image above for a quick 4m video walkthrough*
-
-
 
 ## Stack
 
@@ -30,11 +27,28 @@ playgrounds. With ✨Promptspot, you have the power to:
 
 ## Getting Started
 
-1. Clone the repo
-2. Copy `.env.example` to `.env` and fill in the values
-2. Run `bundle install`
-3. Run `rails db:setup`
-4. Run `bin/dev`
+### Pre-requisites
+
+Ensure you have Docker and Docker Compose installed on your machine.
+Visit [the official Docker site](https://docs.docker.com/get-docker/)
+and [the official Docker Compose site](https://docs.docker.com/compose/install/) for download and installation
+instructions if you haven't done so already.
+
+### Steps
+
+1. Clone the repo:
+2. Navigate into the project directory:
+    ```
+    cd promptspot
+    ```
+3. Copy `.env.example` to `.env` and fill in the necessary environment variables:
+    ```
+    cp .env.example .env
+    ```
+4. Build and start the Docker services:
+    ```
+    docker-compose up --build
+    ```
 5. Visit `http://localhost:3000`
 6. Create a new account and sign in
 7. Visit `http://localhost:3000/users/edit` and add your OpenAI API key

@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+  web:
+    build: .
+    command: bundle exec rails server -b '0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+volumes:
+  postgres_data:
