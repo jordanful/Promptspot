@@ -98,14 +98,11 @@
           >
             <p class="font-mono text-lg"><%= m.name %></p>
             <p class="text-sm text-gray-500 mt-2"><%= m.model_provider.name %></p>
-            <p class="mt-2 text-gray-500"><%= m.description %></p>
+            <p class="mt-2 text-gray-500 text-sm"><%= m.description %></p>
           </div>
         <% end %>
       </div>
     </div>
-    <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
-      Currently built for completion tasks. More models coming soon, including chat-based models.
-    </p>
   </div>
 
   <%= form.hidden_field :mode, value: 'completion' %>

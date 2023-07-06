@@ -33,6 +33,10 @@ class PromptsController < ApplicationController
   end
 
   def create
+    if @current_organization.openai_api_key.blank? && @prompt.title.nil?
+      flash[:error] = "Please set your OpenAI API key first."
+      redirect_to edit_user_registration_url_ and return
+    end
     @prompt = Prompt.new(prompt_params)
     @prompt.account_id = current_user.account.id
     @prompt.prompt_versions.build if @prompt.prompt_versions.empty?
@@ -40,6 +44,7 @@ class PromptsController < ApplicationController
     draft_id = params[:prompt_draft_id]
 
     respond_to do |format|
+
       if @prompt.save
         if draft_id.present?
           PromptDraft.find(draft_id).destroy

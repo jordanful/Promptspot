@@ -11,7 +11,7 @@
     </div>
   <% end %>
   <div class="field mb-6">
-    <%= form.text_field :title, class: "text-2xl dark:bg-opacity-10 bg-white rounded-md border dark:border-slate-600 border-gray-300 w-full" %>
+    <%= form.text_field :title, placeholder: "Enter a title", class: "text-2xl dark:bg-opacity-10 bg-white rounded-md border dark:border-slate-600 border-gray-300 w-full" %>
   </div>
 
   <%= form.fields_for :prompt_versions, @new_prompt_version do |prompt_version_form| %>
