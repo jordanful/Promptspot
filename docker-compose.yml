@@ -7,7 +7,10 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=promptspot_development
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port to your local machine
+
   web:
     build: .
     command: bundle exec rails server -b '0.0.0.0'
@@ -19,9 +22,21 @@ services:
       - .env
     depends_on:
       - db
+
+  test:
+    build: .
+    command: bundle exec rails test
+    volumes:
+      - .:/promptspot
+    env_file:
+      - .env
+    depends_on:
+      - db
+
   redis:
     image: redis
     ports:
       - "6379:6379"
+
 volumes:
   postgres_data:

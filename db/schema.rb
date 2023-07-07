@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_30_094519) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_131601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -178,6 +178,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_30_094519) do
     t.index ["prompt_version_id"], name: "index_test_run_details_on_prompt_version_id"
   end
 
+  create_table "test_run_models", force: :cascade do |t|
+    t.uuid "test_run_id", null: false
+    t.uuid "model_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["model_id"], name: "index_test_run_models_on_model_id"
+    t.index ["test_run_id"], name: "index_test_run_models_on_test_run_id"
+  end
+
   create_table "test_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "test_suite_id"
     t.datetime "run_time"
@@ -238,5 +247,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_30_094519) do
   add_foreign_key "prompt_drafts", "prompts"
   add_foreign_key "prompt_drafts", "users"
   add_foreign_key "test_run_details", "prompt_versions"
+  add_foreign_key "test_run_models", "models"
+  add_foreign_key "test_run_models", "test_runs"
   add_foreign_key "test_suites", "accounts"
 end
