@@ -66,6 +66,6 @@ class InputsController < ApplicationController
   end
 
   def input_params
-    params.require(:input).permit(:text)
+    params.require(:input).permit(:text, :title)
   end
 end

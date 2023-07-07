@@ -2,9 +2,12 @@ require 'csv'
 
 class TestRun < ApplicationRecord
   belongs_to :test_suite
+  has_many :test_run_models
+  has_many :models, through: :test_run_models
   has_many :test_run_details
   validates :archived, inclusion: { in: [true, false] }
   after_create :run
+  after_create :save_models
 
   def check_and_update_status
     if test_run_details.where(status: 'error').any?
@@ -59,6 +62,12 @@ class TestRun < ApplicationRecord
           )
         end
       end
+    end
+  end
+
+  def save_models
+    test_suite.models.each do |model|
+      TestRunModel.create(test_run_id: id, model_id: model.id)
     end
   end
 end

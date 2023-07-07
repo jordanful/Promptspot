@@ -15,17 +15,38 @@ class RunTestJob < ApplicationJob
   private
 
   def generate(test_run_detail)
-    full_prompt = "#{test_run_detail.prompt_version.text}/n/n#{test_run_detail.input.text}"
+    system_message = test_run_detail.prompt_version.text
+    user_message = test_run_detail.input.text
+    full_prompt = "#{system_message}/n/n#{user_message}"
     org = test_run_detail.test_run.test_suite.account.organization
     client = OpenAI::Client.new(access_token: org.openai_api_key)
-    response = client.completions(
-      parameters: {
-        model: test_run_detail.model.name,
-        prompt: full_prompt,
-        max_tokens: Rails.application.config.max_tokens
-      }
-    )
-    response["choices"][0]["text"]
+    case test_run_detail.model.model_type
+    when 'completion'
+      response = client.completions(
+        parameters: {
+          model: test_run_detail.model.name,
+          prompt: full_prompt,
+          max_tokens: Rails.application.config.max_tokens
+        }
+      )
+      response["choices"][0]["text"]
+    when 'chat'
+      response = client.chat(
+        parameters: {
+          model: test_run_detail.model.name,
+          messages: [
+            {
+              "role": "system",
+              "content": system_message
+            },
+            {
+              "role": "user",
+              "content": user_message
+            }
+          ]
+        })
+      response["choices"][0]["message"]["content"]
+    end
   end
 
 end
