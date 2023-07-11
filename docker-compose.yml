@@ -1,0 +1,33 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data_web:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: promptspot_development
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: bundle exec rails server -b '0.0.0.0'
+    volumes:
+      - .:/promptspot
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+    depends_on:
+      - db
+
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data_web:

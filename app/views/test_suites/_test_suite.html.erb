@@ -16,12 +16,7 @@
         </span>
         <% end %>
       </div>
-      <div class="flex flex-wrap items-center mt-2">
-        <% test_suite.models.each do |m| %>
-          <p class="font-mono font-medium text-gray-600 text-xs rounded-full bg-gray-200 px-2 py-1 mr-2 flex items-center justify-center"><%= m.name %>
-          </p>
-        <% end %>
-      </div>
+
     </div>
     <div class="flex items-center">
       <% if test_suite.test_runs.length > 0 %>

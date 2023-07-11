@@ -63,11 +63,10 @@ class PromptControllerTest < ActionDispatch::IntegrationTest
         }
       }
     }
-
     assert_redirected_to prompt_path(@prompt)
     @prompt.reload
     assert_equal "archived", @prompt.status
-    assert_equal "Updated prompt text", @prompt.prompt_versions.last.text
+    assert_equal "Updated prompt text", @prompt.prompt_versions.order(version_number: :desc).first.text
   end
 
   test "should archive prompt" do

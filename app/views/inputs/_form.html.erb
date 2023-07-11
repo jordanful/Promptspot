@@ -12,11 +12,11 @@
     </div>
   <% end %>
 
-  <div class="field mb-6">
-    <%= form.text_field :title, class: "border border-gray-300 dark:border-slate-600 dark:bg-opacity-10 bg-white rounded-md text-2xl" %>
+  <div class="field mb-6 flex flex-col">
+    <%= form.text_field :title, placeholder: "Enter a title (optional)", class: "font-mono border border-gray-300 dark:border-slate-600 dark:bg-opacity-10 bg-white rounded-md text-lg" %>
   </div>
   <div class="field flex flex-col">
-    <%= form.text_area :text, id: :input_text, autofocus: true, class: "rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-opacity-10 font-mono text-lg", rows: 20, placeholder: "Enter or paste your input text" %>
+    <%= form.text_area :text, id: :input_text, class: "rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-opacity-10 font-mono text-lg", rows: 20, placeholder: "Enter or paste your input text" %>
   </div>
 
   <div class="actions mt-4 flex flex-row">
