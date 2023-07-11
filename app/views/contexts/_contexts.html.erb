@@ -1,0 +1,7 @@
+<% @contexts.each do |context| %>
+  <%= link_to edit_context_path(context), data: { turbo_frame: "_top" }, class: "prompt bg-white hover:bg-opacity-20 dark:border dark:border-slate-700 dark:bg-opacity-10 rounded-lg shadow-md p-6 cursor-pointer flex flex-col items-start mb-4 input" do %>
+    <p class="text-xl mb-4"><%= context.title %></p>
+    <p class="text-gray-600 dark:text-slate-400 mb-3 font-mono"><%= truncate(context.text, length: 120, separator: ' ', omission: '...') %></p>
+    <p class="text-sm text-gray-400"><%= context.user.display_name %></p>
+  <% end %>
+<% end %>

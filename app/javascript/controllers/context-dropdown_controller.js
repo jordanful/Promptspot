@@ -3,13 +3,13 @@ import {Controller} from "stimulus"
 export default class extends Controller {
     static targets = ["menu", "selected", "value"]
 
-    static values = {defaultInputId: String}
+    static values = {defaultContextId: String}
 
     connect() {
         document.addEventListener('click', this.clickOutside.bind(this));
         window.addEventListener('tab-switch', this.updateOutput.bind(this));  // Listen to 'tab-switch' event
         if (!this.valueTarget.value) {
-            this.valueTarget.value = this.defaultInputIdValue;
+            this.valueTarget.value = this.defaultContextIdValue;
         }
     }
 
@@ -24,10 +24,10 @@ export default class extends Controller {
     }
 
     select(event) {
-        let inputId = event.currentTarget.dataset.id;
-        let inputTitle = event.currentTarget.querySelector('.dropdown-item-title').textContent;
-        this.valueTarget.value = inputId;
-        this.selectedTarget.textContent = inputTitle;
+        let contextId = event.currentTarget.dataset.id;
+        let contextTitle = event.currentTarget.querySelector('.dropdown-item-title').textContent;
+        this.valueTarget.value = contextId;
+        this.selectedTarget.textContent = contextTitle;
         this.menuTarget.classList.add('hidden');
         this.menuTarget.querySelectorAll('.dropdown-item').forEach(item => {
             item.classList.remove('selected');
@@ -37,10 +37,10 @@ export default class extends Controller {
     }
 
     updateOutput() {
-        if (event.detail.tab && event.detail.tab !== 'input') return;
-        let inputId = this.valueTarget.value;
+        if (event.detail.tab && event.detail.tab !== 'context') return;
+        let contextId = this.valueTarget.value;
         document.querySelectorAll(`.output`).forEach(outputDiv => {
-            outputDiv.style.display = outputDiv.id === `output${inputId}` ? 'flex' : 'none';
+            outputDiv.style.display = outputDiv.id === `output${contextId}` ? 'flex' : 'none';
         });
     }
 

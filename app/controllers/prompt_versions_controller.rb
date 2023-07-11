@@ -15,15 +15,15 @@ class PromptVersionsController < ApplicationController
   end
 
   def preview
-    if params[:input_id].present?
-      input = Input.find(params[:input_id])
+    if params[:context_id].present?
+      context = Context.find(params[:context_id])
     else
-      input = Input.find_or_initialize_by(text: params[:input], account_id: current_user.account.id)
-      input.user_id = current_user.id
-      input.save
+      context = Context.find_or_initialize_by(text: params[:context], account_id: current_user.account.id)
+      context.user_id = current_user.id
+      context.save
     end
 
-    prompt = "#{params[:system_prompt]}\n\n#{input.text}"
+    prompt = "#{params[:system_prompt]}\n\n#{context.text}"
     client = OpenAI::Client.new(access_token: @current_organization.openai_api_key)
     response = client.completions(
       parameters: {
@@ -49,6 +49,6 @@ class PromptVersionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def prompt_version_params
-    params.require(:prompt_version).permit(:prompt_id, :user_id, :text, :save_input, :input)
+    params.require(:prompt_version).permit(:prompt_id, :user_id, :text, :save_context, :context)
   end
 end

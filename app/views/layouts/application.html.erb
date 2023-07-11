@@ -26,9 +26,9 @@
             Prompts
           <% end %>
         </li>
-        <li class="mb-8 <%= 'text-blue-500' if current_page?(inputs_url) %> <%= 'hover:text-gray-500' unless current_page?(inputs_url) %>">
-          <%= link_to inputs_url, class: "flex items-center" do %>
-            Inputs
+        <li class="mb-8 <%= 'text-blue-500' if current_page?(contexts_url) %> <%= 'hover:text-gray-500' unless current_page?(contexts_url) %>">
+          <%= link_to contexts_url, class: "flex items-center" do %>
+            Contexts
           <% end %>
         </li>
 
@@ -39,7 +39,7 @@
           <% if current_page?(api_v1_docs_url) %>
             <ul class="mt-3 text-gray-400">
               <li class="mb-3"><%= link_to "Prompts", api_v1_docs_url(anchor: "prompts") %></li>
-              <li class="mb-3"><%= link_to "Inputs", api_v1_docs_url(anchor: "inputs") %></li>
+              <li class="mb-3"><%= link_to "Contexts", api_v1_docs_url(anchor: "contexts") %></li>
               <li class="mb-3"><%= link_to "Tests", api_v1_docs_url(anchor: "tests") %></li>
             </ul>
           <% end %>

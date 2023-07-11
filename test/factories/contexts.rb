@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :input do
+  factory :context do
     text { "User profile:
 Name: Alice Lee
 Age: 29

@@ -1,59 +1,59 @@
-class API::V1::InputsController < ApplicationController
+class API::V1::ContextsController < ApplicationController
   include API::V1::Shared
 
   before_action :authorize_request
 
   def create
-    input = Input.new(account_id: @account.id, text: params[:text])
-    if input.save
+    context = Context.new(account_id: @account.id, text: params[:text])
+    if context.save
       respond_to do |format|
-        format.json { render json: input }
+        format.json { render json: context }
       end
     else
       respond_to do |format|
-        format.json { render json: input.errors }
+        format.json { render json: context.errors }
       end
     end
   end
 
   def index
-    inputs = @account.inputs
+    contexts = @account.contexts
     respond_to do |format|
-      format.json { render json: inputs }
+      format.json { render json: contexts }
     end
   end
 
   def show
-    input = Input.find(params[:id])
+    context = Context.find(params[:id])
     respond_to do |format|
-      format.json { render json: input }
+      format.json { render json: context }
     end
   end
 
   def update
-    input = Input.find(params[:id])
-    if input.update(text: params[:text])
+    context = Context.find(params[:id])
+    if context.update(text: params[:text])
       respond_to do |format|
-        format.json { render json: input }
+        format.json { render json: context }
       end
     else
       respond_to do |format|
-        format.json { render json: input.errors }
+        format.json { render json: context.errors }
       end
     end
   end
 
   def destroy
-    input = Input.find(params[:id])
-    if input.destroy
+    context = Context.find(params[:id])
+    if context.destroy
       respond_to do |format|
-        format.json { render status: :ok, json: { message: 'Input deleted' } }
+        format.json { render status: :ok, json: { message: 'Context deleted' } }
       end
     else
       respond_to do |format|
-        format.json { render json: input.errors }
+        format.json { render json: context.errors }
       end
     end
   end
-  
+
 end

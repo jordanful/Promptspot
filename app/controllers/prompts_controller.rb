@@ -18,7 +18,7 @@ class PromptsController < ApplicationController
   end
 
   def edit
-    @inputs = @current_account.inputs.order(updated_at: :desc)
+    @contexts = @current_account.contexts.order(updated_at: :desc)
     @models = Model.where(enabled: true).order(Arel.sql("CASE WHEN name = 'text-davinci-003' THEN 0 WHEN name = 'gpt-3.5-turbo' THEN 1 ELSE 2 END, name"))
     @new_prompt_version = @prompt.prompt_versions.build(text: @prompt.prompt_versions.last.text)
     return unless params[:draft].present?

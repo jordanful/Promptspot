@@ -1,14 +1,14 @@
 <div class="w-full">
-  <h1 class="text-2xl mb-6">New input</h1>
+  <h1 class="text-2xl mb-6">New context</h1>
   <div class="justify-between flex items-start">
     <div class="w-2/3">
 
-      <%= render partial: "form", locals: { input: @input } %>
+      <%= render partial: "form", locals: { context: @context } %>
     </div>
     <div class="ml-10 mt-8 w-1/3">
 
       <p class="text-gray-400 text-base">
-        Inputs are the values you want to test against your prompts. They can be anything from a single word to a full
+        Contexts are the values you want to test against your prompts. They can be anything from a single word to a full
         paragraph. Often times this includes dynamic and structured values, such as user profiles or data relevant to or
         required by
         the prompt.

@@ -3,6 +3,6 @@
     <%= render partial: 'form', locals: { prompt: @prompt } %>
   </div>
   <div class="w-1/3 ml-6">
-    <%= render partial: "preview", locals: { prompt: @prompt, input: @input, inputs: @inputs, models: @models } %>
+    <%= render partial: "preview", locals: { prompt: @prompt, context: @context, contexts: @contexts, models: @models } %>
   </div>
 </div>

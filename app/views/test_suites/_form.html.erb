@@ -43,9 +43,9 @@
     </div>
     <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
       <% if @prompts.length == 0 %>
-        Create your first prompt. We'll test your input(s) against this and deliver the results to you.
+        Create your first prompt. We'll test your context(s) against this and deliver the results to you.
       <% else %>
-        Select your "base" prompt(s). We'll independently test your inputs against these.
+        Select your "base" prompt(s). We'll independently test your contexts against these.
       <% end %>
     </p>
     <hr/>
@@ -54,32 +54,32 @@
   <div class="flex flex-row items-start justify-between my-4 py-8">
 
     <div class="field flex flex-col inline-flex grow">
-      <h2 class="text-xl mb-6">Select input(s)</h2>
+      <h2 class="text-xl mb-6">Select context(s)</h2>
       <div class="flex flex-row items-center">
-        <% if @inputs.length == 0 %>
-          <button type="button" data-action="click->prompt-panel#openNewInput" class="flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer">
-            Create an input
+        <% if @contexts.length == 0 %>
+          <button type="button" data-action="click->prompt-panel#openNewContext" class="flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer">
+            Create a context
           </button>
         <% else %>
-          <button type="button" data-action="click->prompt-panel#openInput" class="flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer">
-            Select Input(s)
+          <button type="button" data-action="click->prompt-panel#openContext" class="flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer">
+            Select context(s)
           </button>
-          <div data-action="click->prompt-panel#openNewInput" class="ml-4 text-base cursor-pointer hover:underline dark:text-blue-200 text-blue-600">
-            or create an input
+          <div data-action="click->prompt-panel#openNewContext" class="ml-4 text-base cursor-pointer hover:underline dark:text-blue-200 text-blue-600">
+            or create a context
           </div>
         <% end %>
       </div>
-      <div data-prompt-panel-target="selectedInputs" class="mt-6 flex flex-wrap">
-        <% @test_suite.inputs.each do |input| %>
-          <div class="rounded-lg font-medium dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 dark:text-white bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= input.id %>>
-            <%= input.title %>
+      <div data-prompt-panel-target="selectedContexts" class="mt-6 flex flex-wrap">
+        <% @test_suite.contexts.each do |context| %>
+          <div class="rounded-lg font-medium dark:border-slate-600 dark:from-slate-900 dark:to-slate-800 dark:text-white bg-gradient-to-b from-blue-200 to-blue-50 border border-blue-300 shadow-md text-blue-700 py-2 px-3 mb-3 mr-3 flex justify-between items-center pill" data-id=<%= context.id %>>
+            <%= context.title %>
             <span class="pill-remove cursor-pointer ml-2 p-1 text-lg dark:text-white hover:text-blue-900 text-blue-700">✕</span>
           </div>
         <% end %>
       </div>
     </div>
     <p class="ml-12 text-gray-400 text-sm text-right w-72 flex-shrink-0">
-      Inputs are the values you want to test against your prompts. They can be anything from a single word to a full
+      Contexts are the values you want to test against your prompts. They can be anything from a single word to a full
       paragraph. Often times this includes dynamic values, such as user profile data.
     </p>
   </div>
@@ -136,14 +136,14 @@
           </div>
         <% end %>
       </div>
-      <div id="inputs" class="hidden">
-        <% @inputs.each do |input| %>
-          <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 dark:hover:bg-white dark:hover:bg-opacity-10<%= @test_suite.inputs.include?(input) ? 'bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300 dark:bg-transparent' : '' %>"
-               data-action="click->prompt-panel#selectInput"
-               data-prompt-panel-target="input"
-               data-input-id="<%= input.id %>">
-            <p class="text-base mb-2 title"><%= input.title %></p>
-            <%= simple_format(input.text, class: "text-gray-600 dark:text-slate-400 text-sm font-mono") %>
+      <div id="contexts" class="hidden">
+        <% @contexts.each do |context| %>
+          <div class="border-gray-300 border rounded-md p-4 cursor-pointer mb-4 hover:bg-blue-50 dark:hover:bg-white dark:hover:bg-opacity-10<%= @test_suite.contexts.include?(context) ? 'bg-gradient-to-b from-blue-200 to-blue-50 border-blue-300 dark:bg-transparent' : '' %>"
+               data-action="click->prompt-panel#selectContext"
+               data-prompt-panel-target="context"
+               data-context-id="<%= context.id %>">
+            <p class="text-base mb-2 title"><%= context.title %></p>
+            <%= simple_format(context.text, class: "text-gray-600 dark:text-slate-400 text-sm font-mono") %>
           </div>
         <% end %>
       </div>
@@ -151,8 +151,8 @@
         <%= render partial: 'prompts/mini-form', locals: { prompt: Prompt.new } %>
       </div>
     </div>
-    <div id="new_input" class="hidden">
-      <%= render partial: 'inputs/mini-form', locals: { input: Input.new } %>
+    <div id="new_context" class="hidden">
+      <%= render partial: 'contexts/mini-form', locals: { context: Context.new } %>
     </div>
   </div>
 <% end %>

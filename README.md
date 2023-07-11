@@ -7,7 +7,7 @@ Say goodbye to the chore of copying and pasting prompts between apps, building y
 limited
 playgrounds. With ✨Promptspot, you have the power to:
 
-- Test prompts against numerous inputs (your application data) in a single test suite
+- Test prompts against different contexts (i.e. your application data) in a single test suite
 - Collaborate on prompts with your team (e.g. version control, drafts)
 - View outputs side-by-side
 - Download CSVs for offline analysis
@@ -78,15 +78,15 @@ Remember: ONLY RESPOND IN JSON.
 
 Promptspot offers some neat features specific to prompts, including drafts, versioning, and diffs.
 
-### Inputs
+### Contexts
 
-Sometimes referred to as "user prompts" or "hidden context", an `input` is the relevant data you need in order to
+Sometimes referred to as the "user prompt", a `context` is the relevant data you need in order to
 generate a completion. You may have heard of this referred to as "give a bot a fish 🐟", which just means you include the
 relevant context in the prompt itself, so the model is simply aware of it.
 
-Inputs are often user-specific and dynamic data, like a name, age, and location — or application state, like a team's
+Contexts are often user-specific and dynamic data, like a name, age, and location — or application state, like a team's
 current balance or recent activity, or even just today's date and time.
-**Inputs are combined with prompts to generate a completion.**
+**Contexts are combined with prompts and a model to generate an output.**
 
 Example:
 
@@ -106,19 +106,19 @@ Example:
 ### Tests
 
 Tests (or `TestSuite`s in the code) are Promptspot's atomic object. A test is a collection of `n` prompts and `n`
-inputs, tested against one another and a LLM model.
+contexts, tested against one another and a LLM model.
 
 There are two main use cases for tests:
 
-1) Testing a single prompt against multiple inputs
-2) Testing multiple prompts against a single input
+1) Testing a single prompt against different contexts
+2) Testing multiple prompts against a single context
 
 ## Roadmap
 
 We're just getting started! Here's what we're planning to build next:
 
 - [ ] Wider test coverage
-- [ ] "Input collections" (a collection of inputs that can be used, many-to-many, across multiple tests)
+- [ ] "Context collections" (a collection of contexts that can be used, many-to-many, across multiple tests)
 - [ ] Support for chat-based models
 - [ ] Support for other completion APIs (e.g. outside of OpenAI)
 - [ ] Better team + collaboration support

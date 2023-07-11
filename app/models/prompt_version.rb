@@ -5,7 +5,7 @@ class PromptVersion < ApplicationRecord
   validates :version_number, presence: true
   before_create :generate_prompt_title
   before_create :set_version_number
-  attr_accessor :save_input
+  attr_accessor :save_context
 
   def prompt_title
     self.prompt.title
@@ -15,8 +15,8 @@ class PromptVersion < ApplicationRecord
     self.prompt.title.truncate(50)
   end
 
-  def generate(input, model, organization)
-    full_prompt = "#{text}/n/n#{input.text}"
+  def generate(context, model, organization)
+    full_prompt = "#{text}/n/n#{context.text}"
     client = OpenAI::Client.new(access_token: organization.openai_api_key)
     response = client.completions(
       parameters: {

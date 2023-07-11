@@ -29,9 +29,9 @@ class TestRun < ApplicationRecord
 
   def to_csv
     CSV.generate(headers: true) do |csv|
-      csv << ['Prompt', 'Input', 'Model', 'Output']
+      csv << ['Prompt', 'Context', 'Model', 'Output']
       test_run_details.each do |detail|
-        csv << [detail.prompt.current.text, detail.input.text, detail.model.name, detail.output]
+        csv << [detail.prompt.current.text, detail.context.text, detail.model.name, detail.output]
       end
     end
   end
@@ -50,14 +50,14 @@ class TestRun < ApplicationRecord
   def run
     update!(status: 'running', run_time: Time.now)
     test_suite.prompts.each do |prompt|
-      test_suite.inputs.each do |input|
+      test_suite.contexts.each do |context|
         test_suite.models.each do |model|
           TestRunDetail.create(
             test_run_id: id,
             status: 'queued',
             prompt: prompt,
             prompt_version: prompt.current,
-            input: input,
+            context: context,
             model: model
           )
         end

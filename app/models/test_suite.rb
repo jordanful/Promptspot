@@ -3,8 +3,8 @@ class TestSuite < ApplicationRecord
   belongs_to :account
   has_many :test_suite_prompts
   has_many :prompts, through: :test_suite_prompts
-  has_many :test_suite_inputs
-  has_many :inputs, through: :test_suite_inputs
+  has_many :test_suite_contexts
+  has_many :contexts, through: :test_suite_contexts
   has_many :test_runs
   has_many :test_suite_models
   has_many :models, through: :test_suite_models
@@ -13,7 +13,7 @@ class TestSuite < ApplicationRecord
   validates :archived, inclusion: { in: [true, false] }
 
   def configured?
-    prompts.any? || inputs.any?
+    prompts.any? || contexts.any?
   end
 
   def clone
@@ -23,8 +23,8 @@ class TestSuite < ApplicationRecord
     prompts.each do |prompt|
       new_test_suite.prompts << prompt
     end
-    inputs.each do |input|
-      new_test_suite.inputs << input
+    contexts.each do |context|
+      new_test_suite.contexts << context
     end
     models.each do |model|
       new_test_suite.models << model

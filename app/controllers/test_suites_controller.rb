@@ -9,7 +9,7 @@ class TestSuitesController < ApplicationController
 
   def new
     @test_suite = @current_account.test_suites.new
-    load_prompts_and_inputs_and_models
+    load_prompts_and_contexts_and_models
   end
 
   def create
@@ -19,17 +19,17 @@ class TestSuitesController < ApplicationController
 
     begin
       test_suite_params = test_suite_params()
-      [:input_ids, :prompt_ids, :model_ids].each do |key|
+      [:context_ids, :prompt_ids, :model_ids].each do |key|
         unless test_suite_params[key].present?
-          load_prompts_and_inputs_and_models
-          render :new, alert: "Please select prompts, inputs, and models."
+          load_prompts_and_contexts_and_models
+          render :new, alert: "Please select prompts, contexts, and models."
           return
         end
       end
 
       @test_suite.transaction do
         @test_suite.name = test_suite_params[:name]
-        @test_suite.input_ids = test_suite_params[:input_ids]
+        @test_suite.context_ids = test_suite_params[:context_ids]
         @test_suite.prompt_ids = test_suite_params[:prompt_ids]
         @test_suite.model_ids = test_suite_params[:model_ids]
         @test_suite.mode = test_suite_params[:mode]
@@ -44,7 +44,7 @@ class TestSuitesController < ApplicationController
       end
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error e
-      load_prompts_and_inputs_and_models
+      load_prompts_and_contexts_and_models
       flash.now[:alert] = @test_suite.errors.full_messages.to_sentence
       render :new
     end
@@ -53,7 +53,7 @@ class TestSuitesController < ApplicationController
   def clone
     @test_suite = TestSuite.find(params[:id])
     @test_suite = @test_suite.clone
-    load_prompts_and_inputs_and_models
+    load_prompts_and_contexts_and_models
     render :new
   end
 
@@ -79,22 +79,22 @@ class TestSuitesController < ApplicationController
   end
 
   def edit
-    load_prompts_and_inputs_and_models
+    load_prompts_and_contexts_and_models
   end
 
   def update
     begin
-      [:input_ids, :prompt_ids, :model_ids].each do |key|
+      [:context_ids, :prompt_ids, :model_ids].each do |key|
         unless test_suite_params[key].present?
-          load_prompts_and_inputs_and_models
-          redirect_to edit_test_suite_path(@test_suite), notice: "Please select prompts, inputs, and models."
+          load_prompts_and_contexts_and_models
+          redirect_to edit_test_suite_path(@test_suite), notice: "Please select prompts, contexts, and models."
           return
         end
       end
 
       @test_suite.transaction do
         @test_suite.update!(name: test_suite_params[:name])
-        @test_suite.input_ids = test_suite_params.require(:input_ids)
+        @test_suite.context_ids = test_suite_params.require(:context_ids)
         @test_suite.prompt_ids = test_suite_params.require(:prompt_ids)
         @test_suite.model_ids = test_suite_params.require(:model_ids)
       end
@@ -107,7 +107,7 @@ class TestSuitesController < ApplicationController
       end
     rescue StandardError => e
       Rails.logger.error e
-      load_prompts_and_inputs_and_models
+      load_prompts_and_contexts_and_models
       redirect_to edit_test_suite_path(@test_suite), notice: "An error occurred while updating this test. Our team has been notified."
     end
   end
@@ -125,9 +125,9 @@ class TestSuitesController < ApplicationController
     end
   end
 
-  def load_prompts_and_inputs_and_models
+  def load_prompts_and_contexts_and_models
     @prompts = @current_account.prompts.active.order_by_recently_updated
-    @inputs = @current_account.inputs
+    @contexts = @current_account.contexts
     @models = Model.all.where(enabled: true)
   end
 
@@ -136,6 +136,6 @@ class TestSuitesController < ApplicationController
   end
 
   def test_suite_params
-    params.require(:test_suite).permit(:name, :mode, :run_now, prompt_ids: [], input_ids: [], model_ids: [])
+    params.require(:test_suite).permit(:name, :mode, :run_now, prompt_ids: [], context_ids: [], model_ids: [])
   end
 end

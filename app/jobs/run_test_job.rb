@@ -16,7 +16,7 @@ class RunTestJob < ApplicationJob
 
   def generate(test_run_detail)
     system_message = test_run_detail.prompt_version.text
-    user_message = test_run_detail.input.text
+    user_message = test_run_detail.context.text
     full_prompt = "#{system_message}/n/n#{user_message}"
     org = test_run_detail.test_run.test_suite.account.organization
     client = OpenAI::Client.new(access_token: org.openai_api_key)

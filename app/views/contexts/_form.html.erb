@@ -1,0 +1,31 @@
+<%= form_with(model: context, local: true, class: 'flex-grow') do |form| %>
+
+  <% if context.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(context.errors.count, "error") %> prohibited this context from being saved:</h2>
+
+      <ul>
+        <% context.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field mb-6 flex flex-col">
+    <%= form.text_field :title, placeholder: "Enter a title (optional)", class: "font-mono border border-gray-300 dark:border-slate-600 dark:bg-opacity-10 bg-white rounded-md text-lg" %>
+  </div>
+  <div class="field flex flex-col">
+    <%= form.text_area :text, id: :context_text, class: "rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-opacity-10 font-mono text-lg", rows: 20, placeholder: "Enter or paste your context" %>
+  </div>
+
+  <div class="actions mt-4 flex flex-row">
+    <div>
+      <%= form.submit context.id ? 'Update now' : 'Save', class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
+    </div>
+    <div>
+      <%= link_to 'Discard changes', contexts_url, class: 'flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mr-3' %>
+    </div>
+  </div>
+
+<% end %>

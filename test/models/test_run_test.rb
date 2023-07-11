@@ -11,7 +11,6 @@ class TestRunTest < ActiveSupport::TestCase
     @model = FactoryBot.create(:model, model_provider: model_provider)
     @prompt = FactoryBot.create(:prompt, account: @account)
     @prompt_version = FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
-    @input = FactoryBot.create(:input, account: @account, user: @user)
     @test_suite = FactoryBot.create(:test_suite, account: @account, user: @user)
   end
 

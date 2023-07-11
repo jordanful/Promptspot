@@ -1,6 +1,6 @@
 require "test_helper"
 
-class TestSuiteInputTest < ActiveSupport::TestCase
+class TestSuiteContextTest < ActiveSupport::TestCase
   setup do
     WebMock.allow_net_connect!
     VCR.insert_cassette name
@@ -12,7 +12,7 @@ class TestSuiteInputTest < ActiveSupport::TestCase
     @model = FactoryBot.create(:model, model_provider: model_provider)
     @prompt = FactoryBot.create(:prompt, account: @account)
     @prompt_version = FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
-    @input = FactoryBot.create(:input, account: @account, user: @user)
+    @context = FactoryBot.create(:context, account: @account, user: @user)
     @test_suite = FactoryBot.create(:test_suite, account: @account, user: @user)
   end
 
@@ -21,19 +21,19 @@ class TestSuiteInputTest < ActiveSupport::TestCase
     WebMock.allow_net_connect!
   end
 
-  test "should create test suite input" do
-    FactoryBot.create(:test_suite_input, test_suite: @test_suite, input: @input)
+  test "should create test suite context" do
+    FactoryBot.create(:test_suite_context, test_suite: @test_suite, context: @context)
   end
 
-  test "should not create test suite input without test suite" do
+  test "should not create test suite context without test suite" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_suite_input, test_suite: nil, input: @input)
+      FactoryBot.create(:test_suite_context, test_suite: nil, context: @context)
     end
   end
 
-  test "should not create test suite input without input" do
+  test "should not create test suite context without context" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_suite_input, test_suite: @test_suite, input: nil)
+      FactoryBot.create(:test_suite_context, test_suite: @test_suite, context: nil)
     end
   end
 

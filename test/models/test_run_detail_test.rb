@@ -11,7 +11,7 @@ class TestRunDetailTest < ActiveSupport::TestCase
     @model = FactoryBot.create(:model, model_provider: model_provider)
     @prompt = FactoryBot.create(:prompt, account: @account)
     @prompt_version = FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
-    @input = FactoryBot.create(:input, account: @account, user: @user)
+    @context = FactoryBot.create(:context, account: @account, user: @user)
     @test_suite = FactoryBot.create(:test_suite, account: @account, user: @user)
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite)
   end
@@ -22,37 +22,37 @@ class TestRunDetailTest < ActiveSupport::TestCase
   end
 
   test "should create test run detail" do
-    FactoryBot.create(:test_run_detail, test_run: @test_run, input: @input, prompt: @prompt, prompt_version: @prompt_version, model: @model)
+    FactoryBot.create(:test_run_detail, test_run: @test_run, context: @context, prompt: @prompt, prompt_version: @prompt_version, model: @model)
     assert TestRunDetail.count == 1
   end
 
   test "should not create test run detail without test run" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_run_detail, test_run: nil, input: @input, prompt: @prompt, prompt_version: @prompt_version, model: @model)
+      FactoryBot.create(:test_run_detail, test_run: nil, context: @context, prompt: @prompt, prompt_version: @prompt_version, model: @model)
     end
   end
 
-  test "should not create test run detail without input" do
+  test "should not create test run detail without context" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_run_detail, test_run: @test_run, input: nil, prompt: @prompt, prompt_version: @prompt_version, model: @model)
+      FactoryBot.create(:test_run_detail, test_run: @test_run, context: nil, prompt: @prompt, prompt_version: @prompt_version, model: @model)
     end
   end
 
   test "should not create test run detail without prompt" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_run_detail, test_run: @test_run, input: @input, prompt: nil, prompt_version: @prompt_version, model: @model)
+      FactoryBot.create(:test_run_detail, test_run: @test_run, context: @context, prompt: nil, prompt_version: @prompt_version, model: @model)
     end
   end
 
   test "should not create test run detail without prompt version" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_run_detail, test_run: @test_run, input: @input, prompt: @prompt, prompt_version: nil, model: @model)
+      FactoryBot.create(:test_run_detail, test_run: @test_run, context: @context, prompt: @prompt, prompt_version: nil, model: @model)
     end
   end
 
   test "should not create test run detail without model" do
     assert_raises ActiveRecord::RecordInvalid do
-      FactoryBot.create(:test_run_detail, test_run: @test_run, input: @input, prompt: @prompt, prompt_version: @prompt_version, model: nil)
+      FactoryBot.create(:test_run_detail, test_run: @test_run, context: @context, prompt: @prompt, prompt_version: @prompt_version, model: nil)
     end
   end
 

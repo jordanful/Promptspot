@@ -5,7 +5,7 @@ class TestRunsController < ApplicationController
 
   def show
     @prompt_versions = @test_run.test_run_details.map(&:prompt_version).uniq
-    @inputs = @test_run.test_run_details.map(&:input).uniq
+    @contexts = @test_run.test_run_details.map(&:context).uniq
   end
 
   def create

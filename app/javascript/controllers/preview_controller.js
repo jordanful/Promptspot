@@ -1,18 +1,18 @@
 import {Controller} from "stimulus";
 
 export default class extends Controller {
-    static targets = ["output", "input", "spinner", "submitButton", "form", "model", "modal", "overlay", "preview", "errorMessage", "inputId"]
+    static targets = ["output", "context", "spinner", "submitButton", "form", "model", "modal", "overlay", "preview", "errorMessage", "contextId"]
 
     submitForm(event) {
         event.preventDefault();
 
         let model = this.modelTarget.value;
-        let input = this.inputTarget.value;
-        let inputId = this.inputIdTarget.value;
+        let context = this.contextTarget.value;
+        let contextId = this.contextIdTarget.value;
         let systemPromptElement = document.getElementById('system-prompt');
         let systemPrompt = systemPromptElement.value;
 
-        if (!model || !(input || inputId) || systemPrompt === "") {
+        if (!model || !(context || contextId) || systemPrompt === "") {
             this.errorMessageTarget.textContent = 'Please fill out all the fields.';
             this.errorMessageTarget.classList.remove('hidden');
             return;
@@ -25,8 +25,8 @@ export default class extends Controller {
 
         let params = new URLSearchParams();
         params.append('system_prompt', systemPrompt);
-        params.append('input', input);
-        params.append('input_id', inputId);
+        params.append('context', context);
+        params.append('context_id', contextId);
         params.append('model', model);
 
         fetch('/prompts/' + this.formTarget.dataset.previewPromptId + '/version/preview', {

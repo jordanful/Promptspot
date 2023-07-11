@@ -1,0 +1,22 @@
+<div class="flex md:flex-row flex-col md:justify-between justify-start items-start mt-10">
+  <div class="w-full md:w-2/3">
+    <%= render 'form', context: @context %>
+  </div>
+  <div class="w-full md:w-1/3 md:ml-6 md:mt-16">
+    <% if @context.tests.empty? %>
+      <p class="text-gray-400 text-lg">This context is not currently used in any tests.</p>
+    <% else %>
+      <p class="text-lg text-gray-400 mb-4">This context is used
+        in <%= @context.tests.length == 1 ? 'one test' : `#{@context.tests.length} tests` %></p>
+      <% @context.tests.each do |test| %>
+        <%= link_to test_suite_path(test) do %>
+          <div class="rounded-xl w-auto inline-flex mb-2 text-lg text-gray-700 hover:text-blue-500 font-medium bg-gray-100 dark:bg-opacity-10 dark:hover:bg-slate-600 hover:bg-white flex items-center justify-center p-3">
+            <%= test.name %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= button_to 'Delete context', context_url(@context), method: :delete, class: "flex items-center justify-center rounded-md py-2 px-3 bg-white dark:bg-opacity-10 dark:border-slate-500 border border-red-200 dark:text-red-300 text-red-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer mt-5" %>
+  </div>
+</div>
+

@@ -9,10 +9,10 @@
           <%= test_suite.prompts.length == 1 ? "1 prompt" : "#{test_suite.prompts.length} prompts" %>
         </span>
         <% end %>
-        <% if test_suite.inputs.any? %>
+        <% if test_suite.contexts.any? %>
           against
           <span class="text-gray-900 dark:text-gray-500">
-          <%= test_suite.inputs.length == 1 ? "1 input" : "#{test_suite.inputs.length} inputs" %>
+          <%= test_suite.contexts.length == 1 ? "1 context" : "#{test_suite.contexts.length} contexts" %>
         </span>
         <% end %>
       </div>

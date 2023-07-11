@@ -26,8 +26,8 @@
         <div id="viewByPrompt" data-action="click->run-view-toggle#viewByPrompt" class="bg-blue-100 dark:bg-slate-700 rounded-l-md border border-blue-200 cursor-pointer flex items-center justify-center p-3 text-sm font-medium">
           Select prompt
         </div>
-        <div id="viewByInput" data-action="click->run-view-toggle#viewByInput" class="rounded-r-md border dark:border-slate-600 border-l-0 border-blue-200 cursor-pointer flex items-center justify-center p-3 text-sm font-medium dark:bg-opacity-10 dark:hover:bg-white dark:hover:bg-opacity-50 hover:bg-blue-50">
-          Select input
+        <div id="viewByContext" data-action="click->run-view-toggle#viewByContext" class="rounded-r-md border dark:border-slate-600 border-l-0 border-blue-200 cursor-pointer flex items-center justify-center p-3 text-sm font-medium dark:bg-opacity-10 dark:hover:bg-white dark:hover:bg-opacity-50 hover:bg-blue-50">
+          Select context
         </div>
       </div>
     </div>
@@ -55,11 +55,11 @@
       <input type="hidden" name="prompt_id" id="prompt_id" value="<%= @prompt_versions.first&.id %>" data-prompt-dropdown-target="value">
     </div>
 
-    <div data-controller="input-dropdown" id="inputDropdown" data-input-dropdown-default-input-id-value="<%= @inputs.first&.id %>" data-run-view-toggle-target="inputDropdown" class="w-1/3 relative hidden">
+    <div data-controller="context-dropdown" id="contextDropdown" data-context-dropdown-default-context-id-value="<%= @contexts.first&.id %>" data-run-view-toggle-target="contextDropdown" class="w-1/3 relative hidden">
       <div class="flex flex-col flex-grow-0 ">
-        <span class="text-gray-400 text-sm">Select input</span>
-        <div class="rounded-md border-gray-300 dark:border-slate-600 dark:bg-opacity-10 border text-sm font-medium p-3 cursor-pointer relative bg-white" data-action="click->input-dropdown#showMenu">
-          <span id="selectedInput" data-input-dropdown-target="selected"><%= @inputs.first&.title %></span>
+        <span class="text-gray-400 text-sm">Select context</span>
+        <div class="rounded-md border-gray-300 dark:border-slate-600 dark:bg-opacity-10 border text-sm font-medium p-3 cursor-pointer relative bg-white" data-action="click->context-dropdown#showMenu">
+          <span id="selectedContext" data-context-dropdown-target="selected"><%= @contexts.first&.title %></span>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg class="fill-current dark:text-white h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
@@ -67,34 +67,34 @@
           </div>
         </div>
       </div>
-      <div class="dropdown-menu absolute left-0 mt-2 hidden flex flex-col overflow-y-scroll border border-gray-300 bg-white rounded-md z-50" data-input-dropdown-target="menu">
-        <% @inputs.each do |input| %>
-          <div class="dropdown-item p-4 flex flex-col cursor-pointer hover:bg-blue-50 <%= 'selected' if input.id == @inputs.first.id %>" data-id="<%= input.id %>" data-action="click->input-dropdown#select">
-            <div class="dropdown-item-title mb-1 text-sm font-medium"><%= input.title %></div>
-            <div class="dropdown-item-text font-mono text-xs text-gray-600"> <%= input.text.truncate(140) %></div>
+      <div class="dropdown-menu absolute left-0 mt-2 hidden flex flex-col overflow-y-scroll border border-gray-300 bg-white rounded-md z-50" data-context-dropdown-target="menu">
+        <% @contexts.each do |context| %>
+          <div class="dropdown-item p-4 flex flex-col cursor-pointer hover:bg-blue-50 <%= 'selected' if context.id == @contexts.first.id %>" data-id="<%= context.id %>" data-action="click->context-dropdown#select">
+            <div class="dropdown-item-title mb-1 text-sm font-medium"><%= context.title %></div>
+            <div class="dropdown-item-text font-mono text-xs text-gray-600"> <%= context.text.truncate(140) %></div>
           </div>
         <% end %>
       </div>
-      <input type="hidden" name="input_id" id="input_id" value="<%= @inputs.first&.id %>" data-input-dropdown-target="value">
+      <input type="hidden" name="context_id" id="context_id" value="<%= @contexts.first&.id %>" data-context-dropdown-target="value">
     </div>
   </div>
 
   <div id="selectPrompt">
-    <% @inputs.each do |input| %>
+    <% @contexts.each do |context| %>
       <div data-prompt-id="<%= @prompt_versions.first&.id %>" class="flex justify-between items-center my-12 w-full">
         <div class="flex flex-col w-1/2" data-controller="clipboard">
           <div class="flex justify-start items-center mb-2">
-            <h3 class="text-gray-600">Input</h3>
+            <h3 class="text-gray-600">Context</h3>
             <button class="copy-btn ml-3 px-2 rounded border border-green-400 text-sm bg-green-50 dark:bg-opacity-10 flex items-center justify-center focus:outline-none" data-action="click->clipboard#copy" data-clipboard-target="copyButton">
               <span data-clipboard-target="copyIcon" class="text-green-500"></span>
               <span data-clipboard-target="copyText" class="text-green-500 font-medium">Copy</span>
             </button>
-            <%= link_to edit_input_path(input) do %>
+            <%= link_to edit_context_path(context) do %>
               <span class="text-gray-400 hover:text-blue-600 ml-4 text-sm hover:underline">View</span>
             <% end %>
           </div>
           <div class="font-mono text-gray-500 p-4 bg-white dark:bg-opacity-10 dark:border-slate-600 dark:text-gray-200 border border-gray-200 rounded-lg mr-3 h-80 overflow-y-scroll" id="copy-output" data-clipboard-target="output">
-            <%= simple_format(input.text) %>
+            <%= simple_format(context.text) %>
           </div>
         </div>
         <%= feather_icon 'arrow-right', class: 'text-2xl text-gray-400' %>
@@ -110,7 +110,7 @@
             <% @prompt_versions.each do |prompt_version| %>
               <div id="output<%= prompt_version.id %>" class="output">
                 <div id="copy-output" data-clipboard-target="output" class="font-mono ">
-                  <% detail = @test_run.test_run_details.find_by(input_id: input.id, prompt_id: prompt_version.prompt.id) %>
+                  <% detail = @test_run.test_run_details.find_by(context_id: context.id, prompt_id: prompt_version.prompt.id) %>
                   <%= simple_format(detail.output) %>
                 </div>
               </div>
@@ -121,9 +121,9 @@
     <% end %>
   </div>
 
-  <div id="selectInput" class="hidden">
+  <div id="selectContext" class="hidden">
     <% @prompt_versions.each do |prompt_version| %>
-      <div data-input-id="<%= @inputs.first&.id %>" class="flex justify-between items-center my-12 w-full">
+      <div data-context-id="<%= @contexts.first&.id %>" class="flex justify-between items-center my-12 w-full">
         <div class="flex flex-col w-1/2" data-controller="clipboard">
           <div class="flex justify-start items-center mb-2">
             <h3 class="text-gray-600">Prompt</h3>
@@ -149,10 +149,10 @@
             </button>
           </div>
           <div id="outputsContainer" class="bg-white dark:bg-opacity-10 dark:border-slate-600 dark:text-gray-200 rounded-lg border border-gray-200 p-4 ml-3 h-80 overflow-y-scroll">
-            <% @inputs.each do |input| %>
-              <div id="output<%= input.id %>" class="output">
+            <% @contexts.each do |context| %>
+              <div id="output<%= context.id %>" class="output">
                 <div id="copy-output" data-clipboard-target="output" class="font-mono">
-                  <% detail = @test_run.test_run_details.find_by(input_id: input.id, prompt_id: prompt_version.prompt.id) %>
+                  <% detail = @test_run.test_run_details.find_by(context_id: context.id, prompt_id: prompt_version.prompt.id) %>
                   <%= simple_format(detail.output) %>
                 </div>
               </div>

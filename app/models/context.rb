@@ -1,20 +1,19 @@
-class Input < ApplicationRecord
+class Context < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :account
-  has_many :inputs
-  has_many :test_suites, through: :test_suite_inputs
+  has_many :test_suites, through: :test_suite_contexts
   validates :text, presence: true
-  before_validation :generate_input_title, on: :create
+  before_validation :generate_title, on: :create
 
   def tests
-    TestSuite.joins(test_suite_inputs: :input)
-             .where(test_suite_inputs: { input_id: id }, archived: false)
+    TestSuite.joins(test_suite_contexts: :context)
+             .where(test_suite_contexts: { context_id: id }, archived: false)
              .distinct
   end
 
   private
 
-  def generate_input_title
+  def generate_title
     return if title.present? # Don't autogenerate a title if the user has already set one
     summary = Rails.application.config.title_system_prompt + '"""' + text + '"""'
     # Use the organization's OpenAI API key if it exists, otherwise use the environment variable

@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :test_suite_input do
+  factory :test_suite_context do
     test_suite
-    input
+    context
   end
 end

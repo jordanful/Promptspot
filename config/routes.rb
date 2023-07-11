@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :inputs
+  resources :contexts
 
   resources :prompts do
     post 'archive', on: :member
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'docs', to: 'docs#index'
       resources :prompts, only: %i[index show create destroy update archive unarchive], constraints: { format: :json }
-      resources :inputs, only: %i[index show create destroy update archive unarchive], constraints: { format: :json }
+      resources :contexts, only: %i[index show create destroy update archive unarchive], constraints: { format: :json }
       resources :test_suites, path: :tests, only: %i[index show destroy archive unarchive], constraints: { format: :json } do
         resources :test_runs, path: :runs, only: %i[index show create destroy archive unarchive], constraints: { format: :json }
       end
