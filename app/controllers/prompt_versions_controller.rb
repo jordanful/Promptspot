@@ -18,7 +18,7 @@ class PromptVersionsController < ApplicationController
     if params[:input_id].present?
       input = Input.find(params[:input_id])
     else
-      input = Input.find_or_initialize_by(text: params[:input], account_id: current_user.account.id)
+      input = Input.find_or_initialize_by(text: params[:input], account_id: @current_account.id)
       input.user_id = current_user.id
       input.save
     end

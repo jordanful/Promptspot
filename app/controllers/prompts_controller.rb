@@ -38,7 +38,7 @@ class PromptsController < ApplicationController
       flash[:error] = "Please set your OpenAI API key first."
       redirect_to edit_user_registration_url and return
     end
-    @prompt.account_id = current_user.account.id
+    @prompt.account_id = @current_account.id
     @prompt.prompt_versions.build if @prompt.prompt_versions.empty?
     @prompt.prompt_versions.last.user = current_user
     draft_id = params[:prompt_draft_id]
@@ -156,7 +156,7 @@ class PromptsController < ApplicationController
   end
 
   def authorize_user!
-    return if current_user.account.id == @prompt.account_id
+    return if @current_account.id == @prompt.account_id
     redirect_to prompts_path, notice: "You do not have access to that prompt."
 
   end

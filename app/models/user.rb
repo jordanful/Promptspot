@@ -2,10 +2,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :account
+  has_many :account_memberships, dependent: :destroy
+  has_many :accounts, through: :account_memberships
+
   has_many :test_suites
-  before_validation :create_organization_and_account, on: :create
-  validates :account_id, presence: true
+  after_create :create_organization_and_account
   validates :email, presence: true
   validates :password, presence: true
 
@@ -16,12 +17,10 @@ class User < ApplicationRecord
   private
 
   def create_organization_and_account
-    return if account_id.present?
-
     ActiveRecord::Base.transaction do
-      organization = Organization.create!(billing_email: email)
-      account = Account.create!(organization_id: organization.id)
-      self.account_id = account.id
+      Organization.create(billing_email: email)
+      Account.create(organization_id: organization.id)
+      AccountMembership.create(user_id: id, account_id: account.id)
     end
   rescue ActiveRecord::RecordInvalid => e
     errors.add(:base, "There was an error creating the organization and account: #{e.message}")

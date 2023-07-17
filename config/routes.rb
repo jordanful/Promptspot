@@ -30,8 +30,8 @@ Rails.application.routes.draw do
     end
     resources :prompt_drafts, as: :draft, path: :draft
   end
-  resources :accounts
-  resources :organizations
+  resources :accounts, only: %i[show]
+  resources :organizations, only: %i[update]
   namespace :api do
     namespace :v1 do
       get 'docs', to: 'docs#index'
