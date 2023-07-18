@@ -1,10 +1,26 @@
 <div class="flex flex-col">
 
   <h1 class="text-2xl mb-4">Team</h1>
-  <h2 class="text-lg text-gray-600 mb-4">Invite your team to collaborate on Promptspot</h2>
-  <% @current_account.users.all.each do |user| %>
-    <%= user.email %>
+  <h2 class="text-lg text-gray-600 mb-4">Invite your team to collaborate on Promptspot. Anyone you invite will have
+    shared access to tests, prompts and inputs.</h2>
+  <%= form_with(model: Invite.new, url: invites_path, method: :post, class: 'mt-4 flex items-end') do |f| %>
+    <div class="field">
+      <%= f.label :email, 'Invite' %><br/>
+      <%= f.email_field :email, placeholder: "Email address", autocomplete: "email", class: "rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-opacity-10" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Send Invitation", class: "ml-3 flex items-center justify-center rounded-md py-2 px-3 bg-blue-50 dark:bg-slate-700 dark:border-slate-500 dark:text-white border border-blue-200 text-blue-600 dark:hover:bg-slate-600 hover:bg-white font-medium cursor-pointer" %>
+    </div>
   <% end %>
+  <h2 class="text-lg text-gray-600 mt-6 mb-2">Teammates</h2>
+
+  <div class="flex flex-col">
+
+    <% @current_account.users.all.each do |user| %>
+      <div class="rounded-xl my-2"><%= user.email %></div>
+    <% end %>
+  </div>
 
   <div class="pt-12"></div>
   <hr/>

@@ -6,10 +6,9 @@ class PromptControllerTest < ActionDispatch::IntegrationTest
     WebMock.allow_net_connect!
     VCR.insert_cassette name, {
       :allow_playback_repeats => true }
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
-    @prompt = FactoryBot.create(:prompt, account: @account)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
+    @prompt = FactoryBot.create(:prompt, account: @user.accounts.first)
     sign_in_as(@user)
   end
 
@@ -34,8 +33,8 @@ class PromptControllerTest < ActionDispatch::IntegrationTest
       post prompts_url, params: {
         prompt: {
           status: "active",
-          account_id: @account.id,
-          prompt_versions_attributes: [{ text: "Example prompt text" }]
+          account_id: @user.accounts.first.id,
+          prompt_versions_attributes: [{ text: "Example prompt text 2" }]
         }
       }
     end

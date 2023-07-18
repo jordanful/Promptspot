@@ -12,5 +12,11 @@ module PromptSpotRails
     config.title_system_prompt_model = "text-davinci-003"
     config.max_tokens = 400
     config.active_job.queue_adapter = :good_job
+
+    config.action_mailer.delivery_method = :postmark
+
+    config.action_mailer.postmark_settings = {
+      api_token: ENV["POSTMARK_API_TOKEN"]
+    }
   end
 end

@@ -5,10 +5,9 @@ class PromptVersionTest < ActiveSupport::TestCase
   setup do
     WebMock.allow_net_connect!
     VCR.insert_cassette name
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
-    @prompt = FactoryBot.create(:prompt, account: @account)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
+    @prompt = FactoryBot.create(:prompt, account: @user.accounts.first)
   end
 
   teardown do

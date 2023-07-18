@@ -1,0 +1,20 @@
+<h1 class="text-2xl mt-12">Welcome to Promptspot</h1>
+<%= form_with(model: @user, url: create_user_from_invite_invite_path(@invite.token), method: :post, data: { turbo: false }) do |form| %>
+  <%= form.hidden_field :email %>
+  
+  <div class="field my-4">
+    <%= form.label :password, 'Set your password' %>
+    <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br/>
+    <%= form.password_field :password, autofocus: true, autocomplete: "new-password", class: "rounded-md border-gray-300" %>
+  </div>
+
+  <div class="field my-4">
+    <%= form.label :password_confirmation, 'Confirm your new password' %><br/>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "rounded-md border-gray-300" %>
+  </div>
+
+
+  <%= form.submit "Sign up", class: "rounded-lg mr-3 py-3 px-5 bg-blue-50 border border-blue-200 text-blue-600 hover:bg-white dark:hover:bg-slate-700 font-medium cursor-pointer" %>
+<% end %>

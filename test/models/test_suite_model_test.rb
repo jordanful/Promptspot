@@ -4,15 +4,14 @@ class TestSuiteModelTest < ActiveSupport::TestCase
 
   setup do
     VCR.insert_cassette name
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
     model_provider = FactoryBot.create(:model_provider)
     @model = FactoryBot.create(:model, model_provider: model_provider)
-    @prompt = FactoryBot.create(:prompt, account: @account)
+    @prompt = FactoryBot.create(:prompt, account: @user.accounts.first)
     @prompt_version = FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
-    @input = FactoryBot.create(:input, account: @account, user: @user)
-    @test_suite = FactoryBot.create(:test_suite, account: @account, user: @user)
+    @input = FactoryBot.create(:input, account: @user.accounts.first, user: @user)
+    @test_suite = FactoryBot.create(:test_suite, account: @user.accounts.first, user: @user)
   end
 
   teardown do

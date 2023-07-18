@@ -5,9 +5,8 @@ class PromptTest < ActiveSupport::TestCase
   setup do
     WebMock.allow_net_connect!
     VCR.insert_cassette name
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
   end
 
   teardown do
@@ -16,7 +15,7 @@ class PromptTest < ActiveSupport::TestCase
   end
 
   test "should create prompt" do
-    FactoryBot.create(:prompt, account: @account)
+    FactoryBot.create(:prompt, account: @user.accounts.first)
     assert Prompt.count == 1
   end
 

@@ -30,6 +30,13 @@ Rails.application.routes.draw do
     end
     resources :prompt_drafts, as: :draft, path: :draft
   end
+  resources :invites, only: [:create] do
+    member do
+      get :accept
+      post :create_user_from_invite
+    end
+  end
+
   resources :accounts, only: %i[show]
   resources :organizations, only: %i[update]
   namespace :api do

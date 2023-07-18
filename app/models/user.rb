@@ -6,9 +6,10 @@ class User < ApplicationRecord
   has_many :accounts, through: :account_memberships
 
   has_many :test_suites
-  after_create :create_organization_and_account
+  after_create :create_organization_and_account, unless: :skip_account_creation
   validates :email, presence: true
   validates :password, presence: true
+  attr_accessor :skip_account_creation
 
   def display_name
     "#{first_name} #{last_name}" || email
@@ -18,8 +19,8 @@ class User < ApplicationRecord
 
   def create_organization_and_account
     ActiveRecord::Base.transaction do
-      Organization.create(billing_email: email)
-      Account.create(organization_id: organization.id)
+      organization = Organization.create(billing_email: email)
+      account = Account.create(organization_id: organization.id)
       AccountMembership.create(user_id: id, account_id: account.id)
     end
   rescue ActiveRecord::RecordInvalid => e

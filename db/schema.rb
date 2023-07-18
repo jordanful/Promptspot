@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_17_201416) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_18_104354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -128,6 +128,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_201416) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+  end
+
+  create_table "invites", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "inviter_id", null: false
+    t.uuid "invitee_id"
+    t.uuid "account_id", null: false
+    t.string "token"
+    t.boolean "accepted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.index ["account_id"], name: "index_invites_on_account_id"
+    t.index ["invitee_id"], name: "index_invites_on_invitee_id"
+    t.index ["inviter_id"], name: "index_invites_on_inviter_id"
   end
 
   create_table "model_providers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -266,6 +280,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_201416) do
   end
 
   add_foreign_key "api_keys", "accounts"
+  add_foreign_key "invites", "accounts"
+  add_foreign_key "invites", "users", column: "invitee_id"
+  add_foreign_key "invites", "users", column: "inviter_id"
   add_foreign_key "prompt_drafts", "prompts"
   add_foreign_key "prompt_drafts", "users"
   add_foreign_key "test_run_details", "prompt_versions"
