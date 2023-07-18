@@ -6,10 +6,9 @@ class InputControllerTest < ActionDispatch::IntegrationTest
     WebMock.allow_net_connect!
     VCR.insert_cassette name, {
       :allow_playback_repeats => true }
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
-    @input = FactoryBot.create(:input, account: @account, user: @user)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
+    @input = FactoryBot.create(:input, account: @user.accounts.first, user: @user)
     sign_in_as(@user)
   end
 
@@ -32,7 +31,7 @@ class InputControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Input.count') do
       post inputs_url, params: {
         input: {
-          account_id: @account.id,
+          account_id: @user.accounts.first.id,
           text: "Example input text"
         }
       }

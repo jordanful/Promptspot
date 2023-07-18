@@ -5,15 +5,14 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
   setup do
     WebMock.allow_net_connect!
     VCR.insert_cassette name
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
-    @prompt = FactoryBot.create(:prompt, account: @account)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
+    @prompt = FactoryBot.create(:prompt, account: @user.accounts.first)
     @prompt_version = FactoryBot.create(:prompt_version, prompt: @prompt, user: @user)
-    @input = FactoryBot.create(:input, account: @account, user: @user)
+    @input = FactoryBot.create(:input, account: @user.accounts.first, user: @user)
     model_provider = FactoryBot.create(:model_provider)
     @model = FactoryBot.create(:model, model_provider: model_provider)
-    @test_suite = FactoryBot.create(:test_suite, account: @account, user: @user)
+    @test_suite = FactoryBot.create(:test_suite, account: @user.accounts.first, user: @user)
     sign_in_as(@user)
   end
 
@@ -65,7 +64,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not create test run if no api key" do
-    @organization.update!(openai_api_key: nil)
+    @user.accounts.first.organization.update!(openai_api_key: nil)
     assert_no_difference('TestRun.count') do
       post test_suite_test_runs_url(@test_suite)
     end
@@ -74,9 +73,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
 
   test "should not create a test run for a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example3@test.com")
+    user = FactoryBot.create(:user, email: "example3@test.com")
     sign_in_as(user)
     assert_no_difference('TestRun.count') do
       post test_suite_test_runs_url(@test_suite)
@@ -85,9 +82,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
 
   test "should not show test run for a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example3@test.com")
+    user = FactoryBot.create(:user, email: "example3@test.com")
     sign_in_as(user)
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite)
     FactoryBot.create(:test_run_detail, test_run: @test_run, prompt: @prompt, prompt_version: @prompt_version, input: @input)
@@ -97,9 +92,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
 
   test "should not download test run for a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example3@test.com")
+    user = FactoryBot.create(:user, email: "example3@test.com")
     sign_in_as(user)
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite)
     get download_test_suite_test_run_url(@test_suite, @test_run)
@@ -108,9 +101,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
 
   test "should not archive test run for a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example3@test.com")
+    user = FactoryBot.create(:user, email: "example3@test.com")
     sign_in_as(user)
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite)
     post archive_test_suite_test_run_url(@test_suite, @test_run)
@@ -119,9 +110,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
 
   test "should not unarchive test run for a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example3@test.com")
+    user = FactoryBot.create(:user, email: "example3@test.com")
     sign_in_as(user)
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite, archived: true)
     post unarchive_test_suite_test_run_url(@test_suite, @test_run)
@@ -130,9 +119,7 @@ class TestRunControllerTest < ActionDispatch::IntegrationTest
 
   test "should not destroy test run for a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example3@test.com")
+    user = FactoryBot.create(:user, email: "example3@test.com")
     sign_in_as(user)
     @test_run = FactoryBot.create(:test_run, test_suite: @test_suite)
     assert_no_difference('TestRun.count') do

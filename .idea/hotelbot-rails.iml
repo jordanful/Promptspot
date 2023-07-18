@@ -98,7 +98,7 @@
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.22.1, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.2.0.0, RVM: ruby-3.0.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="pg (v1.4.5, RVM: ruby-3.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pg (v1.5.3, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v5.0.1, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="puma (v5.6.5, RVM: ruby-3.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="raabro (v1.4.0, RVM: ruby-3.0.5) [gem]" level="application" />

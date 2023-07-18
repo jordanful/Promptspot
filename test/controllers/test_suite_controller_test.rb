@@ -5,10 +5,9 @@ class TestSuiteControllerTest < ActionDispatch::IntegrationTest
   setup do
     WebMock.allow_net_connect!
     VCR.insert_cassette name
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
-    @test_suite = FactoryBot.create(:test_suite, account: @account, user: @user)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
+    @test_suite = FactoryBot.create(:test_suite, account: @user.accounts.first, user: @user)
     sign_in_as(@user)
   end
 
@@ -53,9 +52,7 @@ class TestSuiteControllerTest < ActionDispatch::IntegrationTest
 
   test "should not archive test suite of a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "thearchiver@example.com")
+    user = FactoryBot.create(:user, email: "thearchiver@example.com")
     sign_in_as(user)
     post archive_test_suite_url(@test_suite)
     assert_response :redirect
@@ -64,9 +61,7 @@ class TestSuiteControllerTest < ActionDispatch::IntegrationTest
   end
   test "should not edit test suite of a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example3@test.com")
+    user = FactoryBot.create(:user, email: "example3@test.com")
     sign_in_as(user)
     get edit_test_suite_url(@test_suite)
     assert_response :redirect
@@ -80,9 +75,7 @@ class TestSuiteControllerTest < ActionDispatch::IntegrationTest
 
   test "should not show test suite of a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example2@test.com")
+    user = FactoryBot.create(:user, email: "example2@test.com")
     sign_in_as(user)
     get test_suite_url(@test_suite)
     assert_response :redirect
@@ -90,9 +83,8 @@ class TestSuiteControllerTest < ActionDispatch::IntegrationTest
 
   test "should not update test suite of a different account" do
     sign_out_as(@user)
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "example4@test.com")
+
+    user = FactoryBot.create(:user, email: "example4@test.com")
     sign_in_as(user)
     patch test_suite_url(@test_suite), params: { test_suite: { name: "Updated test suite2" } }
     assert_response :redirect
@@ -100,10 +92,8 @@ class TestSuiteControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not destroy test suite of a different account" do
-    organization = FactoryBot.create(:organization)
-    account = FactoryBot.create(:account, organization: organization)
-    user = FactoryBot.create(:user, account: account, email: "destroyer@test.com")
-    test_suite = FactoryBot.create(:test_suite, account: account, user: user)
+    user = FactoryBot.create(:user, email: "destroyer@test.com")
+    test_suite = FactoryBot.create(:test_suite, account: user.accounts.first, user: user)
     delete test_suite_url(test_suite)
     assert_response :redirect
   end

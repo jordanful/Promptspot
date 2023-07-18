@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_07_131601) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_18_104354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "account_memberships", force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "organization_id"
@@ -28,6 +35,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_131601) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_api_keys_on_account_id"
+  end
+
+  create_table "contexts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "text"
+    t.uuid "account_id"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -114,6 +130,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_131601) do
     t.string "title"
   end
 
+  create_table "invites", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "inviter_id", null: false
+    t.uuid "invitee_id"
+    t.uuid "account_id", null: false
+    t.string "token"
+    t.boolean "accepted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.index ["account_id"], name: "index_invites_on_account_id"
+    t.index ["invitee_id"], name: "index_invites_on_invitee_id"
+    t.index ["inviter_id"], name: "index_invites_on_inviter_id"
+  end
+
   create_table "model_providers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -196,6 +226,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_131601) do
     t.boolean "archived", default: false
   end
 
+  create_table "test_suite_contexts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "test_suite_id"
+    t.uuid "context_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "test_suite_inputs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "test_suite_id"
     t.uuid "input_id"
@@ -231,7 +268,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_131601) do
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.uuid "account_id"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -244,6 +280,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_131601) do
   end
 
   add_foreign_key "api_keys", "accounts"
+  add_foreign_key "invites", "accounts"
+  add_foreign_key "invites", "users", column: "invitee_id"
+  add_foreign_key "invites", "users", column: "inviter_id"
   add_foreign_key "prompt_drafts", "prompts"
   add_foreign_key "prompt_drafts", "users"
   add_foreign_key "test_run_details", "prompt_versions"

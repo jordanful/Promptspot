@@ -43,7 +43,7 @@ class PromptVersion < ApplicationRecord
     ActiveRecord::Base.transaction do
       summary = "#{Rails.application.config.title_system_prompt}\"\"\"#{text}\"\"\""
       # Use the organization's OpenAI API key if it exists, otherwise use the environment variable
-      client = OpenAI::Client.new(access_token: user.account.organization&.openai_api_key.presence || ENV["OPENAI_API_SECRET"])
+      client = OpenAI::Client.new(access_token: user.accounts.first.organization&.openai_api_key.presence || ENV["OPENAI_API_SECRET"])
       response = client.completions(
         parameters: {
           model: Rails.application.config.title_system_prompt_model,

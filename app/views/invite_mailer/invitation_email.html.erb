@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
+<h1>Hi,</h1>
+<p>
+  You've been invited to join Promptspot by <%= @invite.inviter.email %>.
+  To accept this invitation, click the link below:
+</p>
+<%= link_to 'Accept invitation', accept_invite_url(@invite.token) %>
+
+</body>
+</html>

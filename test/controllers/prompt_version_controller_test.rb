@@ -5,10 +5,9 @@ class PromptVersionControllerTest < ActionDispatch::IntegrationTest
   setup do
     WebMock.allow_net_connect!
     VCR.insert_cassette name
-    @organization = FactoryBot.create(:organization)
-    @account = FactoryBot.create(:account, organization: @organization)
-    @user = FactoryBot.create(:user, account: @account)
-    @prompt = FactoryBot.create(:prompt, account: @account)
+    @user = FactoryBot.create(:user)
+    @user.accounts.first.organization.update(openai_api_key: ENV["OPEN_AI_API_SECRET"])
+    @prompt = FactoryBot.create(:prompt, account: @user.accounts.first)
     sign_in_as(@user)
   end
 
@@ -22,5 +21,5 @@ class PromptVersionControllerTest < ActionDispatch::IntegrationTest
     get prompt_version_url(prompt_id: @prompt.id, id: prompt_version.id,)
     assert_response :success
   end
-  
+
 end

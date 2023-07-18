@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PromptSpot</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= hotwire_livereload_tags if Rails.env.development? %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
+
+
+<main class="container mx-auto p-8 flex flex-col items-center justify-center">
+  <div id="flash-container"></div> <!-- for JS flash messages -->
+  <% flash.each do |name, msg| %>
+    <% if msg.is_a?(Array) %>
+      <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
+        <%= content_tag :div, msg.join(', ').html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+      <% end %>
+    <% else %>
+      <%= content_tag :div, class: "fixed inset-x-0 top-0 flex items-center justify-center mt-5" do %>
+        <%= content_tag :div, msg.html_safe, class: "py-2 px-3 bg-black text-white rounded-lg inline-flex items-center justify-center rounded-md shadow transform transition-opacity duration-300" %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= yield %>
+</main>
+<footer class="flex items-center justify-center mt-64 mb-10">
+  <%= link_to 'Promptspot', root_url %>
+  <a href="https://github.com/jordanful/promptspot" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base ml-6 mr-3">
+    <%= feather_icon 'github', size: '20', class: 'mr-1' %>
+    Github
+    <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
+  </a>
+  <a href="https://twitter.com/jordanful" target="_blank" class="flex items-center text-gray-500 hover:text-gray-900 text-base ml-3">
+    By @jordanful
+    <%= feather_icon 'external-link', size: '14', class: 'ml-1' %>
+  </a>
+</footer>
+
+</body>
+</html>
