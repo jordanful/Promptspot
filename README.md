@@ -36,10 +36,10 @@ instructions if you haven't done so already.
 
 ### Steps
 
-1. Clone the repo:
+1. Clone the [repo]([url](https://github.com/jordanful/promptspot)).
 2. Navigate into the project directory:
     ```
-    cd promptspot
+    cd Promptspot
     ```
 3. Copy `.env.example` to `.env` and fill in the necessary environment variables:
     ```
@@ -47,7 +47,7 @@ instructions if you haven't done so already.
     ```
 4. Build and start the Docker services:
     ```
-    docker-compose up --build
+    docker compose up --build
     ```
 5. Visit `http://localhost:3000`
 6. Create a new account and sign in
